@@ -15,7 +15,6 @@
 		0448479918EA1BA100D35B0F /* TFFBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0448479818EA1BA100D35B0F /* TFFBAppDelegate.m */; };
 		0448479C18EA1BA100D35B0F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0448479A18EA1BA100D35B0F /* Main_iPhone.storyboard */; };
 		0448479F18EA1BA100D35B0F /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0448479D18EA1BA100D35B0F /* Main_iPad.storyboard */; };
-		044847A218EA1BA100D35B0F /* TFFBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044847A118EA1BA100D35B0F /* TFFBViewController.m */; };
 		044847A418EA1BA100D35B0F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 044847A318EA1BA100D35B0F /* Images.xcassets */; };
 		044847AB18EA1BA100D35B0F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044847AA18EA1BA100D35B0F /* XCTest.framework */; };
 		044847AC18EA1BA100D35B0F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478818EA1BA100D35B0F /* Foundation.framework */; };
@@ -23,6 +22,7 @@
 		044847B518EA1BA100D35B0F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 044847B318EA1BA100D35B0F /* InfoPlist.strings */; };
 		044847B718EA1BA100D35B0F /* _048_FBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 044847B618EA1BA100D35B0F /* _048_FBTests.m */; };
 		048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048FD05D18EA587A0068C6CE /* FacebookSDK.framework */; };
+		048FD06518EA5DFB0068C6CE /* TFFBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048FD06418EA5DFB0068C6CE /* TFFBViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,8 +48,6 @@
 		0448479818EA1BA100D35B0F /* TFFBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFFBAppDelegate.m; sourceTree = "<group>"; };
 		0448479B18EA1BA100D35B0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		0448479E18EA1BA100D35B0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		044847A018EA1BA100D35B0F /* TFFBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFFBViewController.h; sourceTree = "<group>"; };
-		044847A118EA1BA100D35B0F /* TFFBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFFBViewController.m; sourceTree = "<group>"; };
 		044847A318EA1BA100D35B0F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		044847A918EA1BA100D35B0F /* 2048 FBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "2048 FBTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		044847AA18EA1BA100D35B0F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -57,6 +55,8 @@
 		044847B418EA1BA100D35B0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		044847B618EA1BA100D35B0F /* _048_FBTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _048_FBTests.m; sourceTree = "<group>"; };
 		048FD05D18EA587A0068C6CE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		048FD06318EA5DFB0068C6CE /* TFFBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFFBViewController.h; sourceTree = "<group>"; };
+		048FD06418EA5DFB0068C6CE /* TFFBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFFBViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,8 +122,7 @@
 				0448479818EA1BA100D35B0F /* TFFBAppDelegate.m */,
 				0448479A18EA1BA100D35B0F /* Main_iPhone.storyboard */,
 				0448479D18EA1BA100D35B0F /* Main_iPad.storyboard */,
-				044847A018EA1BA100D35B0F /* TFFBViewController.h */,
-				044847A118EA1BA100D35B0F /* TFFBViewController.m */,
+				048FD06218EA5A020068C6CE /* View Controller */,
 				044847A318EA1BA100D35B0F /* Images.xcassets */,
 				0448478F18EA1BA100D35B0F /* Supporting Files */,
 			);
@@ -157,6 +156,15 @@
 				044847B318EA1BA100D35B0F /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		048FD06218EA5A020068C6CE /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				048FD06318EA5DFB0068C6CE /* TFFBViewController.h */,
+				048FD06418EA5DFB0068C6CE /* TFFBViewController.m */,
+			);
+			name = "View Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,7 +269,7 @@
 			files = (
 				0448479918EA1BA100D35B0F /* TFFBAppDelegate.m in Sources */,
 				0448479518EA1BA100D35B0F /* main.m in Sources */,
-				044847A218EA1BA100D35B0F /* TFFBViewController.m in Sources */,
+				048FD06518EA5DFB0068C6CE /* TFFBViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
