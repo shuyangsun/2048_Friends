@@ -12,6 +12,10 @@
 
 @property (strong, nonatomic) UIButton *fbLoginViewButton;
 
+// Private property to check if the user
+@property (nonatomic, getter = isUserLoggedIn) BOOL userLoggedIn;
+@property (nonatomic, getter = isOnFirstIntroPage) BOOL onFirstIntroPage;
+
 /** This method is a private helper method to find the UIButton in the fbLoginView.
  *  So we can send touch events to fbLoginView programmatically.
  *  This is used for customizing our own Facebook login UI.
@@ -81,6 +85,10 @@
 	} else if (sender.state == UIGestureRecognizerStateFailed) {
 		
 	}
+}
+
+- (IBAction)loginButtonTouched:(UIButton *)sender {
+	[self.fbLoginViewButton sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
 
 // <FBLoginViewDelegate> method

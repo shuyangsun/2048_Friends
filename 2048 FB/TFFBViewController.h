@@ -18,5 +18,7 @@
 
 /// Handles pan gestures on the "Introduction" page.
 - (IBAction)handlePan:(UIPanGestureRecognizer *)sender;
+// When the custom login UI get touched
+- (IBAction)loginButtonTouched:(UIButton *)sender;
 
 @end

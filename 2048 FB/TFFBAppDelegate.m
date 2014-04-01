@@ -15,6 +15,7 @@
 {
     // Override point for customization after application launch.
 	[FBLoginView class];
+	[UIApplication sharedApplication].statusBarHidden = YES;
 	
     return YES;
 }
