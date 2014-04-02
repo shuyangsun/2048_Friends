@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+const NSString *kTFFBAppDelegate_UserDefaultKeyAppFirstTimeLaunch = @"UserDefault_ApplicationFirstTimeLaunch";
+
 @interface TFFBAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

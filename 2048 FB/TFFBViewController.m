@@ -77,6 +77,9 @@
 
 // Handle events when users start panning on "Introduction" page.
 - (IBAction)handlePan:(UIPanGestureRecognizer *)sender {
+	NSMutableArray *array = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Hello", nil]];
+	array[0] = @"hi";
+	NSLog(@"%@", array[0]);
 	if (sender.state == UIGestureRecognizerStateBegan) {
 		
 	} else if (sender.state == UIGestureRecognizerStateChanged) {
@@ -107,6 +110,17 @@
 // <FBLoginViewDelegate> method
 -(void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
 	self.showPageControl = NO;
+}
+
+// <FBLoginViewDelegate> method
+-(void)loginViewFetchedUserInfo:(FBLoginView *)loginView
+						   user:(id<FBGraphUser>)user {
+	
+}
+
+// Private helper method.
+-(BOOL)fetchFbFriendsImages {
+	
 }
 
 // Get the pointer to UIButton in fbLoginView, so we can programmatically "touch" it.

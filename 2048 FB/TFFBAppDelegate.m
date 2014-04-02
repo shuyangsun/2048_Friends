@@ -45,6 +45,10 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+	// After the app gets terminate once, set the "First time launching app" to NO.
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	[userDefaults setObject:@(NO) forKey: (NSString *)kTFFBAppDelegate_UserDefaultKeyAppFirstTimeLaunch];
+	[userDefaults synchronize];
 }
 
 @end
