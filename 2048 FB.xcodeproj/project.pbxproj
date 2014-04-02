@@ -21,6 +21,7 @@
 		044847AD18EA1BA100D35B0F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478C18EA1BA100D35B0F /* UIKit.framework */; };
 		044847B518EA1BA100D35B0F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 044847B318EA1BA100D35B0F /* InfoPlist.strings */; };
 		044847B718EA1BA100D35B0F /* _048_FBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 044847B618EA1BA100D35B0F /* _048_FBTests.m */; };
+		04601EE718EB8C33007BAC8E /* Tiles.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04601EE518EB8C33007BAC8E /* Tiles.xcdatamodeld */; };
 		048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048FD05D18EA587A0068C6CE /* FacebookSDK.framework */; };
 		048FD06518EA5DFB0068C6CE /* TFFBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048FD06418EA5DFB0068C6CE /* TFFBViewController.m */; };
 /* End PBXBuildFile section */
@@ -54,6 +55,7 @@
 		044847B218EA1BA100D35B0F /* 2048 FBTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "2048 FBTests-Info.plist"; sourceTree = "<group>"; };
 		044847B418EA1BA100D35B0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		044847B618EA1BA100D35B0F /* _048_FBTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _048_FBTests.m; sourceTree = "<group>"; };
+		04601EE618EB8C33007BAC8E /* Tiles.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tiles.xcdatamodel; sourceTree = "<group>"; };
 		048FD05D18EA587A0068C6CE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		048FD06318EA5DFB0068C6CE /* TFFBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFFBViewController.h; sourceTree = "<group>"; };
 		048FD06418EA5DFB0068C6CE /* TFFBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFFBViewController.m; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				0448479D18EA1BA100D35B0F /* Main_iPad.storyboard */,
 				048FD06218EA5A020068C6CE /* View Controller */,
 				044847A318EA1BA100D35B0F /* Images.xcassets */,
+				04601EE818EB8C39007BAC8E /* Model */,
 				0448478F18EA1BA100D35B0F /* Supporting Files */,
 			);
 			path = "2048 FB";
@@ -156,6 +159,14 @@
 				044847B318EA1BA100D35B0F /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		04601EE818EB8C39007BAC8E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				04601EE518EB8C33007BAC8E /* Tiles.xcdatamodeld */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		048FD06218EA5A020068C6CE /* View Controller */ = {
@@ -270,6 +281,7 @@
 				0448479918EA1BA100D35B0F /* TFFBAppDelegate.m in Sources */,
 				0448479518EA1BA100D35B0F /* main.m in Sources */,
 				048FD06518EA5DFB0068C6CE /* TFFBViewController.m in Sources */,
+				04601EE718EB8C33007BAC8E /* Tiles.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +520,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		04601EE518EB8C33007BAC8E /* Tiles.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				04601EE618EB8C33007BAC8E /* Tiles.xcdatamodel */,
+			);
+			currentVersion = 04601EE618EB8C33007BAC8E /* Tiles.xcdatamodel */;
+			path = Tiles.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0448477D18EA1BA100D35B0F /* Project object */;
 }

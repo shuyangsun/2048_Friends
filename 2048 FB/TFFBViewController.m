@@ -14,7 +14,7 @@
 
 // Private property to check if the user
 @property (nonatomic, getter = isUserLoggedIn) BOOL userLoggedIn;
-@property (nonatomic, getter = isOnFirstIntroPage) BOOL onFirstIntroPage;
+@property (nonatomic, getter = isShowPageControl) BOOL showPageControl;
 
 /** This method is a private helper method to find the UIButton in the fbLoginView.
  *  So we can send touch events to fbLoginView programmatically.
@@ -22,6 +22,11 @@
  *  This method will set the private "fbLoginViewButton" property as the button.
  */
 -(void)findUIButtonInfbLoginView;
+
+/**
+ * 
+ */
+-(BOOL)fetchFbFriendsImages;
 
 @end
 
@@ -58,6 +63,10 @@
 	self.fbLoginView.delegate = self;
 	// Get the pointer to the button.
 	[self findUIButtonInfbLoginView];
+	self.customLoginButton.layer.cornerRadius = kTTFBViewController_ButtonCornerRadiusDefault;
+	if (self.isShowPageControl == NO) {
+		self.pageControl.hidden = YES;
+	}
 }
 
 - (void)didReceiveMemoryWarning
@@ -87,7 +96,7 @@
 	}
 }
 
-- (IBAction)loginButtonTouched:(UIButton *)sender {
+- (IBAction)customLoginButtonTouched:(UIButton *)sender {
 	[self.fbLoginViewButton sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -97,6 +106,7 @@
 
 // <FBLoginViewDelegate> method
 -(void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
+	self.showPageControl = NO;
 }
 
 // Get the pointer to UIButton in fbLoginView, so we can programmatically "touch" it.
