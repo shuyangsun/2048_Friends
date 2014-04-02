@@ -19,5 +19,6 @@
 @dynamic boardData;
 @dynamic backgroundColor;
 @dynamic tiles;
+@dynamic onBoardTiles;
 
 @end

@@ -9,6 +9,8 @@
 #import "TFFBAppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 
+NSString *const kTFFBAppDelegate_UserDefaultKeyAppFirstTimeLaunch  = @"UserDefault_ApplicationFirstTimeLaunch";
+
 @implementation TFFBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

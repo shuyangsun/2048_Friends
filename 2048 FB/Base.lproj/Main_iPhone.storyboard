@@ -105,7 +105,7 @@
                         <outlet property="customLoginButton" destination="pYh-b1-51Q" id="X45-Zy-e63"/>
                         <outlet property="fbLoginView" destination="8lC-4d-pvj" id="wzv-Jj-DG1"/>
                         <outlet property="pageControl" destination="j6C-eB-99l" id="pkI-rE-BcW"/>
-                        <segue destination="7qP-hD-CQa" kind="modal" id="WLW-aj-iTb"/>
+                        <segue destination="7qP-hD-CQa" kind="modal" identifier="IntroPage_FirstToSecond" id="WLW-aj-iTb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rx8-nW-gal" userLabel="First Responder" sceneMemberID="firstResponder"/>

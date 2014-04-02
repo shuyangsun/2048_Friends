@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-const NSString *kTFFBAppDelegate_UserDefaultKeyAppFirstTimeLaunch = @"UserDefault_ApplicationFirstTimeLaunch";
+extern NSString *const kTFFBAppDelegate_UserDefaultKeyAppFirstTimeLaunch;
 
 @interface TFFBAppDelegate : UIResponder <UIApplicationDelegate>
 

@@ -7,6 +7,7 @@
         <attribute name="gameEnd" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="gameplaying" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="score" optional="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
+        <relationship name="onBoardTiles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tile" inverseName="onBoard" inverseEntity="Tile" syncable="YES"/>
         <relationship name="tiles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tile" inverseName="board" inverseEntity="Tile" syncable="YES"/>
     </entity>
     <entity name="Tile" representedClassName="Tile" syncable="YES">
@@ -19,9 +20,10 @@
         <attribute name="primeVal" optional="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
         <relationship name="board" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Board" inverseName="tiles" inverseEntity="Board" syncable="YES"/>
+        <relationship name="onBoard" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Board" inverseName="onBoardTiles" inverseEntity="Board" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Tile" positionX="2158" positionY="974" width="128" height="178"/>
-        <element name="Board" positionX="1908" positionY="999" width="128" height="148"/>
+        <element name="Tile" positionX="2158" positionY="974" width="128" height="193"/>
+        <element name="Board" positionX="1818" positionY="1080" width="128" height="163"/>
     </elements>
 </model>

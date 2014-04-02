@@ -22,10 +22,10 @@
 		044847B518EA1BA100D35B0F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 044847B318EA1BA100D35B0F /* InfoPlist.strings */; };
 		044847B718EA1BA100D35B0F /* _048_FBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 044847B618EA1BA100D35B0F /* _048_FBTests.m */; };
 		04601EE718EB8C33007BAC8E /* Tiles.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04601EE518EB8C33007BAC8E /* Tiles.xcdatamodeld */; };
-		04601F0918EB99E1007BAC8E /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F0818EB99E1007BAC8E /* Tile.m */; };
-		04601F0C18EB99E2007BAC8E /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F0B18EB99E2007BAC8E /* Board.m */; };
 		04601F0F18EB9C32007BAC8E /* Board+gameManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */; };
 		04601F1518EB9C5B007BAC8E /* Tile+tileManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1418EB9C5B007BAC8E /* Tile+tileManagement.m */; };
+		04601F1E18EBA8DD007BAC8E /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1D18EBA8DD007BAC8E /* Board.m */; };
+		04601F2118EBA8DE007BAC8E /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F2018EBA8DE007BAC8E /* Tile.m */; };
 		048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048FD05D18EA587A0068C6CE /* FacebookSDK.framework */; };
 		048FD06518EA5DFB0068C6CE /* TFFBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048FD06418EA5DFB0068C6CE /* TFFBViewController.m */; };
 /* End PBXBuildFile section */
@@ -60,14 +60,14 @@
 		044847B418EA1BA100D35B0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		044847B618EA1BA100D35B0F /* _048_FBTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _048_FBTests.m; sourceTree = "<group>"; };
 		04601EE618EB8C33007BAC8E /* Tiles.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tiles.xcdatamodel; sourceTree = "<group>"; };
-		04601F0718EB99E1007BAC8E /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
-		04601F0818EB99E1007BAC8E /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
-		04601F0A18EB99E2007BAC8E /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
-		04601F0B18EB99E2007BAC8E /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
 		04601F0D18EB9C32007BAC8E /* Board+gameManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Board+gameManagement.h"; sourceTree = "<group>"; };
 		04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Board+gameManagement.m"; sourceTree = "<group>"; };
 		04601F1318EB9C5B007BAC8E /* Tile+tileManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tile+tileManagement.h"; sourceTree = "<group>"; };
 		04601F1418EB9C5B007BAC8E /* Tile+tileManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Tile+tileManagement.m"; sourceTree = "<group>"; };
+		04601F1C18EBA8DD007BAC8E /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
+		04601F1D18EBA8DD007BAC8E /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
+		04601F1F18EBA8DE007BAC8E /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
+		04601F2018EBA8DE007BAC8E /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		048FD05D18EA587A0068C6CE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		048FD06318EA5DFB0068C6CE /* TFFBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFFBViewController.h; sourceTree = "<group>"; };
 		048FD06418EA5DFB0068C6CE /* TFFBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFFBViewController.m; sourceTree = "<group>"; };
@@ -176,13 +176,13 @@
 		04601EE818EB8C39007BAC8E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				04601F1F18EBA8DE007BAC8E /* Tile.h */,
+				04601F2018EBA8DE007BAC8E /* Tile.m */,
+				04601F1C18EBA8DD007BAC8E /* Board.h */,
+				04601F1D18EBA8DD007BAC8E /* Board.m */,
 				04601EE518EB8C33007BAC8E /* Tiles.xcdatamodeld */,
-				04601F0A18EB99E2007BAC8E /* Board.h */,
-				04601F0B18EB99E2007BAC8E /* Board.m */,
 				04601F0D18EB9C32007BAC8E /* Board+gameManagement.h */,
 				04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */,
-				04601F0718EB99E1007BAC8E /* Tile.h */,
-				04601F0818EB99E1007BAC8E /* Tile.m */,
 				04601F1318EB9C5B007BAC8E /* Tile+tileManagement.h */,
 				04601F1418EB9C5B007BAC8E /* Tile+tileManagement.m */,
 			);
@@ -298,14 +298,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04601F0C18EB99E2007BAC8E /* Board.m in Sources */,
-				04601F0918EB99E1007BAC8E /* Tile.m in Sources */,
 				04601F0F18EB9C32007BAC8E /* Board+gameManagement.m in Sources */,
 				0448479918EA1BA100D35B0F /* TFFBAppDelegate.m in Sources */,
+				04601F1E18EBA8DD007BAC8E /* Board.m in Sources */,
 				04601F1518EB9C5B007BAC8E /* Tile+tileManagement.m in Sources */,
 				0448479518EA1BA100D35B0F /* main.m in Sources */,
 				048FD06518EA5DFB0068C6CE /* TFFBViewController.m in Sources */,
 				04601EE718EB8C33007BAC8E /* Tiles.xcdatamodeld in Sources */,
+				04601F2118EBA8DE007BAC8E /* Tile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

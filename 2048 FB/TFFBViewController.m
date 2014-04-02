@@ -120,7 +120,7 @@
 
 // Private helper method.
 -(BOOL)fetchFbFriendsImages {
-	
+	return YES;
 }
 
 // Get the pointer to UIButton in fbLoginView, so we can programmatically "touch" it.

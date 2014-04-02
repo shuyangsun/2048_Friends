@@ -21,5 +21,6 @@
 @dynamic glowing;
 @dynamic backgroundColor;
 @dynamic board;
+@dynamic onBoard;
 
 @end

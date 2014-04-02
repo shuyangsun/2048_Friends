@@ -15,12 +15,13 @@
 
 @property (nonatomic, retain) NSString * displayText;
 @property (nonatomic, retain) NSDecimalNumber * value;
-@property (nonatomic, retain) id image;
+@property (nonatomic, retain) UIImage *image;
 @property (nonatomic, retain) NSDecimalNumber * primeVal;
 @property (nonatomic, retain) NSString * fbUserName;
 @property (nonatomic, retain) NSString * fbUserID;
-@property (nonatomic) BOOL glowing;
-@property (nonatomic, retain) id backgroundColor;
+@property (nonatomic, retain) NSNumber * glowing;
+@property (nonatomic, retain) UIColor *backgroundColor;
 @property (nonatomic, retain) Board *board;
+@property (nonatomic, retain) Board *onBoard;
 
 @end

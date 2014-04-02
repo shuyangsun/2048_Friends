@@ -15,11 +15,12 @@
 
 @property (nonatomic, retain) NSDecimalNumber * bestScore;
 @property (nonatomic, retain) NSDecimalNumber * score;
-@property (nonatomic) BOOL gameplaying;
-@property (nonatomic) BOOL gameEnd;
-@property (nonatomic, retain) NSArray *boardData;
+@property (nonatomic, retain) NSNumber * gameplaying;
+@property (nonatomic, retain) NSNumber * gameEnd;
+@property (nonatomic, retain) NSMutableArray *boardData;
 @property (nonatomic, retain) UIColor *backgroundColor;
 @property (nonatomic, retain) NSSet *tiles;
+@property (nonatomic, retain) NSSet *onBoardTiles;
 @end
 
 @interface Board (CoreDataGeneratedAccessors)
@@ -28,5 +29,10 @@
 - (void)removeTilesObject:(Tile *)value;
 - (void)addTiles:(NSSet *)values;
 - (void)removeTiles:(NSSet *)values;
+
+- (void)addOnBoardTilesObject:(Tile *)value;
+- (void)removeOnBoardTilesObject:(Tile *)value;
+- (void)addOnBoardTiles:(NSSet *)values;
+- (void)removeOnBoardTiles:(NSSet *)values;
 
 @end
