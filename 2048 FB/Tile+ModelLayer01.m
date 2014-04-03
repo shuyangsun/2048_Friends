@@ -16,7 +16,6 @@ NSString *const kTile_ImageKey = @"TileImageKey";
 NSString *const kTile_FbUserNameKey = @"TileFbUserNameKey";
 NSString *const kTile_FbUserIDKey = @"TileFbUserIDKey";
 NSString *const kTile_UUIDKey = @"TileUUIDKey";
-NSString *const kTile_GlowingKey = @"TileGlowingKey";
 
 @implementation Tile (tileManagement)
 
@@ -49,7 +48,6 @@ NSString *const kTile_GlowingKey = @"TileGlowingKey";
 		ASSIGN_IN_DATABASE(tile.image, infoDictionary[kTile_ImageKey]);
 		ASSIGN_IN_DATABASE(tile.fbUserName, infoDictionary[kTile_FbUserNameKey]);
 		ASSIGN_IN_DATABASE(tile.fbUserID, infoDictionary[kTile_FbUserIDKey]);
-		ASSIGN_IN_DATABASE(tile.glowing, infoDictionary[kTile_GlowingKey]);
 		ASSIGN_IN_DATABASE(tile.uuid, infoDictionary[kTile_UUIDKey]);
 	}
 	

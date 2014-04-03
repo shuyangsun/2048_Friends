@@ -12,7 +12,6 @@ extern NSString *const kTile_CoreDataEntityName;
 extern NSString *const kTile_DisplayTextKey;
 extern NSString *const kTile_FbUserIDKey;
 extern NSString *const kTile_FbUserNameKey;
-extern NSString *const kTile_GlowingKey;
 extern NSString *const kTile_UUIDKey;
 extern NSString *const kTile_ImageKey;
 extern NSString *const kTile_ValueKey;

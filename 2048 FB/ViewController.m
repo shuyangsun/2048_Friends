@@ -32,7 +32,6 @@
 
 @implementation ViewController
 
-
 -(void)setup
 {
 	// Initialization code here...
@@ -77,9 +76,6 @@
 
 // Handle events when users start panning on "Introduction" page.
 - (IBAction)handlePan:(UIPanGestureRecognizer *)sender {
-	NSMutableArray *array = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Hello", nil]];
-	array[0] = @"hi";
-	NSLog(@"%@", array[0]);
 	if (sender.state == UIGestureRecognizerStateBegan) {
 		
 	} else if (sender.state == UIGestureRecognizerStateChanged) {

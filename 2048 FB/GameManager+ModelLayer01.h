@@ -12,6 +12,7 @@ extern NSString *const kGameManager_CoreDataEntityName;
 extern NSString *const kGameManager_BestScoreKey;
 extern NSString *const kGameManager_MaxOccuredTimesOnBoardForEachTileKey;
 extern NSString *const kGameManager_UUIDKey;
+extern NSString *const kGameManager_CurrentThemeUUIDKey;
 
 @interface GameManager (ModelLayer01)
 

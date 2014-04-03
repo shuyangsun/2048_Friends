@@ -17,7 +17,6 @@
 @property (nonatomic, retain) NSNumber * gameplaying;
 @property (nonatomic, retain) NSDecimalNumber * score;
 @property (nonatomic, retain) NSString * uuid;
-@property (nonatomic, retain) NSString * currentThemeUUID;
 @property (nonatomic, retain) NSSet *onBoardTiles;
 @end
 
