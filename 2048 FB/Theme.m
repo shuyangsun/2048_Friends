@@ -10,25 +10,6 @@
 
 @implementation Theme
 
-@dynamic backgroundColor;
-@dynamic backgroundImage;
-@dynamic boardColor;
-@dynamic boardImage;
-@dynamic foldAnimationBackgroundColor;
-@dynamic settingsPageColor;
-@dynamic settingsPageImage;
-@dynamic tileColor;
-@dynamic tileFrameColor;
-@dynamic tileFrameImage;
-@dynamic textColor;
-@dynamic buttonColor;
-@dynamic boardCornerRadius;
-@dynamic tileCornerRadius;
-@dynamic boardWidthFraction;
-@dynamic boardEdgeWidthFraction;
-@dynamic lineWidthFraction;
-@dynamic buttonCornerRadius;
-@dynamic name;
-@dynamic uuid;
+
 
 @end

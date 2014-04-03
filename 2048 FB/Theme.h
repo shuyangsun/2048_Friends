@@ -10,26 +10,26 @@
 
 @interface Theme : NSObject
 
-@property (nonatomic, retain) UIColor *backgroundColor;
-@property (nonatomic, retain) UIImage *backgroundImage;
-@property (nonatomic, retain) UIColor *boardColor;
-@property (nonatomic, retain) UIImage *boardImage;
-@property (nonatomic, retain) UIColor *foldAnimationBackgroundColor;
-@property (nonatomic, retain) UIColor *settingsPageColor;
-@property (nonatomic, retain) UIImage *settingsPageImage;
-@property (nonatomic, retain) UIColor *tileColor;
+@property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong) UIImage *backgroundImage;
+@property (nonatomic, strong) UIColor *boardColor;
+@property (nonatomic, strong) UIImage *boardImage;
+@property (nonatomic, strong) UIColor *foldAnimationBackgroundColor;
+@property (nonatomic, strong) UIColor *settingsPageColor;
+@property (nonatomic, strong) UIImage *settingsPageImage;
+@property (nonatomic, strong) UIColor *tileColor;
 // Tile's image is stored in "Tile" object.
-@property (nonatomic, retain) UIColor *tileFrameColor;
-@property (nonatomic, retain) UIImage *tileFrameImage;
-@property (nonatomic, retain) UIColor *textColor;
-@property (nonatomic, retain) UIColor *buttonColor;
-@property (nonatomic, retain) NSNumber * boardCornerRadius;
-@property (nonatomic, retain) NSNumber * tileCornerRadius;
-@property (nonatomic, retain) NSNumber * boardWidthFraction; // Comparing with screen width
-@property (nonatomic, retain) NSNumber * boardEdgeWidthFraction; // Comparing with board width
-@property (nonatomic, retain) NSNumber * lineWidthFraction; // Comparing with board width
-@property (nonatomic, retain) NSNumber * buttonCornerRadius;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * uuid;
+@property (nonatomic, strong) UIColor *tileFrameColor;
+@property (nonatomic, strong) UIImage *tileFrameImage;
+@property (nonatomic, strong) UIColor *textColor;
+@property (nonatomic, strong) UIColor *buttonColor;
+@property (nonatomic, strong) NSNumber * boardCornerRadius;
+@property (nonatomic, strong) NSNumber * tileCornerRadius;
+@property (nonatomic, strong) NSNumber * boardWidthFraction; // Comparing with screen width
+@property (nonatomic, strong) NSNumber * boardEdgeWidthFraction; // Comparing with board width
+@property (nonatomic, strong) NSNumber * lineWidthFraction; // Comparing with board width
+@property (nonatomic, strong) NSNumber * buttonCornerRadius;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSString * uuid;
 
 @end
