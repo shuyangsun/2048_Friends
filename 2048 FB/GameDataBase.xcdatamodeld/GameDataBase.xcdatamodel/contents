@@ -2,15 +2,16 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Board" representedClassName="Board" syncable="YES">
         <attribute name="boardData" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="gameEnd" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="gameplaying" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="score" optional="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="currentTheme" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Theme" inverseName="baord" inverseEntity="Theme" syncable="YES"/>
         <relationship name="onBoardTiles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tile" inverseName="board" inverseEntity="Tile" syncable="YES"/>
     </entity>
     <entity name="GameManager" representedClassName="GameManager" syncable="YES">
         <attribute name="bestScore" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="maxOccuredTimesOnBoardForEachTile" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="themes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Theme" inverseName="gameManager" inverseEntity="Theme" syncable="YES"/>
         <relationship name="tiles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tile" inverseName="gameManager" inverseEntity="Tile" syncable="YES"/>
     </entity>
@@ -19,6 +20,7 @@
         <attribute name="backgroundImage" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="boardColor" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="boardCornerRadius" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="boardEdgeWidthFraction" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="boardImage" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="boardWidthFraction" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="buttonCornerRadius" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
@@ -30,6 +32,7 @@
         <attribute name="tileCornerRadius" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="tileFrameColor" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="tileFrameImage" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="baord" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Board" inverseName="currentTheme" inverseEntity="Board" syncable="YES"/>
         <relationship name="gameManager" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameManager" inverseName="themes" inverseEntity="GameManager" syncable="YES"/>
     </entity>
@@ -46,8 +49,8 @@
     </entity>
     <elements>
         <element name="Board" positionX="1879" positionY="1136" width="128" height="133"/>
-        <element name="GameManager" positionX="2392" positionY="1148" width="128" height="103"/>
-        <element name="Theme" positionX="2142" positionY="729" width="128" height="298"/>
+        <element name="GameManager" positionX="2392" positionY="1148" width="128" height="118"/>
+        <element name="Theme" positionX="2142" positionY="729" width="128" height="328"/>
         <element name="Tile" positionX="2142" positionY="1364" width="128" height="178"/>
     </elements>
 </model>

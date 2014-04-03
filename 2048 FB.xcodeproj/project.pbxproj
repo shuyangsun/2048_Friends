@@ -25,10 +25,11 @@
 		044847B518EA1BA100D35B0F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 044847B318EA1BA100D35B0F /* InfoPlist.strings */; };
 		044847B718EA1BA100D35B0F /* _048_FBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 044847B618EA1BA100D35B0F /* _048_FBTests.m */; };
 		04601EE718EB8C33007BAC8E /* GameDataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04601EE518EB8C33007BAC8E /* GameDataBase.xcdatamodeld */; };
-		04601F0F18EB9C32007BAC8E /* Board+gameManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */; };
-		04601F1518EB9C5B007BAC8E /* Tile+tileManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1418EB9C5B007BAC8E /* Tile+tileManagement.m */; };
+		04601F0F18EB9C32007BAC8E /* Board+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F0E18EB9C32007BAC8E /* Board+ModelLayer01.m */; };
+		04601F1518EB9C5B007BAC8E /* Tile+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1418EB9C5B007BAC8E /* Tile+ModelLayer01.m */; };
 		048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048FD05D18EA587A0068C6CE /* FacebookSDK.framework */; };
 		048FD06518EA5DFB0068C6CE /* TFFBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048FD06418EA5DFB0068C6CE /* TFFBViewController.m */; };
+		0499660B18ED185400373E57 /* README_2048FB_Model_Layer01.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0499660A18ED185400373E57 /* README_2048FB_Model_Layer01.txt */; };
 		04C7042518ED0903001DBD60 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C7042418ED0903001DBD60 /* Theme.m */; };
 /* End PBXBuildFile section */
 
@@ -68,13 +69,14 @@
 		044847B418EA1BA100D35B0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		044847B618EA1BA100D35B0F /* _048_FBTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _048_FBTests.m; sourceTree = "<group>"; };
 		04601EE618EB8C33007BAC8E /* GameDataBase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GameDataBase.xcdatamodel; sourceTree = "<group>"; };
-		04601F0D18EB9C32007BAC8E /* Board+gameManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Board+gameManagement.h"; sourceTree = "<group>"; };
-		04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Board+gameManagement.m"; sourceTree = "<group>"; };
-		04601F1318EB9C5B007BAC8E /* Tile+tileManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tile+tileManagement.h"; sourceTree = "<group>"; };
-		04601F1418EB9C5B007BAC8E /* Tile+tileManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Tile+tileManagement.m"; sourceTree = "<group>"; };
+		04601F0D18EB9C32007BAC8E /* Board+ModelLayer01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Board+ModelLayer01.h"; sourceTree = "<group>"; };
+		04601F0E18EB9C32007BAC8E /* Board+ModelLayer01.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Board+ModelLayer01.m"; sourceTree = "<group>"; };
+		04601F1318EB9C5B007BAC8E /* Tile+ModelLayer01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tile+ModelLayer01.h"; sourceTree = "<group>"; };
+		04601F1418EB9C5B007BAC8E /* Tile+ModelLayer01.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Tile+ModelLayer01.m"; sourceTree = "<group>"; };
 		048FD05D18EA587A0068C6CE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		048FD06318EA5DFB0068C6CE /* TFFBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFFBViewController.h; sourceTree = "<group>"; };
 		048FD06418EA5DFB0068C6CE /* TFFBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFFBViewController.m; sourceTree = "<group>"; };
+		0499660A18ED185400373E57 /* README_2048FB_Model_Layer01.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_2048FB_Model_Layer01.txt; sourceTree = "<group>"; };
 		04C7042318ED0903001DBD60 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
 		04C7042418ED0903001DBD60 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,11 +109,12 @@
 		0437867C18ECF90D0034651C /* Layer01 (CoreData Foundation) */ = {
 			isa = PBXGroup;
 			children = (
+				0499660A18ED185400373E57 /* README_2048FB_Model_Layer01.txt */,
 				04601EE518EB8C33007BAC8E /* GameDataBase.xcdatamodeld */,
-				043786C618ECFF970034651C /* Theme */,
-				043786C518ECFF900034651C /* GameManager */,
 				04A44ADB18EC8A58004D802A /* Tile */,
 				04A44ADC18EC8A5E004D802A /* Board */,
+				043786C618ECFF970034651C /* Theme */,
+				043786C518ECFF900034651C /* GameManager */,
 			);
 			name = "Layer01 (CoreData Foundation)";
 			sourceTree = "<group>";
@@ -231,8 +234,8 @@
 			children = (
 				043786EB18ED01890034651C /* Tile.h */,
 				043786EC18ED01890034651C /* Tile.m */,
-				04601F1318EB9C5B007BAC8E /* Tile+tileManagement.h */,
-				04601F1418EB9C5B007BAC8E /* Tile+tileManagement.m */,
+				04601F1318EB9C5B007BAC8E /* Tile+ModelLayer01.h */,
+				04601F1418EB9C5B007BAC8E /* Tile+ModelLayer01.m */,
 			);
 			name = Tile;
 			sourceTree = "<group>";
@@ -242,8 +245,8 @@
 			children = (
 				043786F118ED018A0034651C /* Board.h */,
 				043786F218ED018A0034651C /* Board.m */,
-				04601F0D18EB9C32007BAC8E /* Board+gameManagement.h */,
-				04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */,
+				04601F0D18EB9C32007BAC8E /* Board+ModelLayer01.h */,
+				04601F0E18EB9C32007BAC8E /* Board+ModelLayer01.m */,
 			);
 			name = Board;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				0448479F18EA1BA100D35B0F /* Main_iPad.storyboard in Resources */,
 				044847A418EA1BA100D35B0F /* Images.xcassets in Resources */,
 				0448479C18EA1BA100D35B0F /* Main_iPhone.storyboard in Resources */,
+				0499660B18ED185400373E57 /* README_2048FB_Model_Layer01.txt in Resources */,
 				0448479318EA1BA100D35B0F /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,9 +352,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04601F0F18EB9C32007BAC8E /* Board+gameManagement.m in Sources */,
+				04601F0F18EB9C32007BAC8E /* Board+ModelLayer01.m in Sources */,
 				0448479918EA1BA100D35B0F /* TFFBAppDelegate.m in Sources */,
-				04601F1518EB9C5B007BAC8E /* Tile+tileManagement.m in Sources */,
+				04601F1518EB9C5B007BAC8E /* Tile+ModelLayer01.m in Sources */,
 				04C7042518ED0903001DBD60 /* Theme.m in Sources */,
 				043786F318ED018A0034651C /* Board.m in Sources */,
 				043786ED18ED01890034651C /* Tile.m in Sources */,

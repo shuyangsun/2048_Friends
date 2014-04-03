@@ -14,9 +14,9 @@
 @implementation Board
 
 @dynamic boardData;
-@dynamic gameEnd;
 @dynamic gameplaying;
 @dynamic score;
+@dynamic uuid;
 @dynamic onBoardTiles;
 @dynamic currentTheme;
 

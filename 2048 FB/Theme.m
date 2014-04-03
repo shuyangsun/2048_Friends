@@ -26,8 +26,10 @@
 @dynamic boardCornerRadius;
 @dynamic tileCornerRadius;
 @dynamic boardWidthFraction;
+@dynamic boardEdgeWidthFraction;
 @dynamic lineWidthFraction;
 @dynamic buttonCornerRadius;
+@dynamic uuid;
 @dynamic baord;
 @dynamic gameManager;
 

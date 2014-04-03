@@ -8,20 +8,19 @@
 
 #import "Tile.h"
 
-extern NSString *const kTile_CoreDataEntiryName;
-extern NSString *const kTile_DisplayTextDictionaryKey;
-extern NSString *const kTile_ValueKey;
-extern NSString *const kTile_ImageKey;
-extern NSString *const kTile_PrimeValKey;
-extern NSString *const kTile_FbUserNameKey;
+extern NSString *const kTile_CoreDataEntityName;
+extern NSString *const kTile_DisplayTextKey;
 extern NSString *const kTile_FbUserIDKey;
+extern NSString *const kTile_FbUserNameKey;
 extern NSString *const kTile_GlowingKey;
-extern NSString *const kTile_BackgroundColorKey;
-extern NSString *const kTile_BoardKey;
+extern NSString *const kTile_UUIDKey;
+extern NSString *const kTile_ImageKey;
+extern NSString *const kTile_ValueKey;
 
 @interface Tile (tileManagement)
 
 +(Tile *)tileWithTileInfo: (NSDictionary *) infoDictionary inManagedObjectContext: (NSManagedObjectContext *) context;
++(BOOL)removeTileWithUUID: (NSDecimalNumber *) uuid inManagedObjectContext: (NSManagedObjectContext *) context;
 +(BOOL)removeTileWithValue: (NSDecimalNumber *) value inManagedObjectContext: (NSManagedObjectContext *) context;
 
 @end

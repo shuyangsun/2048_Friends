@@ -15,6 +15,7 @@
 
 @dynamic bestScore;
 @dynamic maxOccuredTimesOnBoardForEachTile;
+@dynamic uuid;
 @dynamic tiles;
 @dynamic themes;
 

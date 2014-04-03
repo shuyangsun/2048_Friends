@@ -14,9 +14,9 @@
 @interface Board : NSManagedObject
 
 @property (nonatomic, retain) NSMutableArray *boardData;
-@property (nonatomic, retain) NSNumber * gameEnd;
 @property (nonatomic, retain) NSNumber * gameplaying;
 @property (nonatomic, retain) NSDecimalNumber * score;
+@property (nonatomic, retain) NSString * uuid;
 @property (nonatomic, retain) NSSet *onBoardTiles;
 @property (nonatomic, retain) Theme *currentTheme;
 @end
