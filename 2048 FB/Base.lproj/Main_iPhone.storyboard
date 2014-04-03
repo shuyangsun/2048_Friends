@@ -7,7 +7,7 @@
         <!--View Controller-->
         <scene sceneID="ahu-YF-sr1">
             <objects>
-                <viewController id="SrL-dw-q4V" customClass="TFFBViewController" sceneMemberID="viewController">
+                <viewController id="SrL-dw-q4V" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="v1C-oH-EqA"/>
                         <viewControllerLayoutGuide type="bottom" id="dzJ-I6-8WH"/>

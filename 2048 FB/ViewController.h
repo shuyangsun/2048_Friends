@@ -1,5 +1,5 @@
 //
-//  TFFBViewController.h
+//  ViewController.h
 //  2048 FB
 //
 //  Created by Shuyang Sun on 3/31/14.
@@ -12,7 +12,7 @@
 // constant variables:
 const CGFloat kTTFBViewController_ButtonCornerRadiusDefault = 3.0f;
 
-@interface TFFBViewController : UIViewController <FBLoginViewDelegate>
+@interface ViewController : UIViewController <FBLoginViewDelegate>
 
 /// The Facebook login button, may not neccesarily be shown on the screen, but is sent event when user want to log in/out.
 @property (weak, nonatomic) IBOutlet FBLoginView *fbLoginView;

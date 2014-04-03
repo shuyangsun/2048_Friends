@@ -18,4 +18,7 @@ extern NSString *const kBoard_UUIDKey;
 
 @interface Board (gameManagement)
 
++(Board *)boardWithBoardInfo: (NSDictionary *) infoDictionary inManagedObjectContext: (NSManagedObjectContext *) context;
++(BOOL)removeBoardWithUUID: (NSDecimalNumber *) uuid inManagedObjectContext: (NSManagedObjectContext *) context;
+
 @end

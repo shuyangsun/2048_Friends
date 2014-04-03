@@ -1,5 +1,5 @@
 //
-//  TFFBAppDelegate.h
+//  AppDelegate.h
 //  2048 FB
 //
 //  Created by Shuyang Sun on 3/31/14.
@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const kTFFBAppDelegate_UserDefaultKeyAppFirstTimeLaunch;
+extern NSString *const kAppDelegate_UserDefaultKeyAppFirstTimeLaunch;
 
-@interface TFFBAppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

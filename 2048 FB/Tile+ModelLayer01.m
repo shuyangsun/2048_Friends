@@ -24,10 +24,10 @@ NSString *const kTile_GlowingKey = @"TileGlowingKey";
 +(Tile *)tileWithTileInfo: (NSDictionary *) infoDictionary inManagedObjectContext: (NSManagedObjectContext *) context {
 	Tile *tile = nil;
 	
-	NSDecimalNumber *value = infoDictionary[kTile_ValueKey];
+	NSDecimalNumber *uuid= infoDictionary[kTile_UUIDKey];
 	// Check if the tile already exists
 	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName: (NSString *)kTile_CoreDataEntityName];
-	request.predicate = [NSPredicate predicateWithFormat:@"value = %@", value];
+	request.predicate = [NSPredicate predicateWithFormat:@"uuid = %@", uuid];
 	NSError *error;
 	NSArray *matches = [context executeFetchRequest:request error:&error];
 	
@@ -35,13 +35,12 @@ NSString *const kTile_GlowingKey = @"TileGlowingKey";
 		if (error) { // If there is an error.
 			NSLog(@"%@", error);
 		} else if ([matches count] > 1) { // If there are multiple tiles with same value:
-			NSLog(@"There are %d duplicated tiles with value \"%@\" in CoreData database.", [matches count], value);
+			NSLog(@"There are %d duplicated tiles with UUID \"%@\" in CoreData database.", [matches count], uuid);
 		} else { // If matches is nil
-			NSLog(@"Matches is nil, when searching for tile with value \"%@\" in CoreData database.", value);
+			NSLog(@"Matches is nil, when searching for tile with UUID \"%@\" in CoreData database.", uuid);
 		}
 	} else if ([matches count] == 1) { // If there is one unique tile:
 		tile = matches[0]; // Return the tile if it already exists.
-		NSLog(@"Tile exists.");
 	} else { // If there is nothing,
 		tile = [NSEntityDescription insertNewObjectForEntityForName: (NSString *)kTile_CoreDataEntityName
 											 inManagedObjectContext: context];

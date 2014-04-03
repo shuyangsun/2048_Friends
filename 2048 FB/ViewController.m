@@ -1,14 +1,14 @@
 //
-//  TFFBViewController.m
+//  ViewController.m
 //  2048 FB
 //
 //  Created by Shuyang Sun on 3/31/14.
 //  Copyright (c) 2014 Shuyang Sun. All rights reserved.
 //
 
-#import "TFFBViewController.h"
+#import "ViewController.h"
 
-@interface TFFBViewController ()
+@interface ViewController ()
 
 @property (strong, nonatomic) UIButton *fbLoginViewButton;
 
@@ -30,7 +30,7 @@
 
 @end
 
-@implementation TFFBViewController
+@implementation ViewController
 
 
 -(void)setup

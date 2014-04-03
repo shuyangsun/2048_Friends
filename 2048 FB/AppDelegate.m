@@ -1,17 +1,17 @@
 //
-//  TFFBAppDelegate.m
+//  AppDelegate.m
 //  2048 FB
 //
 //  Created by Shuyang Sun on 3/31/14.
 //  Copyright (c) 2014 Shuyang Sun. All rights reserved.
 //
 
-#import "TFFBAppDelegate.h"
+#import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 
-NSString *const kTFFBAppDelegate_UserDefaultKeyAppFirstTimeLaunch  = @"UserDefault_ApplicationFirstTimeLaunch";
+NSString *const kAppDelegate_UserDefaultKeyAppFirstTimeLaunch  = @"UserDefault_ApplicationFirstTimeLaunch";
 
-@implementation TFFBAppDelegate
+@implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -49,7 +49,7 @@ NSString *const kTFFBAppDelegate_UserDefaultKeyAppFirstTimeLaunch  = @"UserDefau
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 	// After the app gets terminate once, set the "First time launching app" to NO.
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	[userDefaults setObject:@(NO) forKey: (NSString *)kTFFBAppDelegate_UserDefaultKeyAppFirstTimeLaunch];
+	[userDefaults setObject:@(NO) forKey: (NSString *)kAppDelegate_UserDefaultKeyAppFirstTimeLaunch];
 	[userDefaults synchronize];
 }
 
