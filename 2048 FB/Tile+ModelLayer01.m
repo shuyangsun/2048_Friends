@@ -7,8 +7,7 @@
 //
 
 #import "Tile+ModelLayer01.h"
-
-#define ASSIGN_IN_DATABASE(x, y) ((x) = ((y) ? (y):(x)))
+#import "macro.h"
 
 NSString *const kTile_CoreDataEntityName = @"Tile";
 NSString *const kTile_DisplayTextKey = @"TileDisplayTextKey";

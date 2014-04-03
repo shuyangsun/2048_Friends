@@ -77,6 +77,7 @@
 		048FD06318EA5DFB0068C6CE /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		048FD06418EA5DFB0068C6CE /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		0499660C18ED1A3F00373E57 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
+		0499660E18ED1BEF00373E57 /* macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
 		04C7042318ED0903001DBD60 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
 		04C7042418ED0903001DBD60 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,6 +171,7 @@
 		0448478E18EA1BA100D35B0F /* 2048 FB */ = {
 			isa = PBXGroup;
 			children = (
+				0499660E18ED1BEF00373E57 /* macro.h */,
 				0448479718EA1BA100D35B0F /* AppDelegate.h */,
 				0448479818EA1BA100D35B0F /* AppDelegate.m */,
 				0448479A18EA1BA100D35B0F /* Main_iPhone.storyboard */,
