@@ -29,6 +29,7 @@
 		04601F1518EB9C5B007BAC8E /* Tile+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1418EB9C5B007BAC8E /* Tile+ModelLayer01.m */; };
 		048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048FD05D18EA587A0068C6CE /* FacebookSDK.framework */; };
 		048FD06518EA5DFB0068C6CE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048FD06418EA5DFB0068C6CE /* ViewController.m */; };
+		04911A9818ED964000013B8E /* GameManager+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04911A9718ED964000013B8E /* GameManager+ModelLayer01.m */; };
 		0499660D18ED1A3F00373E57 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0499660C18ED1A3F00373E57 /* README.md */; };
 		04C7042518ED0903001DBD60 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C7042418ED0903001DBD60 /* Theme.m */; };
 /* End PBXBuildFile section */
@@ -76,6 +77,8 @@
 		048FD05D18EA587A0068C6CE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		048FD06318EA5DFB0068C6CE /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		048FD06418EA5DFB0068C6CE /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		04911A9618ED964000013B8E /* GameManager+ModelLayer01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GameManager+ModelLayer01.h"; sourceTree = "<group>"; };
+		04911A9718ED964000013B8E /* GameManager+ModelLayer01.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GameManager+ModelLayer01.m"; sourceTree = "<group>"; };
 		0499660C18ED1A3F00373E57 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
 		0499660E18ED1BEF00373E57 /* macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
 		04C7042318ED0903001DBD60 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
@@ -113,8 +116,8 @@
 				04601EE518EB8C33007BAC8E /* GameDataBase.xcdatamodeld */,
 				04A44ADB18EC8A58004D802A /* Tile */,
 				04A44ADC18EC8A5E004D802A /* Board */,
-				043786C618ECFF970034651C /* Theme */,
 				043786C518ECFF900034651C /* GameManager */,
+				043786C618ECFF970034651C /* Theme */,
 			);
 			name = "Layer01 (CoreData Foundation)";
 			sourceTree = "<group>";
@@ -124,6 +127,8 @@
 			children = (
 				043786F418ED018A0034651C /* GameManager.h */,
 				043786F518ED018A0034651C /* GameManager.m */,
+				04911A9618ED964000013B8E /* GameManager+ModelLayer01.h */,
+				04911A9718ED964000013B8E /* GameManager+ModelLayer01.m */,
 			);
 			name = GameManager;
 			sourceTree = "<group>";
@@ -176,11 +181,11 @@
 				0448479818EA1BA100D35B0F /* AppDelegate.m */,
 				0448479A18EA1BA100D35B0F /* Main_iPhone.storyboard */,
 				0448479D18EA1BA100D35B0F /* Main_iPad.storyboard */,
-				048FD06218EA5A020068C6CE /* View Controller */,
 				044847A318EA1BA100D35B0F /* Images.xcassets */,
+				048FD06218EA5A020068C6CE /* View Controller */,
 				04601EE818EB8C39007BAC8E /* Model */,
-				0448478F18EA1BA100D35B0F /* Supporting Files */,
 				0499660C18ED1A3F00373E57 /* README.md */,
+				0448478F18EA1BA100D35B0F /* Supporting Files */,
 			);
 			path = "2048 FB";
 			sourceTree = "<group>";
@@ -357,6 +362,7 @@
 				04601F0F18EB9C32007BAC8E /* Board+ModelLayer01.m in Sources */,
 				0448479918EA1BA100D35B0F /* AppDelegate.m in Sources */,
 				04601F1518EB9C5B007BAC8E /* Tile+ModelLayer01.m in Sources */,
+				04911A9818ED964000013B8E /* GameManager+ModelLayer01.m in Sources */,
 				04C7042518ED0903001DBD60 /* Theme.m in Sources */,
 				043786F318ED018A0034651C /* Board.m in Sources */,
 				043786ED18ED01890034651C /* Tile.m in Sources */,

@@ -33,7 +33,7 @@ NSString *const kBoard_UUIDKey = @"BoardUUIDKey";
 		if (error) { // If there is an error.
 			NSLog(@"%@", error);
 		} else if ([matches count] > 1) { // If there are multiple boards with same value:
-			NSLog(@"There are %d duplicated boards with UUID \"%@\" in CoreData database.", [matches count], uuid);
+			NSLog(@"There are %lu duplicated boards with UUID \"%@\" in CoreData database.", [matches count], uuid);
 		} else { // If matches is nil
 			NSLog(@"Matches is nil, when searching for board with UUID \"%@\" in CoreData database.", uuid);
 		}
@@ -42,8 +42,13 @@ NSString *const kBoard_UUIDKey = @"BoardUUIDKey";
 	} else { // If there is nothing,
 		board = [NSEntityDescription insertNewObjectForEntityForName: (NSString *)kBoard_CoreDataEntityName
 											 inManagedObjectContext: context];
-		
-		ASSIGN_IN_DATABASE(board.boardData, infoDictionary[kBoard_BoardDataKey]);
+		NSData *boardData_Data;
+		if (infoDictionary[kBoard_BoardDataKey] &&
+			[infoDictionary[kBoard_BoardDataKey] isKindOfClass: [NSMutableArray class]]) {
+			NSMutableArray *boardData_Array = (NSMutableArray *)infoDictionary[kBoard_BoardDataKey];
+			boardData_Data = [NSKeyedArchiver archivedDataWithRootObject:boardData_Array];
+		}
+		ASSIGN_IN_DATABASE(board.boardData, boardData_Data);
 		ASSIGN_IN_DATABASE(board.gameplaying, infoDictionary[kBoard_GamePlayingKey]);
 		ASSIGN_IN_DATABASE(board.score, infoDictionary[kBoard_ScoreKey]);
 		ASSIGN_IN_DATABASE(board.uuid, infoDictionary[kBoard_UUIDKey]);
@@ -63,7 +68,7 @@ NSString *const kBoard_UUIDKey = @"BoardUUIDKey";
 		if (error) { // If there is an error.
 			NSLog(@"%@", error);
 		} else if ([matches count] > 1) { // If there are multiple boards with same value:
-			NSLog(@"There are %d duplicated boards with UUID \"%@\" in CoreData database.", [matches count], uuid);
+			NSLog(@"There are %lu duplicated boards with UUID \"%@\" in CoreData database.", (unsigned long)[matches count], uuid);
 		} else { // If matches is nil
 			NSLog(@"Matches is nil, when searching for board with UUID \"%@\" in CoreData database.", uuid);
 		}

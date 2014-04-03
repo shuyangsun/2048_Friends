@@ -13,7 +13,7 @@
 
 @interface Board : NSManagedObject
 
-@property (nonatomic, retain) NSMutableArray *boardData;
+@property (nonatomic, retain) NSData *boardData; // Should be a 2D NSMutableArray
 @property (nonatomic, retain) NSNumber * gameplaying;
 @property (nonatomic, retain) NSDecimalNumber * score;
 @property (nonatomic, retain) NSString * uuid;

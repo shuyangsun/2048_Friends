@@ -34,7 +34,7 @@ NSString *const kTile_GlowingKey = @"TileGlowingKey";
 		if (error) { // If there is an error.
 			NSLog(@"%@", error);
 		} else if ([matches count] > 1) { // If there are multiple tiles with same value:
-			NSLog(@"There are %d duplicated tiles with UUID \"%@\" in CoreData database.", [matches count], uuid);
+			NSLog(@"There are %lu duplicated tiles with UUID \"%@\" in CoreData database.", (unsigned long)[matches count], uuid);
 		} else { // If matches is nil
 			NSLog(@"Matches is nil, when searching for tile with UUID \"%@\" in CoreData database.", uuid);
 		}
@@ -68,7 +68,7 @@ NSString *const kTile_GlowingKey = @"TileGlowingKey";
 		if (error) { // If there is an error.
 			NSLog(@"%@", error);
 		} else if ([matches count] > 1) { // If there are multiple tiles with same value:
-			NSLog(@"There are %d duplicated tiles with UUID \"%@\" in CoreData database.", [matches count], uuid);
+			NSLog(@"There are %lu duplicated tiles with UUID \"%@\" in CoreData database.", (unsigned long)[matches count], uuid);
 		} else { // If matches is nil
 			NSLog(@"Matches is nil, when searching for tile with UUID \"%@\" in CoreData database.", uuid);
 		}
@@ -94,7 +94,7 @@ NSString *const kTile_GlowingKey = @"TileGlowingKey";
 		if (error) { // If there is an error.
 			NSLog(@"%@", error);
 		} else if ([matches count] > 1) { // If there are multiple tiles with same value:
-			NSLog(@"There are %d duplicated tiles with value \"%@\" in CoreData database.", [matches count], value);
+			NSLog(@"There are %lu duplicated tiles with value \"%@\" in CoreData database.", (unsigned long)[matches count], value);
 		} else { // If matches is nil
 			NSLog(@"Matches is nil, when searching for tile with value \"%@\" in CoreData database.", value);
 		}

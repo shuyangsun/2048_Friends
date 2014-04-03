@@ -23,11 +23,14 @@
         <attribute name="boardEdgeWidthFraction" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="boardImage" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="boardWidthFraction" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="buttonColor" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="buttonCornerRadius" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="foldAnimationBackgroundColor" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="lineWidthFraction" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="settingsPageColor" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="settingsPageImage" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="textColor" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="tileColor" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="tileCornerRadius" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="tileFrameColor" optional="YES" attributeType="Transformable" syncable="YES"/>
@@ -50,7 +53,7 @@
     <elements>
         <element name="Board" positionX="1879" positionY="1136" width="128" height="133"/>
         <element name="GameManager" positionX="2392" positionY="1148" width="128" height="118"/>
-        <element name="Theme" positionX="2142" positionY="729" width="128" height="328"/>
+        <element name="Theme" positionX="2142" positionY="729" width="128" height="375"/>
         <element name="Tile" positionX="2142" positionY="1364" width="128" height="178"/>
     </elements>
 </model>

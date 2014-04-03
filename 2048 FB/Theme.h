@@ -24,12 +24,15 @@
 // Tile's image is stored in "Tile" object.
 @property (nonatomic, retain) UIColor *tileFrameColor;
 @property (nonatomic, retain) UIImage *tileFrameImage;
+@property (nonatomic, retain) UIColor *textColor;
+@property (nonatomic, retain) UIColor *buttonColor;
 @property (nonatomic, retain) NSNumber * boardCornerRadius;
 @property (nonatomic, retain) NSNumber * tileCornerRadius;
 @property (nonatomic, retain) NSNumber * boardWidthFraction; // Comparing with screen width
 @property (nonatomic, retain) NSNumber * boardEdgeWidthFraction; // Comparing with board width
 @property (nonatomic, retain) NSNumber * lineWidthFraction; // Comparing with board width
 @property (nonatomic, retain) NSNumber * buttonCornerRadius;
+@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * uuid;
 @property (nonatomic, retain) Board *baord;
 @property (nonatomic, retain) GameManager *gameManager;
