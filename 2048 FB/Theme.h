@@ -18,13 +18,17 @@
 @property (nonatomic, retain) UIColor *boardColor;
 @property (nonatomic, retain) UIImage *boardImage;
 @property (nonatomic, retain) UIColor *foldAnimationBackgroundColor;
-@property (nonatomic, retain) UIImage *foldAnimationBackgroundImage;
 @property (nonatomic, retain) UIColor *settingsPageColor;
 @property (nonatomic, retain) UIImage *settingsPageImage;
 @property (nonatomic, retain) UIColor *tileColor;
-// Titles do NOT have "image" in themes, their images are stored in their own "Tile" object.
+// Tile's image is stored in "Tile" object.
 @property (nonatomic, retain) UIColor *tileFrameColor;
 @property (nonatomic, retain) UIImage *tileFrameImage;
+@property (nonatomic, retain) NSNumber * boardCornerRadius;
+@property (nonatomic, retain) NSNumber * tileCornerRadius;
+@property (nonatomic, retain) NSNumber * boardWidthFraction; // Comparing with screen width
+@property (nonatomic, retain) NSNumber * lineWidthFraction; // Comparing with board width
+@property (nonatomic, retain) NSNumber * buttonCornerRadius;
 @property (nonatomic, retain) Board *baord;
 @property (nonatomic, retain) GameManager *gameManager;
 

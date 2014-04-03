@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		043786ED18ED01890034651C /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 043786EC18ED01890034651C /* Tile.m */; };
-		043786F018ED01890034651C /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 043786EF18ED01890034651C /* Theme.m */; };
 		043786F318ED018A0034651C /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 043786F218ED018A0034651C /* Board.m */; };
 		043786F618ED018A0034651C /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 043786F518ED018A0034651C /* GameManager.m */; };
 		0448478918EA1BA100D35B0F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478818EA1BA100D35B0F /* Foundation.framework */; };
@@ -25,11 +24,12 @@
 		044847AD18EA1BA100D35B0F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478C18EA1BA100D35B0F /* UIKit.framework */; };
 		044847B518EA1BA100D35B0F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 044847B318EA1BA100D35B0F /* InfoPlist.strings */; };
 		044847B718EA1BA100D35B0F /* _048_FBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 044847B618EA1BA100D35B0F /* _048_FBTests.m */; };
-		04601EE718EB8C33007BAC8E /* Tiles.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04601EE518EB8C33007BAC8E /* Tiles.xcdatamodeld */; };
+		04601EE718EB8C33007BAC8E /* GameDataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04601EE518EB8C33007BAC8E /* GameDataBase.xcdatamodeld */; };
 		04601F0F18EB9C32007BAC8E /* Board+gameManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */; };
 		04601F1518EB9C5B007BAC8E /* Tile+tileManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1418EB9C5B007BAC8E /* Tile+tileManagement.m */; };
 		048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048FD05D18EA587A0068C6CE /* FacebookSDK.framework */; };
 		048FD06518EA5DFB0068C6CE /* TFFBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048FD06418EA5DFB0068C6CE /* TFFBViewController.m */; };
+		04C7042518ED0903001DBD60 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C7042418ED0903001DBD60 /* Theme.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,8 +45,6 @@
 /* Begin PBXFileReference section */
 		043786EB18ED01890034651C /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
 		043786EC18ED01890034651C /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
-		043786EE18ED01890034651C /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
-		043786EF18ED01890034651C /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
 		043786F118ED018A0034651C /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
 		043786F218ED018A0034651C /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
 		043786F418ED018A0034651C /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
@@ -69,7 +67,7 @@
 		044847B218EA1BA100D35B0F /* 2048 FBTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "2048 FBTests-Info.plist"; sourceTree = "<group>"; };
 		044847B418EA1BA100D35B0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		044847B618EA1BA100D35B0F /* _048_FBTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _048_FBTests.m; sourceTree = "<group>"; };
-		04601EE618EB8C33007BAC8E /* Tiles.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tiles.xcdatamodel; sourceTree = "<group>"; };
+		04601EE618EB8C33007BAC8E /* GameDataBase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GameDataBase.xcdatamodel; sourceTree = "<group>"; };
 		04601F0D18EB9C32007BAC8E /* Board+gameManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Board+gameManagement.h"; sourceTree = "<group>"; };
 		04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Board+gameManagement.m"; sourceTree = "<group>"; };
 		04601F1318EB9C5B007BAC8E /* Tile+tileManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tile+tileManagement.h"; sourceTree = "<group>"; };
@@ -77,6 +75,8 @@
 		048FD05D18EA587A0068C6CE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		048FD06318EA5DFB0068C6CE /* TFFBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFFBViewController.h; sourceTree = "<group>"; };
 		048FD06418EA5DFB0068C6CE /* TFFBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFFBViewController.m; sourceTree = "<group>"; };
+		04C7042318ED0903001DBD60 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
+		04C7042418ED0903001DBD60 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +107,7 @@
 		0437867C18ECF90D0034651C /* Layer01 (CoreData Foundation) */ = {
 			isa = PBXGroup;
 			children = (
-				04601EE518EB8C33007BAC8E /* Tiles.xcdatamodeld */,
+				04601EE518EB8C33007BAC8E /* GameDataBase.xcdatamodeld */,
 				043786C618ECFF970034651C /* Theme */,
 				043786C518ECFF900034651C /* GameManager */,
 				04A44ADB18EC8A58004D802A /* Tile */,
@@ -128,8 +128,8 @@
 		043786C618ECFF970034651C /* Theme */ = {
 			isa = PBXGroup;
 			children = (
-				043786EE18ED01890034651C /* Theme.h */,
-				043786EF18ED01890034651C /* Theme.m */,
+				04C7042318ED0903001DBD60 /* Theme.h */,
+				04C7042418ED0903001DBD60 /* Theme.m */,
 			);
 			name = Theme;
 			sourceTree = "<group>";
@@ -350,14 +350,14 @@
 			files = (
 				04601F0F18EB9C32007BAC8E /* Board+gameManagement.m in Sources */,
 				0448479918EA1BA100D35B0F /* TFFBAppDelegate.m in Sources */,
-				043786F018ED01890034651C /* Theme.m in Sources */,
 				04601F1518EB9C5B007BAC8E /* Tile+tileManagement.m in Sources */,
+				04C7042518ED0903001DBD60 /* Theme.m in Sources */,
 				043786F318ED018A0034651C /* Board.m in Sources */,
 				043786ED18ED01890034651C /* Tile.m in Sources */,
 				0448479518EA1BA100D35B0F /* main.m in Sources */,
 				043786F618ED018A0034651C /* GameManager.m in Sources */,
 				048FD06518EA5DFB0068C6CE /* TFFBViewController.m in Sources */,
-				04601EE718EB8C33007BAC8E /* Tiles.xcdatamodeld in Sources */,
+				04601EE718EB8C33007BAC8E /* GameDataBase.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,13 +598,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		04601EE518EB8C33007BAC8E /* Tiles.xcdatamodeld */ = {
+		04601EE518EB8C33007BAC8E /* GameDataBase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				04601EE618EB8C33007BAC8E /* Tiles.xcdatamodel */,
+				04601EE618EB8C33007BAC8E /* GameDataBase.xcdatamodel */,
 			);
-			currentVersion = 04601EE618EB8C33007BAC8E /* Tiles.xcdatamodel */;
-			path = Tiles.xcdatamodeld;
+			currentVersion = 04601EE618EB8C33007BAC8E /* GameDataBase.xcdatamodel */;
+			path = GameDataBase.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -18,12 +18,16 @@
 @dynamic boardColor;
 @dynamic boardImage;
 @dynamic foldAnimationBackgroundColor;
-@dynamic foldAnimationBackgroundImage;
 @dynamic settingsPageColor;
 @dynamic settingsPageImage;
 @dynamic tileColor;
 @dynamic tileFrameColor;
 @dynamic tileFrameImage;
+@dynamic boardCornerRadius;
+@dynamic tileCornerRadius;
+@dynamic boardWidthFraction;
+@dynamic lineWidthFraction;
+@dynamic buttonCornerRadius;
 @dynamic baord;
 @dynamic gameManager;
 
