@@ -12,12 +12,9 @@ NSString *const kTile_CoreDataEntiryName = @"Tile";
 NSString *const kTile_DisplayTextDictionaryKey = @"TileDisplayTextKey";
 NSString *const kTile_ValueKey = @"TileValueKey";
 NSString *const kTile_ImageKey = @"TileImageKey";
-NSString *const kTile_PrimeValKey = @"TilePrimeValKey";
 NSString *const kTile_FbUserNameKey = @"TileFbUserNameKey";
 NSString *const kTile_FbUserIDKey = @"TileFbUserIDKey";
 NSString *const kTile_GlowingKey = @"TileGlowingKey";
-NSString *const kTile_BackgroundColorKey = @"TileBackgroundColorKey";
-NSString *const kTile_BoardKey = @"TileBoardKey";
 
 @implementation Tile (tileManagement)
 
@@ -48,12 +45,9 @@ NSString *const kTile_BoardKey = @"TileBoardKey";
 		tile.displayText = (infoDictionary[kTile_DisplayTextDictionaryKey] == nil ? tile.displayText:infoDictionary[kTile_DisplayTextDictionaryKey]);
 		tile.value = (infoDictionary[kTile_ValueKey] == nil ? tile.value:infoDictionary[kTile_ValueKey]);
 		tile.image = (infoDictionary[kTile_ImageKey] == nil ? tile.image:infoDictionary[kTile_ImageKey]);
-		tile.primeVal = (infoDictionary[kTile_PrimeValKey] == nil ? tile.primeVal:infoDictionary[kTile_PrimeValKey]);
 		tile.fbUserName = (infoDictionary[kTile_FbUserNameKey] == nil ? tile.fbUserName:infoDictionary[kTile_FbUserNameKey]);
 		tile.fbUserID = (infoDictionary[kTile_FbUserIDKey] == nil ? tile.fbUserID:infoDictionary[kTile_FbUserIDKey]);
 		tile.glowing = (infoDictionary[kTile_GlowingKey] == nil ? tile.glowing: infoDictionary[kTile_GlowingKey]);
-		tile.backgroundColor = (infoDictionary[kTile_BackgroundColorKey] == nil ? tile.backgroundColor:infoDictionary[kTile_BackgroundColorKey]);
-		tile.board = (infoDictionary[kTile_BoardKey] == nil ? tile.board:infoDictionary[kTile_BoardKey]);
 	}
 	
 	return tile;

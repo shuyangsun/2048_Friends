@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		043786ED18ED01890034651C /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 043786EC18ED01890034651C /* Tile.m */; };
+		043786F018ED01890034651C /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 043786EF18ED01890034651C /* Theme.m */; };
+		043786F318ED018A0034651C /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 043786F218ED018A0034651C /* Board.m */; };
+		043786F618ED018A0034651C /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 043786F518ED018A0034651C /* GameManager.m */; };
 		0448478918EA1BA100D35B0F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478818EA1BA100D35B0F /* Foundation.framework */; };
 		0448478B18EA1BA100D35B0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478A18EA1BA100D35B0F /* CoreGraphics.framework */; };
 		0448478D18EA1BA100D35B0F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478C18EA1BA100D35B0F /* UIKit.framework */; };
@@ -24,8 +28,6 @@
 		04601EE718EB8C33007BAC8E /* Tiles.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04601EE518EB8C33007BAC8E /* Tiles.xcdatamodeld */; };
 		04601F0F18EB9C32007BAC8E /* Board+gameManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */; };
 		04601F1518EB9C5B007BAC8E /* Tile+tileManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1418EB9C5B007BAC8E /* Tile+tileManagement.m */; };
-		04601F1E18EBA8DD007BAC8E /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1D18EBA8DD007BAC8E /* Board.m */; };
-		04601F2118EBA8DE007BAC8E /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F2018EBA8DE007BAC8E /* Tile.m */; };
 		048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048FD05D18EA587A0068C6CE /* FacebookSDK.framework */; };
 		048FD06518EA5DFB0068C6CE /* TFFBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048FD06418EA5DFB0068C6CE /* TFFBViewController.m */; };
 /* End PBXBuildFile section */
@@ -41,6 +43,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		043786EB18ED01890034651C /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
+		043786EC18ED01890034651C /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
+		043786EE18ED01890034651C /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
+		043786EF18ED01890034651C /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
+		043786F118ED018A0034651C /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
+		043786F218ED018A0034651C /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
+		043786F418ED018A0034651C /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
+		043786F518ED018A0034651C /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
 		0448478518EA1BA100D35B0F /* 2048 FB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "2048 FB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0448478818EA1BA100D35B0F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0448478A18EA1BA100D35B0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -64,10 +74,6 @@
 		04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Board+gameManagement.m"; sourceTree = "<group>"; };
 		04601F1318EB9C5B007BAC8E /* Tile+tileManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tile+tileManagement.h"; sourceTree = "<group>"; };
 		04601F1418EB9C5B007BAC8E /* Tile+tileManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Tile+tileManagement.m"; sourceTree = "<group>"; };
-		04601F1C18EBA8DD007BAC8E /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
-		04601F1D18EBA8DD007BAC8E /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
-		04601F1F18EBA8DE007BAC8E /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
-		04601F2018EBA8DE007BAC8E /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		048FD05D18EA587A0068C6CE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		048FD06318EA5DFB0068C6CE /* TFFBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFFBViewController.h; sourceTree = "<group>"; };
 		048FD06418EA5DFB0068C6CE /* TFFBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFFBViewController.m; sourceTree = "<group>"; };
@@ -98,6 +104,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0437867C18ECF90D0034651C /* Layer01 (CoreData Foundation) */ = {
+			isa = PBXGroup;
+			children = (
+				04601EE518EB8C33007BAC8E /* Tiles.xcdatamodeld */,
+				043786C618ECFF970034651C /* Theme */,
+				043786C518ECFF900034651C /* GameManager */,
+				04A44ADB18EC8A58004D802A /* Tile */,
+				04A44ADC18EC8A5E004D802A /* Board */,
+			);
+			name = "Layer01 (CoreData Foundation)";
+			sourceTree = "<group>";
+		};
+		043786C518ECFF900034651C /* GameManager */ = {
+			isa = PBXGroup;
+			children = (
+				043786F418ED018A0034651C /* GameManager.h */,
+				043786F518ED018A0034651C /* GameManager.m */,
+			);
+			name = GameManager;
+			sourceTree = "<group>";
+		};
+		043786C618ECFF970034651C /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				043786EE18ED01890034651C /* Theme.h */,
+				043786EF18ED01890034651C /* Theme.m */,
+			);
+			name = Theme;
+			sourceTree = "<group>";
+		};
 		0448477C18EA1BA100D35B0F = {
 			isa = PBXGroup;
 			children = (
@@ -176,15 +212,7 @@
 		04601EE818EB8C39007BAC8E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04601F1F18EBA8DE007BAC8E /* Tile.h */,
-				04601F2018EBA8DE007BAC8E /* Tile.m */,
-				04601F1C18EBA8DD007BAC8E /* Board.h */,
-				04601F1D18EBA8DD007BAC8E /* Board.m */,
-				04601EE518EB8C33007BAC8E /* Tiles.xcdatamodeld */,
-				04601F0D18EB9C32007BAC8E /* Board+gameManagement.h */,
-				04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */,
-				04601F1318EB9C5B007BAC8E /* Tile+tileManagement.h */,
-				04601F1418EB9C5B007BAC8E /* Tile+tileManagement.m */,
+				0437867C18ECF90D0034651C /* Layer01 (CoreData Foundation) */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -196,6 +224,28 @@
 				048FD06418EA5DFB0068C6CE /* TFFBViewController.m */,
 			);
 			name = "View Controller";
+			sourceTree = "<group>";
+		};
+		04A44ADB18EC8A58004D802A /* Tile */ = {
+			isa = PBXGroup;
+			children = (
+				043786EB18ED01890034651C /* Tile.h */,
+				043786EC18ED01890034651C /* Tile.m */,
+				04601F1318EB9C5B007BAC8E /* Tile+tileManagement.h */,
+				04601F1418EB9C5B007BAC8E /* Tile+tileManagement.m */,
+			);
+			name = Tile;
+			sourceTree = "<group>";
+		};
+		04A44ADC18EC8A5E004D802A /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				043786F118ED018A0034651C /* Board.h */,
+				043786F218ED018A0034651C /* Board.m */,
+				04601F0D18EB9C32007BAC8E /* Board+gameManagement.h */,
+				04601F0E18EB9C32007BAC8E /* Board+gameManagement.m */,
+			);
+			name = Board;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,12 +350,14 @@
 			files = (
 				04601F0F18EB9C32007BAC8E /* Board+gameManagement.m in Sources */,
 				0448479918EA1BA100D35B0F /* TFFBAppDelegate.m in Sources */,
-				04601F1E18EBA8DD007BAC8E /* Board.m in Sources */,
+				043786F018ED01890034651C /* Theme.m in Sources */,
 				04601F1518EB9C5B007BAC8E /* Tile+tileManagement.m in Sources */,
+				043786F318ED018A0034651C /* Board.m in Sources */,
+				043786ED18ED01890034651C /* Tile.m in Sources */,
 				0448479518EA1BA100D35B0F /* main.m in Sources */,
+				043786F618ED018A0034651C /* GameManager.m in Sources */,
 				048FD06518EA5DFB0068C6CE /* TFFBViewController.m in Sources */,
 				04601EE718EB8C33007BAC8E /* Tiles.xcdatamodeld in Sources */,
-				04601F2118EBA8DE007BAC8E /* Tile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
