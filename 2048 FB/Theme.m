@@ -7,9 +7,6 @@
 //
 
 #import "Theme.h"
-#import "Board.h"
-#import "GameManager.h"
-
 
 @implementation Theme
 
@@ -33,7 +30,5 @@
 @dynamic buttonCornerRadius;
 @dynamic name;
 @dynamic uuid;
-@dynamic baord;
-@dynamic gameManager;
 
 @end

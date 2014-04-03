@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Theme, Tile;
+@class Tile;
 
 @interface Board : NSManagedObject
 
@@ -17,8 +17,8 @@
 @property (nonatomic, retain) NSNumber * gameplaying;
 @property (nonatomic, retain) NSDecimalNumber * score;
 @property (nonatomic, retain) NSString * uuid;
+@property (nonatomic, retain) NSString * currentThemeUUID;
 @property (nonatomic, retain) NSSet *onBoardTiles;
-@property (nonatomic, retain) Theme *currentTheme;
 @end
 
 @interface Board (CoreDataGeneratedAccessors)

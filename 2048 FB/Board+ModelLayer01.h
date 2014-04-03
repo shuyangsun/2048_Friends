@@ -13,7 +13,7 @@ extern NSString *const kBoard_BoardDataKey;
 extern NSString *const kBoard_GamePlayingKey;
 extern NSString *const kBoard_ScoreKey;
 extern NSString *const kBoard_OnBoardTilesKey;
-extern NSString *const kBoard_CurrentThemeKey;
+extern NSString *const kBoard_CurrentThemeUUIDKey;
 extern NSString *const kBoard_UUIDKey;
 
 @interface Board (gameManagement)

@@ -17,7 +17,7 @@
 @dynamic gameplaying;
 @dynamic score;
 @dynamic uuid;
+@dynamic currentThemeUUID;
 @dynamic onBoardTiles;
-@dynamic currentTheme;
 
 @end

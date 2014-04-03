@@ -14,7 +14,7 @@ NSString *const kBoard_BoardDataKey = @"BoardDataKey";
 NSString *const kBoard_GamePlayingKey = @"BoardGamePlayingKey";
 NSString *const kBoard_ScoreKey = @"BoardScoreKey";
 NSString *const kBoard_OnBoardBoardsKey = @"BoardOnBoardBoardsKey";
-NSString *const kBoard_CurrentThemeKey = @"BoardCurrentThemeKey";
+NSString *const kBoard_CurrentThemeUUIDKey = @"BoardCurrentThemeUUIDKey";
 NSString *const kBoard_UUIDKey = @"BoardUUIDKey";
 
 @implementation Board (gameManagement)
@@ -52,6 +52,7 @@ NSString *const kBoard_UUIDKey = @"BoardUUIDKey";
 		ASSIGN_IN_DATABASE(board.gameplaying, infoDictionary[kBoard_GamePlayingKey]);
 		ASSIGN_IN_DATABASE(board.score, infoDictionary[kBoard_ScoreKey]);
 		ASSIGN_IN_DATABASE(board.uuid, infoDictionary[kBoard_UUIDKey]);
+		ASSIGN_IN_DATABASE(board.currentThemeUUID, infoDictionary[kBoard_CurrentThemeUUIDKey]);
 	}
 	
 	return board;

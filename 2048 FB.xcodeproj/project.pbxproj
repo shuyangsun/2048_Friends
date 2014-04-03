@@ -117,7 +117,6 @@
 				04A44ADB18EC8A58004D802A /* Tile */,
 				04A44ADC18EC8A5E004D802A /* Board */,
 				043786C518ECFF900034651C /* GameManager */,
-				043786C618ECFF970034651C /* Theme */,
 			);
 			name = "Layer01 (CoreData Foundation)";
 			sourceTree = "<group>";
@@ -223,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				0437867C18ECF90D0034651C /* Layer01 (CoreData Foundation) */,
+				043786C618ECFF970034651C /* Theme */,
 			);
 			name = Model;
 			sourceTree = "<group>";

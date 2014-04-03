@@ -7,11 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
 
-@class Board, GameManager;
-
-@interface Theme : NSManagedObject
+@interface Theme : NSObject
 
 @property (nonatomic, retain) UIColor *backgroundColor;
 @property (nonatomic, retain) UIImage *backgroundImage;
@@ -34,7 +31,5 @@
 @property (nonatomic, retain) NSNumber * buttonCornerRadius;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * uuid;
-@property (nonatomic, retain) Board *baord;
-@property (nonatomic, retain) GameManager *gameManager;
 
 @end
