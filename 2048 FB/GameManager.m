@@ -18,6 +18,5 @@
 @dynamic uuid;
 @dynamic tiles;
 @dynamic themes;
-@dynamic currentThemeUUID;
 
 @end

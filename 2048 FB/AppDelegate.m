@@ -9,7 +9,10 @@
 #import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 
-NSString *const kAppDelegate_UserDefaultKeyAppFirstTimeLaunch  = @"UserDefault_ApplicationFirstTimeLaunch";
+#import "Theme.h"
+
+NSString *const kUserDefaultKeyAppFirstTimeLaunch  = @"UserDefault_ApplicationFirstTimeLaunch";
+NSString *const kCurrentThemeUUIDKey = @"UserDefault_CurrentThemeUUIDKey";
 
 @implementation AppDelegate
 
@@ -18,7 +21,16 @@ NSString *const kAppDelegate_UserDefaultKeyAppFirstTimeLaunch  = @"UserDefault_A
     // Override point for customization after application launch.
 	[FBLoginView class];
 	[UIApplication sharedApplication].statusBarHidden = YES;
-	
+	// Set the theme:
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	NSUbiquitousKeyValueStore *ubiquitousStore = [NSUbiquitousKeyValueStore defaultStore];
+	NSString *themeUUID = kThemeUUID_Default;
+	themeUUID = ([userDefaults objectForKey:kCurrentThemeUUIDKey] ? [userDefaults objectForKey:kCurrentThemeUUIDKey]:themeUUID);
+	themeUUID = ([ubiquitousStore objectForKey:kCurrentThemeUUIDKey] ? [ubiquitousStore objectForKey:kCurrentThemeUUIDKey]:themeUUID);
+	[userDefaults setObject:themeUUID forKey: kCurrentThemeUUIDKey];
+	[userDefaults synchronize];
+	[ubiquitousStore setObject:themeUUID forKey:kCurrentThemeUUIDKey];
+	[ubiquitousStore synchronize];
     return YES;
 }
 							
@@ -49,7 +61,7 @@ NSString *const kAppDelegate_UserDefaultKeyAppFirstTimeLaunch  = @"UserDefault_A
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 	// After the app gets terminate once, set the "First time launching app" to NO.
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	[userDefaults setObject:@(NO) forKey: (NSString *)kAppDelegate_UserDefaultKeyAppFirstTimeLaunch];
+	[userDefaults setObject:@(NO) forKey:kUserDefaultKeyAppFirstTimeLaunch];
 	[userDefaults synchronize];
 }
 

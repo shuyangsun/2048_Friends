@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		043786F318ED018A0034651C /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 043786F218ED018A0034651C /* Board.m */; };
 		043786F618ED018A0034651C /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 043786F518ED018A0034651C /* GameManager.m */; };
+		0444F6E418EE3F75005A0490 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444F6E318EE3F75005A0490 /* GameKit.framework */; };
+		0444F6E718EE3F7E005A0490 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444F6E618EE3F7E005A0490 /* StoreKit.framework */; };
 		0448478918EA1BA100D35B0F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478818EA1BA100D35B0F /* Foundation.framework */; };
 		0448478B18EA1BA100D35B0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478A18EA1BA100D35B0F /* CoreGraphics.framework */; };
 		0448478D18EA1BA100D35B0F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478C18EA1BA100D35B0F /* UIKit.framework */; };
@@ -50,6 +52,9 @@
 		043786F218ED018A0034651C /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
 		043786F418ED018A0034651C /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
 		043786F518ED018A0034651C /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
+		0444F6E318EE3F75005A0490 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		0444F6E518EE3F7B005A0490 /* 2048 FB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "2048 FB.entitlements"; sourceTree = "<group>"; };
+		0444F6E618EE3F7E005A0490 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0448478518EA1BA100D35B0F /* 2048 FB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "2048 FB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0448478818EA1BA100D35B0F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0448478A18EA1BA100D35B0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -96,7 +101,9 @@
 				0448478B18EA1BA100D35B0F /* CoreGraphics.framework in Frameworks */,
 				048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */,
 				0448478D18EA1BA100D35B0F /* UIKit.framework in Frameworks */,
+				0444F6E718EE3F7E005A0490 /* StoreKit.framework in Frameworks */,
 				0448478918EA1BA100D35B0F /* Foundation.framework in Frameworks */,
+				0444F6E418EE3F75005A0490 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +173,8 @@
 		0448478718EA1BA100D35B0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0444F6E618EE3F7E005A0490 /* StoreKit.framework */,
+				0444F6E318EE3F75005A0490 /* GameKit.framework */,
 				048FD05D18EA587A0068C6CE /* FacebookSDK.framework */,
 				0448478818EA1BA100D35B0F /* Foundation.framework */,
 				0448478A18EA1BA100D35B0F /* CoreGraphics.framework */,
@@ -178,6 +187,7 @@
 		0448478E18EA1BA100D35B0F /* 2048 FB */ = {
 			isa = PBXGroup;
 			children = (
+				0444F6E518EE3F7B005A0490 /* 2048 FB.entitlements */,
 				0499660E18ED1BEF00373E57 /* macro.h */,
 				0448479718EA1BA100D35B0F /* AppDelegate.h */,
 				0448479818EA1BA100D35B0F /* AppDelegate.m */,
@@ -319,6 +329,23 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Shuyang Sun";
 				TargetAttributes = {
+					0448478418EA1BA100D35B0F = {
+						DevelopmentTeam = 45Y92GK838;
+						SystemCapabilities = {
+							com.apple.DataProtection = {
+								enabled = 1;
+							};
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
+					};
 					044847A818EA1BA100D35B0F = {
 						TestTargetID = 0448478418EA1BA100D35B0F;
 					};
@@ -518,6 +545,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "2048 FB/2048 FB.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FacebookSDK",
@@ -529,6 +559,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -538,6 +569,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "2048 FB/2048 FB.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FacebookSDK",
@@ -549,6 +583,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

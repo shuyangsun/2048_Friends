@@ -18,7 +18,6 @@
 @property (nonatomic, retain) NSString * uuid;
 @property (nonatomic, retain) NSSet *tiles;
 @property (nonatomic, retain) NSSet *themes;
-@property (nonatomic, retain) NSString * currentThemeUUID;
 @end
 
 @interface GameManager (CoreDataGeneratedAccessors)

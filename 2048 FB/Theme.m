@@ -119,7 +119,7 @@ NSString *const kThemeUUID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	NSUInteger maxInd = [colorsArr count];
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 	for (NSUInteger i = 0; i < maxTilePower; ++i) {
-		dictionary[[Tile getUUIDFromTileValue: [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%d", (int)(pow(2.0f, (i + 1)))]]]] = colorsArr[MIN(i, maxInd)];
+		dictionary[[Tile getUUIDFromTileValue: (NSInteger)(pow(2.0f, (i + 1)))]] = colorsArr[MIN(i, maxInd)];
 	}
 	self.tileColors = [dictionary copy];
 	return YES;

@@ -52,7 +52,6 @@ NSString *const kBoard_UUIDKey = @"BoardUUIDKey";
 		ASSIGN_IN_DATABASE(board.score, infoDictionary[kBoard_ScoreKey]);
 		ASSIGN_IN_DATABASE(board.uuid, infoDictionary[kBoard_UUIDKey]);
 	}
-	
 	return board;
 }
 

@@ -13,7 +13,6 @@ NSString *const kGameManager_CoreDataEntityName = @"GameManager";
 NSString *const kGameManager_BestScoreKey = @"GameManagerBestScoreKey";
 NSString *const kGameManager_MaxOccuredTimesOnBoardForEachTileKey = @"GameManagerMaxOccuredTimesOnBoardForEachTileKeyKey";
 NSString *const kGameManager_UUIDKey = @"GameManagerUUIDKey";
-NSString *const kGameManager_CurrentThemeUUIDKey = @"GameManagerCurrentThemeUUIDKey";
 
 @implementation GameManager (ModelLayer01)
 
@@ -50,7 +49,6 @@ NSString *const kGameManager_CurrentThemeUUIDKey = @"GameManagerCurrentThemeUUID
 		ASSIGN_IN_DATABASE(gManager.bestScore, infoDictionary[kGameManager_BestScoreKey]);
 		ASSIGN_IN_DATABASE(gManager.maxOccuredTimesOnBoardForEachTile, maxOccuredTimesOnBoardForEachTile_Data);
 		ASSIGN_IN_DATABASE(gManager.uuid, infoDictionary[kGameManager_UUIDKey]);
-		ASSIGN_IN_DATABASE(gManager.currentThemeUUID, infoDictionary[kGameManager_CurrentThemeUUIDKey]);
 	}
 	
 	return gManager;

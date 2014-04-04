@@ -13,6 +13,16 @@ extern NSUInteger maxTilePower;
 
 @interface Tile (ModelLayer02)
 
-+(NSString *)getUUIDFromTileValue: (NSDecimalNumber *) val;
++(Tile *)createTileInDataBaseWithUUID: (NSString *) uuid
+								value: (NSInteger) value
+						  displayText: (NSString *) displayText
+							 fbUserID: (NSString *) fbUserID
+						   fbUserName: (NSString *) fbUserName;
+
++(Tile *)searchTileInDataBaseWithUUID: (NSString *) uuid;
++(BOOL)removeTileInDataBaseWithUUID: (NSString *) uuid;
+
++(NSString *)getUUIDFromTileValue: (NSInteger) val;
+
 
 @end

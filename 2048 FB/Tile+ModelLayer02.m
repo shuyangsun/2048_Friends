@@ -12,8 +12,8 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 
 @implementation Tile (ModelLayer02)
 
-+(NSString *)getUUIDFromTileValue:(NSDecimalNumber *)val {
-	return [NSString stringWithFormat:@"TileUUID_%@", val];
++(NSString *)getUUIDFromTileValue:(NSInteger) val {
+	return [NSString stringWithFormat:@"TileUUID_%ld", val];
 }
 
 @end
