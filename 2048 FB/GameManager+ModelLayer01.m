@@ -46,9 +46,10 @@ NSString *const kGameManager_UUIDKey = @"GameManagerUUIDKey";
 			NSMutableDictionary *maxOccuredTimesOnBoardForEachTile_Dictionary = (NSMutableDictionary *)infoDictionary[kGameManager_MaxOccuredTimesOnBoardForEachTileKey];
 			maxOccuredTimesOnBoardForEachTile_Data = [NSKeyedArchiver archivedDataWithRootObject:maxOccuredTimesOnBoardForEachTile_Dictionary];
 		}
+		
+		ASSIGN_IN_DATABASE(gManager.uuid, infoDictionary[kGameManager_UUIDKey]);
 		ASSIGN_IN_DATABASE(gManager.bestScore, infoDictionary[kGameManager_BestScoreKey]);
 		ASSIGN_IN_DATABASE(gManager.maxOccuredTimesOnBoardForEachTile, maxOccuredTimesOnBoardForEachTile_Data);
-		ASSIGN_IN_DATABASE(gManager.uuid, infoDictionary[kGameManager_UUIDKey]);
 	}
 	
 	return gManager;

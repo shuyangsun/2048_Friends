@@ -16,10 +16,10 @@ extern NSString *const kTile_UUIDKey;
 extern NSString *const kTile_ImageKey;
 extern NSString *const kTile_ValueKey;
 
-@interface Tile (tileManagement)
+@interface Tile (ModelLayer01)
 
 +(Tile *)tileWithTileInfo: (NSDictionary *) infoDictionary inManagedObjectContext: (NSManagedObjectContext *) context;
-+(BOOL)removeTileWithUUID: (NSDecimalNumber *) uuid inManagedObjectContext: (NSManagedObjectContext *) context;
++(BOOL)removeTileWithUUID: (NSString *) uuid inManagedObjectContext: (NSManagedObjectContext *) context;
 +(BOOL)removeTileWithValue: (NSDecimalNumber *) value inManagedObjectContext: (NSManagedObjectContext *) context;
 
 @end

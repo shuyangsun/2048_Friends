@@ -11,8 +11,25 @@
 // Import layer02 to get UUID from tile value.
 #import "Tile+ModelLayer02.h"
 
-const NSUInteger glowingStartPowValueDefault = 7;
-const CGFloat boardCornerRadiusDefault_iPhone = 3.0f;
+const NSUInteger kGlowingStartPowValueDefault = 7;
+
+const CGFloat kBoardCornerRadiusDefault_iPhone = 3.0f;
+const CGFloat kBoardCornerRadiusDefault_iPad = 5.0f;
+
+const CGFloat kTileCornerRadiusDefault_iPhone = 2.0f;
+const CGFloat kTileCornerRadiusDefault_iPad = 3.0f;
+
+const CGFloat kButtonCornerRadiusDefault_iPhone = 5.0f;
+const CGFloat kButtonCornerRadiusDefault_iPad = 7.0f;
+
+const CGFloat kBoardWidthFractionDefault_iPhone = 0.9f; // Comparing with screen width
+const CGFloat kBoardWidthFractionDefault_iPad = 0.9f;
+
+const CGFloat kBoardEdgeWidthFractionDefault_iPhone = 0.05f; // Comparing with board width
+const CGFloat kBoardEdgeWidthFractionDefault_iPad = 0.05f;
+
+const CGFloat kLineWidthFractionDefault_iPhone = 0.03f; // Comparing with board width
+const CGFloat kLineWidthFractionDefault_iPad = 0.03f;
 
 NSString *const kThemePriceKey_Free  = @"free";
 NSString *const kThemePriceKey_Paid = @"paid";
@@ -56,12 +73,14 @@ NSString *const kThemeUUID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	theme.uuid = uuid;
 	NSArray *uuidElementsArr = [uuid componentsSeparatedByString: kThemeUUIDDelimiter];
 	theme.name = uuidElementsArr[1]; // The middle element
-	theme.glowingStartPowValue = glowingStartPowValueDefault;
-	theme.paid = NO;
-	theme.boardCornerRadius = boardCornerRadiusDefault_iPhone;
 	if ([(NSString*)[uuidElementsArr lastObject] compare: kThemePriceKey_Paid] == 0) { // If theme is free
 		theme.paid = YES;
 	}
+	theme.glowingStartPowValue = kGlowingStartPowValueDefault;
+	
+	// Need to set the corner radius, widthFraction, etc.
+	theme.boardCornerRadius = kBoardCornerRadiusDefault_iPhone;
+	
 	// Variables varies in different themes.
 	if ([uuid compare:kThemeUUID_Default] == 0) {
 		theme.themeType = ThemeTypeDefault;
@@ -128,6 +147,10 @@ NSString *const kThemeUUID_LightBlue = @"ThemeUUID_Light Blue_paid";
 // Override getter method for index, it gets the "themeType", which is the int value of enum "ThemeType"
 -(NSUInteger)getIndex {
 	return (NSUInteger) self.themeType;
+}
+
++(NSUInteger)themeTypeCount {
+	return 3;
 }
 
 @end

@@ -15,8 +15,19 @@ typedef enum ThemeType {
 	ThemeTypeLightBlue
 } ThemeType;
 
-extern const NSUInteger glowingStartPowValueDefault;
-extern const CGFloat boardCornerRadiusDefault_iPhone;
+extern const NSUInteger kglowingStartPowValueDefault;
+extern const CGFloat kBoardCornerRadiusDefault_iPhone;
+extern const CGFloat kBoardCornerRadiusDefault_iPad;
+extern const CGFloat kTileCornerRadiusDefault_iPhone;
+extern const CGFloat kTileCornerRadiusDefault_iPad;
+extern const CGFloat kButtonCornerRadiusDefault_iPhone;
+extern const CGFloat kButtonCornerRadiusDefault_iPad;
+extern const CGFloat kBoardWidthFractionDefault_iPhone; // Comparing with screen width
+extern const CGFloat kBoardWidthFractionDefault_iPad;
+extern const CGFloat kBoardEdgeWidthFractionDefault_iPhone; // Comparing with board width
+extern const CGFloat kBoardEdgeWidthFractionDefault_iPad;
+extern const CGFloat kLineWidthFractionDefault_iPhone; // Comparing with board width
+extern const CGFloat kLineWidthFractionDefault_iPad;
 
 extern NSString *const kThemePriceKey_Free;
 extern NSString *const kThemePriceKey_Paid;
@@ -50,6 +61,8 @@ extern NSString *const kThemeUUID_LightBlue;
 // Tile's image is stored in "Tile" object.
 // Where does the glowing start.
 @property (nonatomic) NSUInteger glowingStartPowValue;
+
+// Width and corner radius.
 @property (nonatomic) CGFloat boardCornerRadius;
 @property (nonatomic) CGFloat tileCornerRadius;
 @property (nonatomic) CGFloat buttonCornerRadius;
@@ -59,5 +72,8 @@ extern NSString *const kThemeUUID_LightBlue;
 
 +(Theme *)sharedThemeWithUUID: (NSString *)uuid;
 +(Theme *)sharedThemeWithIndex: (NSUInteger)index;
+
+// Return how many theme types are there.
++(NSUInteger)themeTypeCount;
 
 @end

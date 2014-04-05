@@ -2,9 +2,11 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Board" representedClassName="Board" syncable="YES">
         <attribute name="boardData" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="createDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="gameplaying" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="score" optional="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
         <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="gameManager" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameManager" inverseName="boards" inverseEntity="GameManager" syncable="YES"/>
         <relationship name="onBoardTiles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tile" inverseName="board" inverseEntity="Tile" syncable="YES"/>
     </entity>
     <entity name="GameManager" representedClassName="GameManager" syncable="YES">
@@ -12,6 +14,7 @@
         <attribute name="currentThemeUUID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="maxOccuredTimesOnBoardForEachTile" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="boards" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Board" inverseName="gameManager" inverseEntity="Board" syncable="YES"/>
         <relationship name="tiles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tile" inverseName="gameManager" inverseEntity="Tile" syncable="YES"/>
     </entity>
     <entity name="Tile" representedClassName="Tile" syncable="YES">
@@ -27,8 +30,8 @@
         <relationship name="previousTile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tile" inverseName="nextTile" inverseEntity="Tile" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Board" positionX="1879" positionY="1136" width="128" height="118"/>
-        <element name="GameManager" positionX="2392" positionY="1148" width="128" height="118"/>
+        <element name="Board" positionX="1879" positionY="1136" width="128" height="148"/>
+        <element name="GameManager" positionX="2473" positionY="1134" width="128" height="133"/>
         <element name="Tile" positionX="2122" positionY="1395" width="128" height="193"/>
     </elements>
 </model>

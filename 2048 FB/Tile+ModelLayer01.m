@@ -17,7 +17,7 @@ NSString *const kTile_FbUserNameKey = @"TileFbUserNameKey";
 NSString *const kTile_FbUserIDKey = @"TileFbUserIDKey";
 NSString *const kTile_UUIDKey = @"TileUUIDKey";
 
-@implementation Tile (tileManagement)
+@implementation Tile (ModelLayer01)
 
 +(Tile *)tileWithTileInfo: (NSDictionary *) infoDictionary inManagedObjectContext: (NSManagedObjectContext *) context {
 	Tile *tile = nil;
@@ -43,18 +43,18 @@ NSString *const kTile_UUIDKey = @"TileUUIDKey";
 		tile = [NSEntityDescription insertNewObjectForEntityForName: (NSString *)kTile_CoreDataEntityName
 											 inManagedObjectContext: context];
 		
+		ASSIGN_IN_DATABASE(tile.uuid, infoDictionary[kTile_UUIDKey]);
 		ASSIGN_IN_DATABASE(tile.displayText, infoDictionary[kTile_DisplayTextKey]);
 		ASSIGN_IN_DATABASE(tile.value, infoDictionary[kTile_ValueKey]);
 		ASSIGN_IN_DATABASE(tile.image, infoDictionary[kTile_ImageKey]);
 		ASSIGN_IN_DATABASE(tile.fbUserName, infoDictionary[kTile_FbUserNameKey]);
 		ASSIGN_IN_DATABASE(tile.fbUserID, infoDictionary[kTile_FbUserIDKey]);
-		ASSIGN_IN_DATABASE(tile.uuid, infoDictionary[kTile_UUIDKey]);
 	}
 	
 	return tile;
 }
 
-+(BOOL)removeTileWithUUID: (NSDecimalNumber *) uuid inManagedObjectContext: (NSManagedObjectContext *) context {
++(BOOL)removeTileWithUUID: (NSString *) uuid inManagedObjectContext: (NSManagedObjectContext *) context {
 	
 	// Check if the tile already exists
 	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName: (NSString *)kTile_CoreDataEntityName];

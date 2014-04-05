@@ -14,10 +14,11 @@ extern NSString *const kBoard_GamePlayingKey;
 extern NSString *const kBoard_ScoreKey;
 extern NSString *const kBoard_OnBoardTilesKey;
 extern NSString *const kBoard_UUIDKey;
+extern NSString *const kBoard_CreateDateKey;
 
-@interface Board (gameManagement)
+@interface Board (ModelLayer01)
 
 +(Board *)boardWithBoardInfo: (NSDictionary *) infoDictionary inManagedObjectContext: (NSManagedObjectContext *) context;
-+(BOOL)removeBoardWithUUID: (NSDecimalNumber *) uuid inManagedObjectContext: (NSManagedObjectContext *) context;
++(BOOL)removeBoardWithUUID: (NSString *) uuid inManagedObjectContext: (NSManagedObjectContext *) context;
 
 @end

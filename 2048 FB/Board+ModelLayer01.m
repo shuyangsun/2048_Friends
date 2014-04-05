@@ -15,8 +15,9 @@ NSString *const kBoard_GamePlayingKey = @"BoardGamePlayingKey";
 NSString *const kBoard_ScoreKey = @"BoardScoreKey";
 NSString *const kBoard_OnBoardBoardsKey = @"BoardOnBoardBoardsKey";
 NSString *const kBoard_UUIDKey = @"BoardUUIDKey";
+NSString *const kBoard_CreateDateKey = @"BoardCreateDateKey";
 
-@implementation Board (gameManagement)
+@implementation Board (ModelLayer01)
 
 +(Board *)boardWithBoardInfo: (NSDictionary *) infoDictionary inManagedObjectContext: (NSManagedObjectContext *) context {
 	Board *board = nil;
@@ -47,15 +48,16 @@ NSString *const kBoard_UUIDKey = @"BoardUUIDKey";
 			NSMutableArray *boardData_Array = (NSMutableArray *)infoDictionary[kBoard_BoardDataKey];
 			boardData_Data = [NSKeyedArchiver archivedDataWithRootObject:boardData_Array];
 		}
+		ASSIGN_IN_DATABASE(board.uuid, infoDictionary[kBoard_UUIDKey]);
 		ASSIGN_IN_DATABASE(board.boardData, boardData_Data);
 		ASSIGN_IN_DATABASE(board.gameplaying, infoDictionary[kBoard_GamePlayingKey]);
 		ASSIGN_IN_DATABASE(board.score, infoDictionary[kBoard_ScoreKey]);
-		ASSIGN_IN_DATABASE(board.uuid, infoDictionary[kBoard_UUIDKey]);
+		ASSIGN_IN_DATABASE(board.createDate, [NSDate date]);
 	}
 	return board;
 }
 
-+(BOOL)removeBoardWithUUID: (NSDecimalNumber *) uuid inManagedObjectContext: (NSManagedObjectContext *) context {
++(BOOL)removeBoardWithUUID: (NSString *) uuid inManagedObjectContext: (NSManagedObjectContext *) context {
 	// Check if the board already exists
 	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName: (NSString *)kBoard_CoreDataEntityName];
 	request.predicate = [NSPredicate predicateWithFormat:@"uuid = %@", uuid];
