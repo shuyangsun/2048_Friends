@@ -101,4 +101,13 @@
 	return [[self allBoardsInDatabase] lastObject];
 }
 
+-(NSInteger)getIntegerScore {
+	return [self.score integerValue];
+}
+
+-(BOOL)setIntegerScore: (NSInteger) score {
+	self.score = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%ld", score]];
+	return YES;
+}
+
 @end

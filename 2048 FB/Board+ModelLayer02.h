@@ -23,6 +23,9 @@
 
 +(Board *)lastestBoard;
 
+-(NSInteger)getIntegerScore;
+-(BOOL)setIntegerScore: (NSInteger) score;
+
 - (void)addOnBoardTilesObjectWithValue:(NSInteger)value;
 - (void)removeOnBoardTilesObjectWithValue:(NSInteger)value;
 - (void)addOnBoardTilesWithValues:(NSSet *) values; // Should be a set of NSNumber

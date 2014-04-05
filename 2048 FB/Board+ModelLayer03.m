@@ -7,6 +7,7 @@
 //
 
 #import "Board+ModelLayer03.h"
+#import "Tile+ModelLayer02.h"
 #import "AppDelegate.h"
 
 @implementation Board (ModelLayer03)
@@ -46,6 +47,7 @@
 		[arr2D addObject:[arr copy]]; // Create a new board state
 		arr = [arr2D lastObject];
 		arr[[arr count] - 1] = @(BoardSwipeGestureDirectionNone); // Set the direction for new board to none
+		NSInteger addScore = 0;
 		if (direction == BoardSwipeGestureDirectionLeft) {
 			for (int row = 0; row < 4; ++row) {
 				int col1 = 0;
@@ -68,6 +70,7 @@
 					int newVal = 0;
 					if ([arr[formerTileInd] intValue] == [arr[nextTileInd] intValue]) {
 						newVal = 2 * [arr[formerTileInd] intValue];
+						addScore += newVal;
 						arr[formerTileInd] = @(0);
 						arr[nextTileInd] = @(0);
 						col2 += 2;
@@ -112,6 +115,7 @@
 					int newVal = 0;
 					if ([arr[formerTileInd] intValue] == [arr[nextTileInd] intValue]) {
 						newVal = 2 * [arr[formerTileInd] intValue];
+						addScore += newVal;
 						arr[formerTileInd] = @(0);
 						arr[nextTileInd] = @(0);
 						col2 -= 2;
@@ -156,6 +160,7 @@
 					int newVal = 0;
 					if ([arr[formerTileInd] intValue] == [arr[nextTileInd] intValue]) {
 						newVal = 2 * [arr[formerTileInd] intValue];
+						addScore += newVal;
 						arr[formerTileInd] = @(0);
 						arr[nextTileInd] = @(0);
 						row2 += 2;
@@ -200,6 +205,7 @@
 					int newVal = 0;
 					if ([arr[formerTileInd] intValue] == [arr[nextTileInd] intValue]) {
 						newVal = 2 * [arr[formerTileInd] intValue];
+						addScore += newVal;
 						arr[formerTileInd] = @(0);
 						arr[nextTileInd] = @(0);
 						row2 -= 2;
@@ -224,14 +230,18 @@
 			}
 		}
 		
-		// Check to see if the game is still playing
+		// Check to see if the game is still playing and update onboard tiles.
 		self.gameplaying = @(NO);
 		for (int i = 0; i < 16; ++i) {
+			[self addOnBoardTilesObject:[Tile searchTileInDatabaseWithValue:[arr[i] integerValue]]];
 			if (arr[i] == 0) {
 				self.gameplaying = @(YES);
-				break;
 			}
 		}
+		
+		// Update Score:
+		NSInteger score = [self getIntegerScore];
+		[self setIntegerScore:score + addScore];
 		
 		return [self setBoardDataArray:arr2D];
 	}
