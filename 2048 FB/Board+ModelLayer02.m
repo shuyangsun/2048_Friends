@@ -97,4 +97,8 @@
 	return [self allBoardsInDatabaseWithSortDescriptor:sortDescriptor];
 }
 
++(Board *)lastestBoard {
+	return [[self allBoardsInDatabase] lastObject];
+}
+
 @end

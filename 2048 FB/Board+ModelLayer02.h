@@ -21,6 +21,8 @@
 +(NSArray *)allBoardsInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor;
 +(NSArray *)allBoardsInDatabase; // Default createDate in ascending order.
 
++(Board *)lastestBoard;
+
 - (void)addOnBoardTilesObjectWithValue:(NSInteger)value;
 - (void)removeOnBoardTilesObjectWithValue:(NSInteger)value;
 - (void)addOnBoardTilesWithValues:(NSSet *) values; // Should be a set of NSNumber

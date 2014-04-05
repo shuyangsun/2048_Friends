@@ -7,6 +7,7 @@
 //
 
 #import "Board+ModelLayer03.h"
+#import "AppDelegate.h"
 
 @implementation Board (ModelLayer03)
 

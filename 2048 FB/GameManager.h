@@ -15,7 +15,7 @@
 
 @property (nonatomic, retain) NSDecimalNumber * bestScore;
 @property (nonatomic, retain) NSString * currentThemeUUID;
-@property (nonatomic, retain) NSData * maxOccuredTimesOnBoardForEachTile; // Should be a Dictionary
+@property (nonatomic, retain) NSData * maxOccuredTimesOnBoardForEachTile; // Should be a Dictionary with @(val):@(maxTimeOccured) key pair
 @property (nonatomic, retain) NSString * uuid;
 @property (nonatomic, retain) NSSet *tiles;
 @property (nonatomic, retain) NSSet *boards;

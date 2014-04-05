@@ -7,6 +7,7 @@
 //
 
 #import "Tile+ModelLayer03.h"
+#import "AppDelegate.h"
 
 NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 
@@ -28,6 +29,15 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 			tile.nextTile = [Tile searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue: val * 2]];
 		}
 	}
+	
+	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+	NSManagedObjectContext *context = appDelegate.managedObjectContext;
+	NSError *error;
+	[context save:&error];
+	if (error) {
+		NSLog(@"%@", error);
+		return NO;
+	}
 	return YES;
 }
 
@@ -47,6 +57,14 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 	for (int i = 0; i < [images count]; ++i) {
 		((Tile *)tilesArr[i]).image = images[i];
 	}
+	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+	NSManagedObjectContext *context = appDelegate.managedObjectContext;
+	NSError *error;
+	[context save:&error];
+	if (error) {
+		NSLog(@"%@", error);
+		return NO;
+	}
 	return YES;
 }
 
@@ -57,6 +75,14 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 +(BOOL)setImage: (UIImage *) image forTileWithValue: (NSInteger) value {
 	Tile *tile = [Tile searchTileInDatabaseWithValue:value];
 	tile.image = image;
+	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+	NSManagedObjectContext *context = appDelegate.managedObjectContext;
+	NSError *error;
+	[context save:&error];
+	if (error) {
+		NSLog(@"%@", error);
+		return NO;
+	}
 	return YES;
 }
 

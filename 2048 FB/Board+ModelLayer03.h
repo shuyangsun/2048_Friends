@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Shuyang Sun. All rights reserved.
 //
 
-#import "Board.h"
+#import "Board+ModelLayer02.h"
 
 @interface Board (ModelLayer03)
 

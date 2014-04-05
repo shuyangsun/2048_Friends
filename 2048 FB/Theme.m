@@ -9,7 +9,7 @@
 #import "Theme.h"
 
 // Import layer02 to get UUID from tile value.
-#import "Tile+ModelLayer02.h"
+#import "Tile+ModelLayer03.h"
 
 const NSUInteger kGlowingStartPowValueDefault = 7;
 
