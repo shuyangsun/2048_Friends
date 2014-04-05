@@ -31,14 +31,7 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 	}
 	
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	NSManagedObjectContext *context = appDelegate.managedObjectContext;
-	NSError *error;
-	[context save:&error];
-	if (error) {
-		NSLog(@"%@", error);
-		return NO;
-	}
-	return YES;
+	return [appDelegate saveContext];
 }
 
 // Get images for 2, 4, 8.. tiles respectively.
@@ -58,14 +51,7 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 		((Tile *)tilesArr[i]).image = images[i];
 	}
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	NSManagedObjectContext *context = appDelegate.managedObjectContext;
-	NSError *error;
-	[context save:&error];
-	if (error) {
-		NSLog(@"%@", error);
-		return NO;
-	}
-	return YES;
+	return [appDelegate saveContext];
 }
 
 +(UIImage *)imageForTileWithValue: (NSInteger) value {
@@ -76,14 +62,7 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 	Tile *tile = [Tile searchTileInDatabaseWithValue:value];
 	tile.image = image;
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	NSManagedObjectContext *context = appDelegate.managedObjectContext;
-	NSError *error;
-	[context save:&error];
-	if (error) {
-		NSLog(@"%@", error);
-		return NO;
-	}
-	return YES;
+	return [appDelegate saveContext];
 }
 
 @end

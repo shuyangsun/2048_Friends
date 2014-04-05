@@ -74,7 +74,7 @@ NSString *const kCurrentThemeUUIDKey = @"UserDefault_CurrentThemeUUIDKey";
 	[userDefaults synchronize];
 }
 
-- (void)saveContext
+- (BOOL)saveContext
 {
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
@@ -84,8 +84,10 @@ NSString *const kCurrentThemeUUIDKey = @"UserDefault_CurrentThemeUUIDKey";
 			// abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
+			return NO;
         }
     }
+	return YES;
 }
 
 #pragma mark - Core Data stack

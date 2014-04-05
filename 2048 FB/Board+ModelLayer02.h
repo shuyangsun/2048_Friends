@@ -11,7 +11,7 @@
 @interface Board (ModelLayer02)
 
 +(Board *)createBoardInDatabaseWithUUID: (NSString *) uuid
-							  boardData: (NSArray *) dataArr
+							  boardData: (NSMutableArray *) dataArr
 							gamePlaying: (BOOL) gamePlaying
 								  score: (NSUInteger) score;
 

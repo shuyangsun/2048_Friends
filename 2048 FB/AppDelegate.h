@@ -18,4 +18,6 @@ extern NSString *const kAppDelegate_CurrentThemeUUIDKey;
 @property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+- (BOOL)saveContext;
+
 @end

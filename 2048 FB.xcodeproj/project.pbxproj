@@ -207,7 +207,6 @@
 			isa = PBXGroup;
 			children = (
 				0444F6E518EE3F7B005A0490 /* 2048 FB.entitlements */,
-				0499660E18ED1BEF00373E57 /* macro.h */,
 				0448479A18EA1BA100D35B0F /* Main_iPhone.storyboard */,
 				0448479D18EA1BA100D35B0F /* Main_iPad.storyboard */,
 				044847A318EA1BA100D35B0F /* Images.xcassets */,
@@ -251,9 +250,10 @@
 		04601EE818EB8C39007BAC8E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0499660E18ED1BEF00373E57 /* macro.h */,
 				0448479718EA1BA100D35B0F /* AppDelegate.h */,
 				0448479818EA1BA100D35B0F /* AppDelegate.m */,
-				04983CDC18EFAA400022FB63 /* Layer03 (End User APIs) */,
+				04983CDC18EFAA400022FB63 /* Layer03 (End User APIs, automatically save context and iCloud) */,
 				04911A9C18EE04F500013B8E /* Layer02 (Simplified Object Management) */,
 				0437867C18ECF90D0034651C /* Layer01 (CoreData Foundation) */,
 			);
@@ -315,14 +315,14 @@
 			name = GameManager_02;
 			sourceTree = "<group>";
 		};
-		04983CDC18EFAA400022FB63 /* Layer03 (End User APIs) */ = {
+		04983CDC18EFAA400022FB63 /* Layer03 (End User APIs, automatically save context and iCloud) */ = {
 			isa = PBXGroup;
 			children = (
 				04983CDD18EFAA630022FB63 /* Tile_03 */,
 				04983CDE18EFAA690022FB63 /* Board_03 */,
 				04983CDF18EFAA740022FB63 /* GameManager_03 */,
 			);
-			name = "Layer03 (End User APIs)";
+			name = "Layer03 (End User APIs, automatically save context and iCloud)";
 			sourceTree = "<group>";
 		};
 		04983CDD18EFAA630022FB63 /* Tile_03 */ = {
