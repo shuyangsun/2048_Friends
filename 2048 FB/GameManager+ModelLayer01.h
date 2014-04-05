@@ -16,7 +16,7 @@ extern NSString *const kGameManager_UUIDKey;
 @interface GameManager (ModelLayer01)
 
 +(GameManager *)gameManagerWithGameManagerInfo: (NSDictionary *) infoDictionary inManagedObjectContext: (NSManagedObjectContext *) context;
-+(BOOL)removeGameManagerWithUUID: (NSDecimalNumber *) uuid inManagedObjectContext: (NSManagedObjectContext *) context;
++(BOOL)removeGameManagerWithUUID: (NSString *) uuid inManagedObjectContext: (NSManagedObjectContext *) context;
 
 @end
 

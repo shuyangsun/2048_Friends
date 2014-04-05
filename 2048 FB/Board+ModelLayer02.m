@@ -31,23 +31,6 @@
 	return [Board boardWithBoardInfo:infoDictionary inManagedObjectContext:appDelegate.managedObjectContext];
 }
 
-+(NSArray *)allBoardsInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor {
-	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kBoard_CoreDataEntityName];
-	fetchRequest.sortDescriptors = @[sortDescriptor];
-	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	NSError *error;
-	NSArray *result = [appDelegate.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-	if (error) {
-		NSLog(@"%@", error);
-	}
-	return result;
-}
-
-+(NSArray *)allBoardsInDatabase {
-	NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"createDate" ascending:YES];
-	return [self allBoardsInDatabaseWithSortDescriptor:sortDescriptor];
-}
-
 +(BOOL)removeBoardInDatabaseWithUUID: (NSString *) uuid {
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	return [Board removeBoardWithUUID: uuid inManagedObjectContext:appDelegate.managedObjectContext];
@@ -95,6 +78,23 @@
 		}
 	}
 	[self removeOnBoardTiles:mutableSet];
+}
+
++(NSArray *)allBoardsInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor {
+	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kBoard_CoreDataEntityName];
+	fetchRequest.sortDescriptors = @[sortDescriptor];
+	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+	NSError *error;
+	NSArray *result = [appDelegate.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+	if (error) {
+		NSLog(@"%@", error);
+	}
+	return result;
+}
+
++(NSArray *)allBoardsInDatabase {
+	NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"createDate" ascending:YES];
+	return [self allBoardsInDatabaseWithSortDescriptor:sortDescriptor];
 }
 
 @end

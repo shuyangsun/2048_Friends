@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Shuyang Sun. All rights reserved.
 //
 
-#import "GameManager.h"
+#import "GameManager+ModelLayer01.h"
 
 @interface GameManager (ModelLayer02)
 
@@ -20,8 +20,8 @@
 +(NSArray *)allGameManagersInDatabase; // Default uuid in ascending order.
 
 - (void)addTilesObjectWithValue:(NSInteger)value;
-- (void)removeTilesObjectWithValue:(NSInteger *)value;
-- (void)addTilesWithValue:(NSSet *)values;
-- (void)removeTiles:(NSSet *)values;
+- (void)removeTilesObjectWithValue:(NSInteger)value;
+- (void)addTilesWithValues:(NSSet *)values;
+- (void)removeTilesWithValues:(NSSet *)values;
 
 @end

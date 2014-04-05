@@ -55,7 +55,7 @@ NSString *const kGameManager_UUIDKey = @"GameManagerUUIDKey";
 	return gManager;
 }
 
-+(BOOL)removeGameManagerWithUUID: (NSDecimalNumber *) uuid inManagedObjectContext: (NSManagedObjectContext *) context {
++(BOOL)removeGameManagerWithUUID: (NSString *) uuid inManagedObjectContext: (NSManagedObjectContext *) context {
 	// Check if the board already exists
 	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName: (NSString *)kGameManager_CoreDataEntityName];
 	request.predicate = [NSPredicate predicateWithFormat:@"uuid = %@", uuid];
