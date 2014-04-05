@@ -9,8 +9,6 @@
 #import "Tile+ModelLayer02.h"
 #import "AppDelegate.h"
 
-NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
-
 @interface Tile()
 
 +(NSManagedObjectContext *)getManagedObjectContext;
@@ -42,6 +40,14 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 +(BOOL)removeTileInDatabaseWithUUID: (NSString *) uuid {
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	return [Tile removeTileWithUUID:uuid inManagedObjectContext:appDelegate.managedObjectContext];
+}
+
++(Tile *)searchTileInDatabaseWithValue: (NSInteger) val {
+	return [self searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue:val]];
+}
+
++(BOOL)removeTileInDatabaseWithVal: (NSInteger) val {
+	return [self searchTileInDatabaseWithUUID:[self getUUIDFromTileValue:val]];
 }
 
 +(NSArray *)allTilesInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor {

@@ -8,9 +8,6 @@
 
 #import "Tile+ModelLayer01.h"
 
-// How many numbers the player can play
-extern NSUInteger maxTilePower;
-
 @interface Tile (ModelLayer02)
 
 +(Tile *)createTileInDatabaseWithUUID: (NSString *) uuid
@@ -21,6 +18,9 @@ extern NSUInteger maxTilePower;
 
 +(Tile *)searchTileInDatabaseWithUUID: (NSString *) uuid;
 +(BOOL)removeTileInDatabaseWithUUID: (NSString *) uuid;
+
++(Tile *)searchTileInDatabaseWithValue: (NSInteger) val;
++(BOOL)removeTileInDatabaseWithVal: (NSInteger) val;
 
 +(NSArray *)allTilesInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor;
 +(NSArray *)allTilesInDatabase; // Default value in ascending order.
