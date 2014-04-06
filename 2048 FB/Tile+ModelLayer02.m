@@ -24,7 +24,7 @@
 						   fbUserName: (NSString *) fbUserName {
 	NSMutableDictionary *infoDictionary = [NSMutableDictionary dictionaryWithDictionary:@{kTile_UUIDKey: uuid,
 																						  kTile_DisplayTextKey: displayText,
-																						  kTile_ValueKey: [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%ld", value]]}];
+																						  kTile_ValueKey: [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%ld", (long)value]]}];
 	if (fbUserID) {
 		infoDictionary[kTile_FbUserIDKey] = fbUserID;
 	}
@@ -52,7 +52,7 @@
 }
 
 +(BOOL)removeTileInDatabaseWithVal: (NSInteger) val {
-	return [self searchTileInDatabaseWithUUID:[self getUUIDFromTileValue:val]];
+	return ([self searchTileInDatabaseWithUUID:[self getUUIDFromTileValue:val]] != nil);
 }
 
 +(NSArray *)allTilesInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor {
@@ -73,7 +73,7 @@
 }
 
 +(NSString *)getUUIDFromTileValue:(NSInteger) val {
-	return [NSString stringWithFormat:@"TileUUID_%ld", val];
+	return [NSString stringWithFormat:@"TileUUID_%ld", (long)val];
 }
 
 @end

@@ -52,7 +52,7 @@
 - (void)addTilesObjectWithValue:(NSInteger)value {
 	Tile *tile = [Tile searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue:value]];
 	if (tile == nil) {
-		NSLog(@"Cannot find tile with value \"%ld\", not adding to board \"%@\".", value, self.uuid);
+		NSLog(@"Cannot find tile with value \"%ld\", not adding to board \"%@\".", (long)value, self.uuid);
 		return;
 	}
 	[self addTilesObject:tile];
@@ -61,7 +61,7 @@
 - (void)removeTilesObjectWithValue:(NSInteger)value {
 	Tile *tile = [Tile searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue:value]];
 	if (tile == nil) {
-		NSLog(@"Cannot find tile with value \"%ld\", not removing from board \"%@\".", value, self.uuid);
+		NSLog(@"Cannot find tile with value \"%ld\", not removing from board \"%@\".", (long)value, self.uuid);
 		return;
 	}
 	[self removeTilesObject:tile];
@@ -72,7 +72,7 @@
 	for (NSNumber *value in values) {
 		Tile *tile = [Tile searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue:[value integerValue]]];
 		if (tile == nil) {
-			NSLog(@"Cannot find tile with value \"%ld\", not adding to board \"%@\".", [value integerValue], self.uuid);
+			NSLog(@"Cannot find tile with value \"%ld\", not adding to board \"%@\".", (long)[value integerValue], self.uuid);
 		} else {
 			[mutableSet addObject:tile];
 		}
@@ -85,7 +85,7 @@
 	for (NSNumber *value in values) {
 		Tile *tile = [Tile searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue:[value integerValue]]];
 		if (tile == nil) {
-			NSLog(@"Cannot find tile with value \"%ld\", not removing board \"%@\".", [value integerValue], self.uuid);
+			NSLog(@"Cannot find tile with value \"%ld\", not removing board \"%@\".", (long)[value integerValue], self.uuid);
 		} else {
 			[mutableSet addObject:tile];
 		}
