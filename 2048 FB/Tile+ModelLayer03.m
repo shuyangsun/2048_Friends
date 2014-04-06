@@ -19,7 +19,7 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 		NSInteger val = (NSInteger)pow(2.0f, (i + 1));
 		Tile *tile = [Tile createTileInDatabaseWithUUID: [Tile getUUIDFromTileValue:val]
 												  value: val
-											displayText: [NSString stringWithFormat:@"%ld", val]
+											displayText: [NSString stringWithFormat:@"%ld", (long)val]
 											   fbUserID: nil
 											 fbUserName: nil];
 		if (i != 0) {

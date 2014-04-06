@@ -30,7 +30,7 @@ NSString *const kGameManager_UUIDKey = @"GameManagerUUIDKey";
 		if (error) { // If there is an error.
 			NSLog(@"%@", error);
 		} else if ([matches count] > 1) { // If there are multiple boards with same value:
-			NSLog(@"There are %lu duplicated game manager with UUID \"%@\" in CoreData database.", [matches count], uuid);
+			NSLog(@"There are %lu duplicated game manager with UUID \"%@\" in CoreData database.", (unsigned long)[matches count], uuid);
 		} else { // If matches is nil
 			NSLog(@"Matches is nil, when searching for game manager with UUID \"%@\" in CoreData database.", uuid);
 		}

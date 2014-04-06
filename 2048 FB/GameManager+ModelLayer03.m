@@ -42,7 +42,7 @@
 
 +(BOOL) setBestScore: (NSUInteger) bestScore {
 	GameManager *gManager = [GameManager allGameManagersInDatabase][0];
-	gManager.bestScore = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%lu", bestScore]];
+	gManager.bestScore = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%lu", (unsigned long)bestScore]];
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	return [appDelegate saveContext];
 }

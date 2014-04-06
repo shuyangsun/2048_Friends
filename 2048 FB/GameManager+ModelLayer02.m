@@ -15,7 +15,7 @@
 +(GameManager *)createGameManagerInDatabaseWithUUID: (NSString *) uuid
 										  bestScore: (NSUInteger) bestScore {
 	NSDictionary *infoDictionary = @{kGameManager_UUIDKey: uuid,
-									 kGameManager_BestScoreKey: [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%lu", bestScore]]};
+									 kGameManager_BestScoreKey: [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%lu", (unsigned long)bestScore]]};
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	return [GameManager gameManagerWithGameManagerInfo:infoDictionary inManagedObjectContext:appDelegate.managedObjectContext];
 }

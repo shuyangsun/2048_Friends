@@ -33,7 +33,7 @@ NSString *const kBoard_CreateDateKey = @"BoardCreateDateKey";
 		if (error) { // If there is an error.
 			NSLog(@"%@", error);
 		} else if ([matches count] > 1) { // If there are multiple boards with same value:
-			NSLog(@"There are %lu duplicated boards with UUID \"%@\" in CoreData database.", [matches count], uuid);
+			NSLog(@"There are %lu duplicated boards with UUID \"%@\" in CoreData database.", (unsigned long)[matches count], uuid);
 		} else { // If matches is nil
 			NSLog(@"Matches is nil, when searching for board with UUID \"%@\" in CoreData database.", uuid);
 		}

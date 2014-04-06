@@ -106,7 +106,7 @@
 }
 
 -(BOOL)setIntegerScore: (NSInteger) score {
-	self.score = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%ld", score]];
+	self.score = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%ld", (long)score]];
 	return YES;
 }
 
