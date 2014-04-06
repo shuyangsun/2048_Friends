@@ -17,7 +17,7 @@
 							gamePlaying: (BOOL) gamePlaying
 								  score: (NSUInteger) score {
 	NSDictionary *infoDictionary = @{kBoard_UUIDKey: uuid,
-									 kBoard_BoardDataKey: [NSKeyedArchiver archivedDataWithRootObject:dataArr],
+									 kBoard_BoardDataKey: dataArr,
 									 kBoard_GamePlayingKey: @(gamePlaying),
 									 kBoard_ScoreKey:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%ld", (unsigned long)score]]
 									 };

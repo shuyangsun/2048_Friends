@@ -51,8 +51,7 @@
 		NSMutableArray *arr2D = [self getBoardDataArray];
 		NSMutableArray *arr = [arr2D lastObject];
 		arr[[arr count] - 1] = @(direction); // Set the direction for current last board
-		[arr2D addObject:[arr copy]]; // Create a new board state
-		arr = [arr2D lastObject];
+		arr = [arr mutableCopy];
 		arr[[arr count] - 1] = @(BoardSwipeGestureDirectionNone); // Set the direction for new board to none
 		NSInteger addScore = 0;
 		if (direction == BoardSwipeGestureDirectionLeft) {
@@ -237,11 +236,15 @@
 			}
 		}
 		
+		// Generate a new random tile
+		NSInteger ind = [Board generateRandomAvailableCellIndexFromCellsArray: arr];
+		arr[ind] = @([Board generateRandomInitTileValue]);
+		
 		// Check to see if the game is still playing and update onboard tiles.
 		self.gameplaying = @(NO);
 		for (int i = 0; i < 16; ++i) {
 			[self addOnBoardTilesObject:[Tile searchTileInDatabaseWithValue:[arr[i] integerValue]]];
-			if (arr[i] == 0) {
+			if ([arr[i] integerValue] == 0) {
 				self.gameplaying = @(YES);
 			}
 		}
@@ -249,7 +252,7 @@
 		// Update Score:
 		NSInteger score = [self getIntegerScore];
 		[self setIntegerScore:score + addScore];
-		
+		[arr2D addObject:arr]; // Create a new board state
 		return [self setBoardDataArray:arr2D];
 	}
 	return NO;
@@ -328,22 +331,21 @@
 
 #ifdef DEBUG_BOARD
 -(void)printBoard {
-	printf("*********************************************\n");
-	printf("\n");
+	printf("***************\n");
 	NSMutableArray *mutableArr = [self getBoardDataArray];
 	for (NSArray *arr in mutableArr) {
 		for (int row = 0; row < 4; ++row) {
 			for (int column = 0; column < 4; ++column) {
-				NSInteger ind = [Board getIndexFromCGPoint:CGPointMake(row, 0)];
+				NSInteger ind = [Board getIndexFromCGPoint:CGPointMake(row, column)];
 				printf("%d ", [arr[ind] intValue]);
 			}
 			printf("\n");
 		}
-		printf("Swip Direction: %d", [[arr lastObject] intValue]);
-		printf("\n\n");
+		printf("direction: %d\n", [[arr lastObject] intValue]);
+		printf("score: %ld\n", (unsigned long)[self getIntegerScore]);
+		printf("gamePlaying: %d\n", [self.gameplaying boolValue]);
+		printf("***************\n");
 	}
-	printf("\n");
-	printf("*********************************************\n");
 }
 
 #endif
