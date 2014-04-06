@@ -62,19 +62,15 @@ NSString *const kTile_UUIDKey = @"TileUUIDKey";
 	NSError *error;
 	NSArray *matches = [context executeFetchRequest:request error:&error];
 	
-	if (!matches || error || [matches count] > 1) { // If there is an error:
+	if (error) { // If there is an error:
 		if (error) { // If there is an error.
 			NSLog(@"%@", error);
-		} else if ([matches count] > 1) { // If there are multiple tiles with same value:
-			NSLog(@"There are %lu duplicated tiles with UUID \"%@\" in CoreData database.", (unsigned long)[matches count], uuid);
-		} else { // If matches is nil
-			NSLog(@"Matches is nil, when searching for tile with UUID \"%@\" in CoreData database.", uuid);
 		}
-	} else if ([matches count] == 1) { // If there is one unique tile:
-		[context deleteObject:matches[0]];
+	} else if ([matches count] == 1) { // Remove them
+		for (Tile *t in matches) {
+			[context deleteObject:t];
+		}
 		return YES;
-	} else { // If there is nothing
-		NSLog(@"Cannot find tile with UUID \"%@\" to delete from CoreData database.", uuid);
 	}
 	
 	return NO;
@@ -88,19 +84,15 @@ NSString *const kTile_UUIDKey = @"TileUUIDKey";
 	NSError *error;
 	NSArray *matches = [context executeFetchRequest:request error:&error];
 	
-	if (!matches || error || [matches count] > 1) { // If there is an error:
+	if (error) { // If there is an error:
 		if (error) { // If there is an error.
 			NSLog(@"%@", error);
-		} else if ([matches count] > 1) { // If there are multiple tiles with same value:
-			NSLog(@"There are %lu duplicated tiles with value \"%@\" in CoreData database.", (unsigned long)[matches count], value);
-		} else { // If matches is nil
-			NSLog(@"Matches is nil, when searching for tile with value \"%@\" in CoreData database.", value);
 		}
-	} else if ([matches count] == 1) { // If there is one unique tile:
-		[context deleteObject:matches[0]];
+	} else if ([matches count] == 1) { // Remove them
+		for (Tile *t in matches) {
+			[context deleteObject:t];
+		}
 		return YES;
-	} else { // If there is nothing
-		NSLog(@"Cannot find tile with value \"%@\" to delete from CoreData database.", value);
 	}
 	
 	return NO;

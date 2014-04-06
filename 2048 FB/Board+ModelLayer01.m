@@ -42,12 +42,7 @@ NSString *const kBoard_CreateDateKey = @"BoardCreateDateKey";
 	} else { // If there is nothing,
 		board = [NSEntityDescription insertNewObjectForEntityForName: (NSString *)kBoard_CoreDataEntityName
 											 inManagedObjectContext: context];
-		NSData *boardData_Data;
-		if (infoDictionary[kBoard_BoardDataKey] &&
-			[infoDictionary[kBoard_BoardDataKey] isKindOfClass: [NSMutableArray class]]) {
-			NSMutableArray *boardData_Array = (NSMutableArray *)infoDictionary[kBoard_BoardDataKey];
-			boardData_Data = [NSKeyedArchiver archivedDataWithRootObject:boardData_Array];
-		}
+		NSData *boardData_Data = [NSKeyedArchiver archivedDataWithRootObject:infoDictionary[kBoard_BoardDataKey]];
 		ASSIGN_IN_DATABASE(board.uuid, infoDictionary[kBoard_UUIDKey]);
 		ASSIGN_IN_DATABASE(board.boardData, boardData_Data);
 		ASSIGN_IN_DATABASE(board.gameplaying, infoDictionary[kBoard_GamePlayingKey]);

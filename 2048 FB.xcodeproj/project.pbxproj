@@ -28,6 +28,7 @@
 		04601F1518EB9C5B007BAC8E /* Tile+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1418EB9C5B007BAC8E /* Tile+ModelLayer01.m */; };
 		048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048FD05D18EA587A0068C6CE /* FacebookSDK.framework */; };
 		048FD06518EA5DFB0068C6CE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048FD06418EA5DFB0068C6CE /* ViewController.m */; };
+		049118AD18F07DE60021657D /* BoardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 049118AC18F07DE60021657D /* BoardTest.m */; };
 		04911A9818ED964000013B8E /* GameManager+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04911A9718ED964000013B8E /* GameManager+ModelLayer01.m */; };
 		04911A9B18EE02A400013B8E /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 04911A9A18EE02A400013B8E /* Tile.m */; };
 		04911A9F18EE053A00013B8E /* Tile+ModelLayer02.m in Sources */ = {isa = PBXBuildFile; fileRef = 04911A9E18EE053A00013B8E /* Tile+ModelLayer02.m */; };
@@ -83,6 +84,7 @@
 		048FD05D18EA587A0068C6CE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		048FD06318EA5DFB0068C6CE /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		048FD06418EA5DFB0068C6CE /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		049118AC18F07DE60021657D /* BoardTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardTest.m; sourceTree = "<group>"; };
 		04911A9618ED964000013B8E /* GameManager+ModelLayer01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GameManager+ModelLayer01.h"; sourceTree = "<group>"; };
 		04911A9718ED964000013B8E /* GameManager+ModelLayer01.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GameManager+ModelLayer01.m"; sourceTree = "<group>"; };
 		04911A9918EE02A400013B8E /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				044847B618EA1BA100D35B0F /* _048_FBTests.m */,
+				049118AC18F07DE60021657D /* BoardTest.m */,
 				044847B118EA1BA100D35B0F /* Supporting Files */,
 			);
 			path = "2048 FBTests";
@@ -516,6 +519,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				049118AD18F07DE60021657D /* BoardTest.m in Sources */,
 				044847B718EA1BA100D35B0F /* _048_FBTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

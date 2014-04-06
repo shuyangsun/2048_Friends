@@ -31,7 +31,7 @@ typedef enum BoardSwipeGestureDirection {
 -(BOOL)setGameGoing: (BOOL) gameGoing;
 
 
-+(NSArray *)availableCellsFromCellsArray: (NSArray *) arr;
++(NSArray *)availableCellsIndexesFromCellsArray: (NSArray *) arr;
 +(NSInteger) generateRandomAvailableCellIndexFromCellsArray: (NSArray *) arr;
 +(NSInteger) generateRandomInitTileValue;
 

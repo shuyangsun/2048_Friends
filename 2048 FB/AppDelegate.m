@@ -6,10 +6,14 @@
 //  Copyright (c) 2014 Shuyang Sun. All rights reserved.
 //
 
-#import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import <CoreData/CoreData.h>
+#import "AppDelegate.h"
 #import "Theme.h"
+
+#import "GameManager+ModelLayer03.h"
+#import "Board+ModelLayer03.h"
+#import "Tile+ModelLayer03.h"
 
 NSString *const kUserDefaultKeyAppFirstTimeLaunch  = @"UserDefault_ApplicationFirstTimeLaunch";
 NSString *const kCurrentThemeUUIDKey = @"UserDefault_CurrentThemeUUIDKey";
@@ -25,6 +29,7 @@ NSString *const kCurrentThemeUUIDKey = @"UserDefault_CurrentThemeUUIDKey";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	
     // Override point for customization after application launch.
 	[FBLoginView class];
 	[UIApplication sharedApplication].statusBarHidden = YES;
@@ -115,7 +120,7 @@ NSString *const kCurrentThemeUUIDKey = @"UserDefault_CurrentThemeUUIDKey";
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"2048FB_1" withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"GameDataBase" withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }
@@ -128,7 +133,7 @@ NSString *const kCurrentThemeUUIDKey = @"UserDefault_CurrentThemeUUIDKey";
         return _persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"CoreDataPractice_1.sqlite"];
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"2048FB.sqlite"];
     
     NSError *error = nil;
     self.persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];

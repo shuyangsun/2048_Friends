@@ -20,8 +20,15 @@
 	}
 	
 	// Generate two random tiles with 2 or 4.
+	NSInteger ind = -1;
 	for (int i = 0; i < 2; ++i) {
-		NSInteger ind = [Board generateRandomAvailableCellIndexFromCellsArray:boardData_2D];
+		NSInteger temp = [Board generateRandomAvailableCellIndexFromCellsArray:boardData_2D];
+		if (temp != ind) {
+			ind = temp;
+		} else {
+			--i;
+			continue;
+		}
 		NSInteger val = [Board generateRandomInitTileValue];
 		boardData_2D[ind] = @(val);
 	}
@@ -265,7 +272,7 @@
 }
 
 
-+(NSArray *)availableCellsFromCellsArray: (NSArray *) arr {
++(NSArray *)availableCellsIndexesFromCellsArray: (NSArray *) arr {
 	NSMutableArray *mutableArr = [NSMutableArray array];
 	for (int i = 0; i < 16; ++i) {
 		if ([arr[i] intValue] == 0) {
@@ -278,8 +285,7 @@
 +(NSInteger) generateRandomAvailableCellIndexFromCellsArray: (NSArray *) arr {
 	NSInteger res = -1;
 	if ([arr count]) {
-		int randomInd = arc4random()%[arr count];
-		res = [arr[randomInd] intValue];
+		res = arc4random()%[arr count];
 	}
 	return res;
 }
@@ -308,7 +314,7 @@
 -(NSArray *)availableCells {
 	NSArray *boardDataArr = [NSKeyedUnarchiver unarchiveObjectWithData:self.boardData];
 	NSArray *boardCurrentDataArr = [boardDataArr lastObject];
-	return [Board availableCellsFromCellsArray:boardCurrentDataArr];
+	return [Board availableCellsIndexesFromCellsArray:boardCurrentDataArr];
 }
 
 -(NSInteger) generateRandomAvailableCellIndex {
@@ -321,12 +327,11 @@
 }
 
 #ifdef DEBUG_BOARD
-
 -(void)printBoard {
 	printf("*********************************************\n");
 	printf("\n");
 	NSMutableArray *mutableArr = [self getBoardDataArray];
-	for (NSMutableArray *arr in mutableArr) {
+	for (NSArray *arr in mutableArr) {
 		for (int row = 0; row < 4; ++row) {
 			for (int column = 0; column < 4; ++column) {
 				NSInteger ind = [Board getIndexFromCGPoint:CGPointMake(row, 0)];

@@ -33,7 +33,9 @@
 
 +(NSArray *)allGameManagersInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor {
 	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kGameManager_CoreDataEntityName];
-	fetchRequest.sortDescriptors = @[sortDescriptor];
+	if (sortDescriptor) {
+		fetchRequest.sortDescriptors = @[sortDescriptor];
+	}
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	NSError *error;
 	NSArray *result = [appDelegate.managedObjectContext executeFetchRequest:fetchRequest error:&error];

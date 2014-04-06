@@ -25,7 +25,7 @@
 		}
 		[GameManager setMaxOccuredDictionary:maxOccuredDictionary];
 		[gManager addTiles:[NSSet setWithArray:[Tile allTilesInDatabase]]];
-		[gManager addBoardsObject:[Board lastestBoard]];
+		[gManager addBoards:[NSSet setWithArray:[Board allBoardsInDatabase]]];
 		
 		AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 		return [appDelegate saveContext];

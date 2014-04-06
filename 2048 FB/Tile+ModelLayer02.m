@@ -22,11 +22,16 @@
 						  displayText: (NSString *) displayText
 							 fbUserID: (NSString *) fbUserID
 						   fbUserName: (NSString *) fbUserName {
-	NSDictionary *infoDictionary = @{kTile_UUIDKey: uuid,
-									 kTile_DisplayTextKey: displayText,
-									 kTile_ValueKey: [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%ld", value]],
-									 kTile_FbUserNameKey: fbUserName,
-									 kTile_FbUserIDKey: fbUserID};
+	NSMutableDictionary *infoDictionary = [NSMutableDictionary dictionaryWithDictionary:@{kTile_UUIDKey: uuid,
+																						  kTile_DisplayTextKey: displayText,
+																						  kTile_ValueKey: [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%ld", value]]}];
+	if (fbUserID) {
+		infoDictionary[kTile_FbUserIDKey] = fbUserID;
+	}
+	if (fbUserName) {
+		infoDictionary[kTile_FbUserNameKey] = fbUserName;
+	}
+	
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	return [Tile tileWithTileInfo:infoDictionary inManagedObjectContext:appDelegate.managedObjectContext];
 }
