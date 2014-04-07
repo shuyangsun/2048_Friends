@@ -51,7 +51,7 @@
 // This makes a copy of the previouse 
 -(Board *) swipedToDirection: (BoardSwipeGestureDirection) direction {
 	Board *nextBoard = nil;
-	if (self.gameplaying) {
+	if (self.gameplaying && [self canBeSwipedIntoDirection:direction]) {
 		self.swipeDirection = direction; // Set the direction for current last board
 		// Data for the next board:
 		NSMutableArray *arr = [self getBoardDataArray];
@@ -226,18 +226,7 @@
 		
 		
 		// Check to see if the game is still playing and update onboard tiles.
-		gamePLaying = NO;
-		for (size_t i = 0; i < 4; ++i) {
-			if (gamePLaying) {
-				break;
-			}
-			for (size_t j = 0; j < 4; ++j) {
-				if ([arr[i][j] integerValue] == 0) {
-					gamePLaying = YES;
-					break;
-				}
-			}
-		}
+		gamePLaying = [Board gameEndFrom2DArray:arr];
 		
 		// Update info for new board:
 		nextBoard = [Board createBoardWithBoardData:arr
@@ -253,6 +242,28 @@
 		if (score > gManager.bestScore) {
 			gManager.bestScore = score;
 		}
+		
+		NSMutableDictionary *maxOccuredDictionary = [[GameManager getMaxOccuredDictionary] mutableCopy];
+		NSMutableDictionary *occurTimeDictionary = [NSMutableDictionary dictionary];
+		for (int i = 0; i < maxTilePower; ++i) {
+			occurTimeDictionary[@((NSInteger)pow(2.0f, i + 1))] = @(0);
+		}
+		
+		for (size_t i = 0; i < 4; ++i) {
+			for (size_t j = 0; j < 4; ++j) {
+				if ([arr[i][j] intValue] != 0) {
+					occurTimeDictionary[arr[i][j]] = @([occurTimeDictionary[arr[i][j]] intValue] + 1);
+				}
+			}
+		}
+		
+		for (int i = 0; i < maxTilePower; ++i) {
+			if ([occurTimeDictionary[@((NSInteger)pow(2.0f, i + 1))] intValue] > [maxOccuredDictionary[@((NSInteger)pow(2.0f, i + 1))] intValue]) {
+				maxOccuredDictionary[@((NSInteger)pow(2.0f, i + 1))] = occurTimeDictionary[@((NSInteger)pow(2.0f, i + 1))];
+			}
+		}
+		
+		[GameManager setMaxOccuredDictionary:[maxOccuredDictionary copy]];
 	}
 	return nextBoard;
 }
@@ -286,6 +297,133 @@
 -(NSArray *)availableCellPoints {
 	NSArray *arr = [self getBoardDataArray];
 	return [Board availableCellPointsFromCells2DArray:arr];
+}
+
++(BOOL) boardCanBeSwipedIntoDirection: (BoardSwipeGestureDirection) direction from2DArray: (NSArray *) arr {
+	BOOL res = NO;
+	if (direction == BoardSwipeGestureDirectionLeft) {
+		for (size_t i = 0; i < 4; ++i) {
+			if (res == NO) {
+				NSArray *rowArr = arr[i];
+				int j = 3;
+				// Loop to the first none zero element
+				while (j >= 0 && [rowArr[j] intValue] == 0) {
+					--j;
+				}
+				if (j < 0) {
+					continue;
+				} else {
+					while (j >= 0) {
+						// If there is a 0 between two numbers (e.g. @[2, 0, 4, 0]) or there are repeated adjacent numbers: (e.g. @[2, 4, 4, 0])
+						if ([rowArr[j] intValue] == 0 || (j - 1 >= 0 && [rowArr[j] intValue] == [rowArr[j - 1] intValue])) {
+							res = YES;
+							break;
+						} else {
+							--j;
+						}
+					}
+				}
+				
+			} else {
+				break;
+			}
+		}
+	} else if (direction == BoardSwipeGestureDirectionRight) {
+		for (size_t i = 0; i < 4; ++i) {
+			if (res == NO) {
+				NSArray *rowArr = arr[i];
+				int j = 0;
+				// Loop to the first none zero element
+				while (j < 4 && [rowArr[j] intValue] == 0) {
+					++j;
+				}
+				if (j > 3) {
+					continue;
+				} else {
+					while (j < 4) {
+						// If there is a 0 between two numbers (e.g. @[0, 4, 0, 2]) or there are repeated adjacent numbers: (e.g. @[0, 2, 4, 4])
+						if ([rowArr[j] intValue] == 0 || (j + 1 < 4 && [rowArr[j] intValue] == [rowArr[j + 1] intValue])) {
+							res = YES;
+							break;
+						} else {
+							++j;
+						}
+					}
+				}
+				
+			} else {
+				break;
+			}
+		}
+	} else if (direction == BoardSwipeGestureDirectionUp) {
+		for (size_t j = 0; j < 4; ++j) {
+			if (res == NO) {
+				NSArray *colArr = @[arr[0][j], arr[1][j], arr[2][j], arr[3][j]];
+				int j = 3;
+				// Loop to the first none zero element
+				while (j >= 0 && [colArr[j] intValue] == 0) {
+					--j;
+				}
+				if (j < 0) {
+					continue;
+				} else {
+					while (j >= 0) {
+						// If there is a 0 between two numbers (e.g. @[2, 0, 4, 0]) or there are repeated adjacent numbers: (e.g. @[2, 4, 4, 0])
+						if ([colArr[j] intValue] == 0 || (j - 1 >= 0 && [colArr[j] intValue] == [colArr[j - 1] intValue])) {
+							res = YES;
+							break;
+						} else {
+							--j;
+						}
+					}
+				}
+				
+			} else {
+				break;
+			}
+		}
+	} else if (direction == BoardSwipeGestureDirectionDown) {
+		for (size_t j = 0; j < 4; ++j) {
+			if (res == NO) {
+				NSArray *colArr = @[arr[0][j], arr[1][j], arr[2][j], arr[3][j]];
+				int j = 0;
+				// Loop to the first none zero element
+				while (j < 4 && [colArr[j] intValue] == 0) {
+					++j;
+				}
+				if (j > 3) {
+					continue;
+				} else {
+					while (j < 4) {
+						// If there is a 0 between two numbers (e.g. @[0, 4, 0, 2]) or there are repeated adjacent numbers: (e.g. @[0, 2, 4, 4])
+						if ([colArr[j] intValue] == 0 || (j + 1 < 4 && [colArr[j] intValue] == [colArr[j + 1] intValue])) {
+							res = YES;
+							break;
+						} else {
+							++j;
+						}
+					}
+				}
+				
+			} else {
+				break;
+			}
+		}
+	}
+	return res;
+}
+
+-(BOOL) canBeSwipedIntoDirection: (BoardSwipeGestureDirection) direction {
+	return [Board boardCanBeSwipedIntoDirection:direction from2DArray:[self getBoardDataArray]];
+}
+
+// Determine if the game is end.
++(BOOL) gameEndFrom2DArray: (NSArray *)arr {
+	if ([Board boardCanBeSwipedIntoDirection:BoardSwipeGestureDirectionLeft from2DArray:arr]) {return YES;}
+	if ([Board boardCanBeSwipedIntoDirection:BoardSwipeGestureDirectionRight from2DArray:arr]) {return YES;}
+	if ([Board boardCanBeSwipedIntoDirection:BoardSwipeGestureDirectionUp from2DArray:arr]) {return YES;}
+	if ([Board boardCanBeSwipedIntoDirection:BoardSwipeGestureDirectionDown from2DArray:arr]) {return YES;}
+	return NO;
 }
 
 /* Helper Methods:  */

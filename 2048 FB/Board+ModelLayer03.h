@@ -33,6 +33,13 @@ typedef enum BoardSwipeGestureDirection {
 +(NSArray *)availableCellPointsFromCells2DArray: (NSArray *) arr;
 -(NSArray *)availableCellPoints;
 
+// Determine if the board can be swiped into given direction
++(BOOL) boardCanBeSwipedIntoDirection: (BoardSwipeGestureDirection) direction from2DArray: (NSArray *) arr;
+-(BOOL) canBeSwipedIntoDirection: (BoardSwipeGestureDirection) direction;
+
+// Determine if the game is end.
++(BOOL) gameEndFrom2DArray: (NSArray *)arr;
+
 #ifdef DEBUG_BOARD
 -(void)printBoard;
 #endif

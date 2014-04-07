@@ -109,40 +109,65 @@
 	XCTAssertEqual(temp.boardHistory, [History latestHistory]);
 }
 
+-(void)testGameEnd {
+	NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@[@(0), @(4), @(8), @(16)],
+														   @[@(32), @(16), @(2), @(8)],
+														   @[@(2), @(4), @(8), @(16)],
+														   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+						gamePlaying:YES
+							  score:0
+					 swipeDirection:BoardSwipeGestureDirectionNone];
+	self.board = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
+	XCTAssertFalse(self.board.gameplaying);
+}
+
 /// Swipping tests:
 -(void)testSwipeBoardLeft {
 	if (self.printBoard) { NSLog(@"Swipe Left Tests"); }
 	Board *temp;
 	// NOTE: We are always printing the previouse board!
-	// 1.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 2.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 3.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 4.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 5.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
+	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
+	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	
 	if (self.printBoard) { [self.board printBoard]; }
@@ -152,37 +177,48 @@
 	if (self.printBoard) { NSLog(@"Swipe Right Tests"); }
 	Board *temp;
 	// NOTE: We are always printing the previouse board!
-	// 1.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionRight];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+		if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 2.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionRight];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 3.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionRight];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 4.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionRight];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 5.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionRight];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	
+	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionRight];
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
+	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	if (self.printBoard) { [self.board printBoard]; }
 }
 
@@ -190,35 +226,47 @@
 	if (self.printBoard) { NSLog(@"Swipe Up Tests"); }
 	Board *temp;
 	// NOTE: We are always printing the previouse board!
-	// 1.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionUp];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 2.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionUp];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 3.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionUp];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 4.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionUp];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 5.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionUp];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
+	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
+	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionUp];
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 
 	if (self.printBoard) { [self.board printBoard]; }
@@ -228,36 +276,43 @@
 	if (self.printBoard) { NSLog(@"Swipe Down Tests"); }
 	Board *temp;
 	// NOTE: We are always printing the previouse board!
-	// 1.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionDown];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 2.
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionDown];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 3.
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionDown];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 4.
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionDown];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
-	// 5.
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionDown];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
+	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionDown];
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
+	
 	
 	if (self.printBoard) { [self.board printBoard]; }
 }
@@ -266,77 +321,100 @@
 	if (self.printBoard) { printf("Swipe Mix Tests\n"); }
 	Board *temp;
 	// NOTE: We are always printing the previouse board!
-	// 1.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	// 3.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	// 4
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionRight];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	// 5
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionUp];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	// 6
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionDown];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	// 7
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionRight];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	// 8.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	// 9.
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	// 10
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionRight];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	// 11
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionUp];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	// 12
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionDown];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	// 13
 	temp = [self.board swipedToDirection:BoardSwipeGestureDirectionRight];
-	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
-	if (self.printBoard) { [self.board printBoard]; }
-	self.board = temp;
+	if (temp) {
+		XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+		if (self.printBoard) { [self.board printBoard]; }
+		self.board = temp;
+	}
 	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 
 	// 14
