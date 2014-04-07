@@ -27,11 +27,10 @@
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
 	[GameManager initializeGameManager];
-	[History initializeNewHistory];
 	[Board initializeNewBoard];
 	[Tile initializeAllTiles];
 	self.board = [[Board allBoards] lastObject];
-	self.printBoard = YES;
+	self.printBoard = NO;
 }
 
 - (void)tearDown
@@ -42,6 +41,11 @@
 	NSArray *arr = [Board allBoards];
 	for (Board *b in arr) {
 		[Board removeBoardWithUUID:b.uuid];
+	}
+	// Remove all histories:
+	arr = [History allHistories];
+	for (History *h in arr) {
+		[History removeHistoryWithUUID:h.uuid];
 	}
 	// Remove all Game managers:
 	arr = [GameManager allGameManagers];
@@ -96,6 +100,16 @@
 	}
 }
 
+-(void)testBoardHistory {
+	XCTAssertNotNil(self.board.boardHistory);
+	XCTAssertEqual(self.board.boardHistory, [History latestHistory]);
+	Board *temp = [Board initializeNewBoard];
+	XCTAssertNotNil(temp.boardHistory);
+	XCTAssertEqual(self.board.boardHistory, [History allHistories][[[History allHistories] count] - 2]);
+	XCTAssertEqual(temp.boardHistory, [History latestHistory]);
+}
+
+/// Swipping tests:
 -(void)testSwipeBoardLeft {
 	if (self.printBoard) { NSLog(@"Swipe Left Tests"); }
 	Board *temp;

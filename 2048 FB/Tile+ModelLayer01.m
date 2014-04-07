@@ -31,6 +31,7 @@ NSString *const kCoreDataEntityName_Tile = @"Tile";
 	} else { // If there is nothing,
 		tile = [NSEntityDescription insertNewObjectForEntityForName: (NSString *)kCoreDataEntityName_Tile inManagedObjectContext: context];
 		tile.uuid = [NSUUID UUID];
+		tile.text = [NSString stringWithFormat:@"%d", value];
 		tile.value = value;
 	}
 	

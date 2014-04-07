@@ -73,4 +73,13 @@
 	XCTAssertEqual(fetchedImage, image);
 }
 
+-(void)testTileText
+{
+	for (size_t i = 1; i <= maxTilePower; ++i) {
+		Tile *t = [Tile tileWithValue:(int16_t)pow(2.0f, i)];
+		NSString *temp = [NSString stringWithFormat:@"%d", t.value];
+		XCTAssertEqualObjects(t.text, temp);
+	}
+}
+
 @end

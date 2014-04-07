@@ -2,7 +2,7 @@
 //  Tile.h
 //  2048 FB
 //
-//  Created by Shuyang Sun on 4/6/14.
+//  Created by Shuyang Sun on 4/7/14.
 //  Copyright (c) 2014 Shuyang Sun. All rights reserved.
 //
 
@@ -18,6 +18,7 @@
 @property (nonatomic, retain) UIImage * image;
 @property (nonatomic, retain) NSUUID * uuid;
 @property (nonatomic) int16_t value;
+@property (nonatomic, retain) NSString * text;
 @property (nonatomic, retain) Tile *nextTile;
 @property (nonatomic, retain) Tile *previousTile;
 

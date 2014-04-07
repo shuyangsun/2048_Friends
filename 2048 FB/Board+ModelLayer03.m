@@ -43,6 +43,7 @@
 									   gamePlaying:YES
 											 score:0
 									swipeDirection:BoardSwipeGestureDirectionNone];
+	[History initializeNewHistory];
 	[[History latestHistory] addBoardsObject:board];
 	return board;
 }

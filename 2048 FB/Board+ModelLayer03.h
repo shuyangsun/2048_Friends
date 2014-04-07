@@ -22,6 +22,7 @@ typedef enum BoardSwipeGestureDirection {
 
 @interface Board (ModelLayer03)
 
+// Every time initializing a new board, a new history is created automatically, later boards created are added into latest history
 +(Board *) initializeNewBoard;
 -(Board *) swipedToDirection: (BoardSwipeGestureDirection) direction;
 

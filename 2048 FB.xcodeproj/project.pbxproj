@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		040F6E1B18F1D880006D237B /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E1A18F1D880006D237B /* Tile.m */; };
 		040F6E1E18F1EED9006D237B /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E1D18F1EED9006D237B /* Board.m */; };
 		040F6E2118F20CE6006D237B /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E2018F20CE6006D237B /* GameManager.m */; };
 		040F6E3018F21F79006D237B /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E2F18F21F79006D237B /* History.m */; };
 		040F6E3318F21FA4006D237B /* History+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E3218F21FA4006D237B /* History+ModelLayer01.m */; };
 		040F6E3818F22225006D237B /* History+ModelLayer02.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E3718F22225006D237B /* History+ModelLayer02.m */; };
 		040F6E3B18F22230006D237B /* History+ModelLayer03.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E3A18F22230006D237B /* History+ModelLayer03.m */; };
+		042039CF18F34D9800D5AB19 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 042039CE18F34D9800D5AB19 /* Tile.m */; };
 		0444F6E418EE3F75005A0490 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444F6E318EE3F75005A0490 /* GameKit.framework */; };
 		0444F6E718EE3F7E005A0490 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444F6E618EE3F7E005A0490 /* StoreKit.framework */; };
 		0448478918EA1BA100D35B0F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478818EA1BA100D35B0F /* Foundation.framework */; };
@@ -60,8 +60,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		040F6E1918F1D880006D237B /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
-		040F6E1A18F1D880006D237B /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		040F6E1C18F1EED9006D237B /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
 		040F6E1D18F1EED9006D237B /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
 		040F6E1F18F20CE6006D237B /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
@@ -74,6 +72,8 @@
 		040F6E3718F22225006D237B /* History+ModelLayer02.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "History+ModelLayer02.m"; sourceTree = "<group>"; };
 		040F6E3918F22230006D237B /* History+ModelLayer03.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "History+ModelLayer03.h"; sourceTree = "<group>"; };
 		040F6E3A18F22230006D237B /* History+ModelLayer03.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "History+ModelLayer03.m"; sourceTree = "<group>"; };
+		042039CD18F34D9800D5AB19 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
+		042039CE18F34D9800D5AB19 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		0444F6E318EE3F75005A0490 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		0444F6E518EE3F7B005A0490 /* 2048 FB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "2048 FB.entitlements"; sourceTree = "<group>"; };
 		0444F6E618EE3F7E005A0490 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -178,8 +178,8 @@
 		040F6E2418F21ECC006D237B /* Tile_00 */ = {
 			isa = PBXGroup;
 			children = (
-				040F6E1918F1D880006D237B /* Tile.h */,
-				040F6E1A18F1D880006D237B /* Tile.m */,
+				042039CD18F34D9800D5AB19 /* Tile.h */,
+				042039CE18F34D9800D5AB19 /* Tile.m */,
 			);
 			name = Tile_00;
 			sourceTree = "<group>";
@@ -595,13 +595,13 @@
 				04601F1518EB9C5B007BAC8E /* Tile+ModelLayer01.m in Sources */,
 				040F6E3018F21F79006D237B /* History.m in Sources */,
 				04911A9818ED964000013B8E /* GameManager+ModelLayer01.m in Sources */,
-				040F6E1B18F1D880006D237B /* Tile.m in Sources */,
 				04C7042518ED0903001DBD60 /* Theme.m in Sources */,
 				0448479518EA1BA100D35B0F /* main.m in Sources */,
 				048FD06518EA5DFB0068C6CE /* ViewController.m in Sources */,
 				04601EE718EB8C33007BAC8E /* GameDataBase.xcdatamodeld in Sources */,
 				04983CE218EFAA990022FB63 /* Tile+ModelLayer03.m in Sources */,
 				04983CD818EF70B50022FB63 /* GameManager+ModelLayer02.m in Sources */,
+				042039CF18F34D9800D5AB19 /* Tile.m in Sources */,
 				04911A9F18EE053A00013B8E /* Tile+ModelLayer02.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
