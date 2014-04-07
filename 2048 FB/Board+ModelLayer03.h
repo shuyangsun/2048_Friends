@@ -21,22 +21,14 @@ typedef enum BoardSwipeGestureDirection {
 @interface Board (ModelLayer03)
 
 +(Board *) initializeNewBoard;
-+(CGPoint) getCGPointFromIndex: (NSInteger) val;
-+(NSInteger) getIndexFromCGPoint: (CGPoint) point;
-
--(BOOL) swipedToDirection: (BoardSwipeGestureDirection) direction;
+-(Board *) swipedToDirection: (BoardSwipeGestureDirection) direction;
 
 -(NSMutableArray *)getBoardDataArray;
 -(BOOL)setBoardDataArray: (NSMutableArray *) array;
--(BOOL)setGameGoing: (BOOL) gameGoing;
 
-
-+(NSArray *)availableCellsIndexesFromCellsArray: (NSArray *) arr;
-+(NSInteger) generateRandomAvailableCellIndexFromCellsArray: (NSArray *) arr;
-+(NSInteger) generateRandomInitTileValue;
-
--(NSArray *)availableCells;
--(NSInteger) generateRandomAvailableCellIndex;
+// Return all available cells with CGPoint, take the 2D array as data source
++(NSArray *)availableCellPointsFromCells2DArray: (NSArray *) arr;
+-(NSArray *)availableCellPoints;
 
 #ifdef DEBUG_BOARD
 -(void)printBoard;

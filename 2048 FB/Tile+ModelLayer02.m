@@ -17,46 +17,19 @@
 
 @implementation Tile (ModelLayer02)
 
-+(Tile *)createTileInDatabaseWithUUID: (NSString *) uuid
-								value: (NSInteger) value
-						  displayText: (NSString *) displayText
-							 fbUserID: (NSString *) fbUserID
-						   fbUserName: (NSString *) fbUserName {
-	NSMutableDictionary *infoDictionary = [NSMutableDictionary dictionaryWithDictionary:@{kTile_UUIDKey: uuid,
-																						  kTile_DisplayTextKey: displayText,
-																						  kTile_ValueKey: [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%ld", (long)value]]}];
-	if (fbUserID) {
-		infoDictionary[kTile_FbUserIDKey] = fbUserID;
-	}
-	if (fbUserName) {
-		infoDictionary[kTile_FbUserNameKey] = fbUserName;
-	}
-	
++(Tile *)tileWithValue: (int16_t) value {
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	return [Tile tileWithTileInfo:infoDictionary inManagedObjectContext:appDelegate.managedObjectContext];
+	return [Tile tileWithValue:value inManagedObjectContext:appDelegate.managedObjectContext];
 }
 
-+(Tile *)searchTileInDatabaseWithUUID: (NSString *) uuid {
-	NSDictionary *infoDictionary = @{kTile_UUIDKey: uuid};
++(BOOL)removeTileWithValue: (int16_t) value {
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	return [Tile tileWithTileInfo:infoDictionary inManagedObjectContext:appDelegate.managedObjectContext];
+	return [Tile removeTileWithValue:value inManagedObjectContext:appDelegate.managedObjectContext];
 }
 
-+(BOOL)removeTileInDatabaseWithUUID: (NSString *) uuid {
-	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	return [Tile removeTileWithUUID:uuid inManagedObjectContext:appDelegate.managedObjectContext];
-}
-
-+(Tile *)searchTileInDatabaseWithValue: (NSInteger) val {
-	return [self searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue:val]];
-}
-
-+(BOOL)removeTileInDatabaseWithVal: (NSInteger) val {
-	return ([self searchTileInDatabaseWithUUID:[self getUUIDFromTileValue:val]] != nil);
-}
-
-+(NSArray *)allTilesInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor {
-	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kTile_CoreDataEntityName];
++(NSArray *)allTiles {
+	NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"value" ascending:YES];
+	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kCoreDataEntityName_Tile];
 	fetchRequest.sortDescriptors = @[sortDescriptor];
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	NSError *error;
@@ -65,15 +38,6 @@
 		NSLog(@"%@", error);
 	}
 	return result;
-}
-
-+(NSArray *)allTilesInDatabase {
-	NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"value" ascending:YES];
-	return [self allTilesInDatabaseWithSortDescriptor:sortDescriptor];
-}
-
-+(NSString *)getUUIDFromTileValue:(NSInteger) val {
-	return [NSString stringWithFormat:@"TileUUID_%ld", (long)val];
 }
 
 @end

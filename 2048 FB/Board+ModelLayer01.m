@@ -9,72 +9,65 @@
 #import "Board+ModelLayer01.h"
 #import "macro.h"
 
-NSString *const kBoard_CoreDataEntityName = @"Board";
-NSString *const kBoard_BoardDataKey = @"BoardDataKey";
-NSString *const kBoard_GamePlayingKey = @"BoardGamePlayingKey";
-NSString *const kBoard_ScoreKey = @"BoardScoreKey";
-NSString *const kBoard_OnBoardBoardsKey = @"BoardOnBoardBoardsKey";
-NSString *const kBoard_UUIDKey = @"BoardUUIDKey";
-NSString *const kBoard_CreateDateKey = @"BoardCreateDateKey";
+NSString *const kCoreDataEntityName_Board = @"Board";
 
 @implementation Board (ModelLayer01)
 
-+(Board *)boardWithBoardInfo: (NSDictionary *) infoDictionary inManagedObjectContext: (NSManagedObjectContext *) context {
++(Board *)createBoardWithBoardData: (NSMutableArray *) data
+					   gamePlaying: (BOOL) gamePLaying
+							 score: (int32_t) score
+					swipeDirection: (int16_t) swipeDirection
+			inManagedObjectContext: (NSManagedObjectContext *) context {
 	Board *board = nil;
 	
-	NSDecimalNumber *uuid= infoDictionary[kBoard_UUIDKey];
-	// Check if the board already exists
-	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName: (NSString *)kBoard_CoreDataEntityName];
-	request.predicate = [NSPredicate predicateWithFormat:@"uuid = %@", uuid];
-	NSError *error;
-	NSArray *matches = [context executeFetchRequest:request error:&error];
+	board = [NSEntityDescription insertNewObjectForEntityForName:kCoreDataEntityName_Board inManagedObjectContext:context];
+	board.uuid = [NSUUID UUID];
+	board.boardData = [NSKeyedArchiver archivedDataWithRootObject:data];
+	board.gameplaying = gamePLaying;
+	board.score = score;
+	board.swipeDirection = swipeDirection;
+	board.createDate = [[NSDate date] timeIntervalSince1970];
 	
-	if (!matches || error || [matches count] > 1) { // If there is an error:
-		if (error) { // If there is an error.
-			NSLog(@"%@", error);
-		} else if ([matches count] > 1) { // If there are multiple boards with same value:
-			NSLog(@"There are %lu duplicated boards with UUID \"%@\" in CoreData database.", (unsigned long)[matches count], uuid);
-		} else { // If matches is nil
-			NSLog(@"Matches is nil, when searching for board with UUID \"%@\" in CoreData database.", uuid);
-		}
-	} else if ([matches count] == 1) { // If there is one unique board:
-		board = matches[0]; // Return the board if it already exists.
-	} else { // If there is nothing,
-		board = [NSEntityDescription insertNewObjectForEntityForName: (NSString *)kBoard_CoreDataEntityName
-											 inManagedObjectContext: context];
-		NSData *boardData_Data = [NSKeyedArchiver archivedDataWithRootObject:infoDictionary[kBoard_BoardDataKey]];
-		ASSIGN_IN_DATABASE(board.uuid, infoDictionary[kBoard_UUIDKey]);
-		ASSIGN_IN_DATABASE(board.boardData, boardData_Data);
-		ASSIGN_IN_DATABASE(board.gameplaying, infoDictionary[kBoard_GamePlayingKey]);
-		ASSIGN_IN_DATABASE(board.score, infoDictionary[kBoard_ScoreKey]);
-		ASSIGN_IN_DATABASE(board.createDate, [NSDate date]);
-	}
 	return board;
 }
 
-+(BOOL)removeBoardWithUUID: (NSString *) uuid inManagedObjectContext: (NSManagedObjectContext *) context {
++(BOOL)removeBoardWithUUID: (NSUUID *) uuid inManagedObjectContext: (NSManagedObjectContext *) context {
+	[context deleteObject:[self findBoardWithUUID:uuid inManagedObjectContext:context]];
+	return YES;
+}
+
++(Board *)findBoardWithUUID: (NSUUID *) uuid inManagedObjectContext: (NSManagedObjectContext *) context {
+	Board *board = nil;
+	
 	// Check if the board already exists
-	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName: (NSString *)kBoard_CoreDataEntityName];
+	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName: (NSString *)kCoreDataEntityName_Board];
 	request.predicate = [NSPredicate predicateWithFormat:@"uuid = %@", uuid];
 	NSError *error;
 	NSArray *matches = [context executeFetchRequest:request error:&error];
 	
-	if (!matches || error || [matches count] > 1) { // If there is an error:
-		if (error) { // If there is an error.
-			NSLog(@"%@", error);
-		} else if ([matches count] > 1) { // If there are multiple boards with same value:
-			NSLog(@"There are %lu duplicated boards with UUID \"%@\" in CoreData database.", (unsigned long)[matches count], uuid);
-		} else { // If matches is nil
-			NSLog(@"Matches is nil, when searching for board with UUID \"%@\" in CoreData database.", uuid);
-		}
-	} else if ([matches count] == 1) { // If there is one unique board:
-		[context deleteObject:matches[0]];
-		return YES;
-	} else { // If there is nothing
-		NSLog(@"Cannot find board with UUID \"%@\" to delete from CoreData database.", uuid);
+	if (error) { // If there is an error:
+		NSLog(@"%@", error);
+	} else if ([matches count] > 1) {
+		NSLog(@"There are %lu duplicated boards with uuid \"%@\" in CoreData database.", (unsigned long)[matches count], uuid);
+	} else if ([matches count] == 1) {
+		board = [matches lastObject];
+	} else { // If there is nothing,
+		NSLog(@"There isn't board with uuid \"%@\" in CoreData database.", uuid);
 	}
 	
-	return NO;
+	return board;
+}
+
++(NSArray *)allBoardsInManagedObjectContext: (NSManagedObjectContext *)context {
+	NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"createDate" ascending:YES];
+	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kCoreDataEntityName_Board];
+	fetchRequest.sortDescriptors = @[sortDescriptor];
+	NSError *error;
+	NSArray *result = [context executeFetchRequest:fetchRequest error:&error];
+	if (error) {
+		NSLog(@"%@", error);
+	}
+	return result;
 }
 
 @end

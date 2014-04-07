@@ -12,85 +12,29 @@
 
 @implementation GameManager (ModelLayer02)
 
-+(GameManager *)createGameManagerInDatabaseWithUUID: (NSString *) uuid
-										  bestScore: (NSUInteger) bestScore {
-	NSDictionary *infoDictionary = @{kGameManager_UUIDKey: uuid,
-									 kGameManager_BestScoreKey: [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%lu", (unsigned long)bestScore]]};
++(GameManager *)createGameManagerWithBestScore: (int32_t) bestScore
+								currentThemeID: (NSString *) currentThemeID
+			 maxOccuredTimesOnBoardForEachTile: (NSMutableDictionary *) occurTimeDictionary {
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	return [GameManager gameManagerWithGameManagerInfo:infoDictionary inManagedObjectContext:appDelegate.managedObjectContext];
+	return [self createGameManagerWithBestScore:bestScore
+								 currentThemeID:currentThemeID
+			  maxOccuredTimesOnBoardForEachTile:occurTimeDictionary
+						 inManagedObjectContext:appDelegate.managedObjectContext];
 }
 
-+(GameManager *)searchGameManagerInDatabaseWithUUID: (NSString *) uuid {
-	NSDictionary *infoDictionary = @{kGameManager_UUIDKey: uuid};
++(BOOL)removeGameManagerWithUUID: (NSUUID *) uuid {
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	return [GameManager gameManagerWithGameManagerInfo:infoDictionary inManagedObjectContext:appDelegate.managedObjectContext];
+	return [self removeGameManagerWithUUID:uuid inManagedObjectContext:appDelegate.managedObjectContext];
 }
 
-+(BOOL)removeGameManagerInDatabaseWithUUID: (NSString *) uuid {
++(GameManager *) findGameManagerWithUUID: (NSUUID *) uuid {
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	return [GameManager removeGameManagerWithUUID:uuid inManagedObjectContext:appDelegate.managedObjectContext];
+	return [self findGameManagerWithUUID:uuid inManagedObjectContext:appDelegate.managedObjectContext];
 }
 
-+(NSArray *)allGameManagersInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor {
-	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kGameManager_CoreDataEntityName];
-	if (sortDescriptor) {
-		fetchRequest.sortDescriptors = @[sortDescriptor];
-	}
++(NSArray *)allGameManagers {
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	NSError *error;
-	NSArray *result = [appDelegate.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-	if (error) {
-		NSLog(@"%@", error);
-	}
-	return result;
-}
-
-+(NSArray *)allGameManagersInDatabase {
-	return [self allGameManagersInDatabaseWithSortDescriptor:nil];
-}
-
-- (void)addTilesObjectWithValue:(NSInteger)value {
-	Tile *tile = [Tile searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue:value]];
-	if (tile == nil) {
-		NSLog(@"Cannot find tile with value \"%ld\", not adding to board \"%@\".", (long)value, self.uuid);
-		return;
-	}
-	[self addTilesObject:tile];
-}
-
-- (void)removeTilesObjectWithValue:(NSInteger)value {
-	Tile *tile = [Tile searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue:value]];
-	if (tile == nil) {
-		NSLog(@"Cannot find tile with value \"%ld\", not removing from board \"%@\".", (long)value, self.uuid);
-		return;
-	}
-	[self removeTilesObject:tile];
-}
-
-- (void)addTilesWithValues:(NSSet *) values {
-	NSMutableSet *mutableSet = [NSMutableSet set];
-	for (NSNumber *value in values) {
-		Tile *tile = [Tile searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue:[value integerValue]]];
-		if (tile == nil) {
-			NSLog(@"Cannot find tile with value \"%ld\", not adding to board \"%@\".", (long)[value integerValue], self.uuid);
-		} else {
-			[mutableSet addObject:tile];
-		}
-	}
-	[self addTiles:mutableSet];
-}
-
-- (void)removeTilesWithValues:(NSSet *)values {
-	NSMutableSet *mutableSet = [NSMutableSet set];
-	for (NSNumber *value in values) {
-		Tile *tile = [Tile searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue:[value integerValue]]];
-		if (tile == nil) {
-			NSLog(@"Cannot find tile with value \"%ld\", not removing board \"%@\".", (long)[value integerValue], self.uuid);
-		} else {
-			[mutableSet addObject:tile];
-		}
-	}
-	[self removeTiles:mutableSet];
+	return [self allGameManagersInManagedObjectContext:appDelegate.managedObjectContext];
 }
 
 @end

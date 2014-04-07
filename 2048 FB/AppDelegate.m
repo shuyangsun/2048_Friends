@@ -37,7 +37,7 @@ NSString *const kCurrentThemeUUIDKey = @"UserDefault_CurrentThemeUUIDKey";
 	// Using NSUserDefaukt and iCloud to store currentThemeUUID
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	NSUbiquitousKeyValueStore *ubiquitousStore = [NSUbiquitousKeyValueStore defaultStore];
-	NSString *themeUUID = kThemeUUID_Default;
+	NSString *themeUUID = kThemeID_Default;
 	themeUUID = ([userDefaults objectForKey:kCurrentThemeUUIDKey] ? [userDefaults objectForKey:kCurrentThemeUUIDKey]:themeUUID);
 	themeUUID = ([ubiquitousStore objectForKey:kCurrentThemeUUIDKey] ? [ubiquitousStore objectForKey:kCurrentThemeUUIDKey]:themeUUID);
 	[userDefaults setObject:themeUUID forKey: kCurrentThemeUUIDKey];

@@ -15,28 +15,27 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 
 // Initialize all the tiles without images. Should be called only once when the app launches, and there is no iCloud data to fetch.
 +(BOOL)initializeAllTiles {
-	for (int i = 0; i < maxTilePower; ++i) {
-		NSInteger val = (NSInteger)pow(2.0f, (i + 1));
-		Tile *tile = [Tile createTileInDatabaseWithUUID: [Tile getUUIDFromTileValue:val]
-												  value: val
-											displayText: [NSString stringWithFormat:@"%ld", (long)val]
-											   fbUserID: nil
-											 fbUserName: nil];
-		if (i != 0) {
-			tile.previousTile = [Tile searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue: val/2]];
+	if ([[Tile allTiles] count] <= 0) { // If there is no tiles in data base:
+		for (int i = 1; i <= maxTilePower; ++i) {
+			int16_t val = (int16_t)pow(2.0f, i);
+			Tile *tile = [Tile tileWithValue:val];
+			if (i > 1) {
+				tile.previousTile = [Tile tileWithValue: val/2];
+			}
+			if (i <= maxTilePower - 1) {
+				tile.nextTile = [Tile tileWithValue: val * 2];
+			}
 		}
-		if (i != maxTilePower - 1) {
-			tile.nextTile = [Tile searchTileInDatabaseWithUUID:[Tile getUUIDFromTileValue: val * 2]];
-		}
+	} else {
+		return NO;
 	}
 	
-	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	return [appDelegate saveContext];
+	return YES;
 }
 
 // Get images for 2, 4, 8.. tiles respectively.
 +(NSArray *)imagesForAllTiles {
-	NSArray *tilesArr = [Tile allTilesInDatabase];
+	NSArray *tilesArr = [Tile allTiles];
 	NSMutableArray *images = [NSMutableArray array];
 	for (Tile *tile in tilesArr) {
 		[images addObject:tile.image];
@@ -46,8 +45,8 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 
 // Pass in an array of images, they are set to tiles with value 2, 4, 8... respectively.
 +(BOOL)setImagesForTiles: (NSArray *) images {
-	NSArray *tilesArr = [Tile allTilesInDatabase];
-	for (int i = 0; i < [images count]; ++i) {
+	NSArray *tilesArr = [Tile allTiles];
+	for (int i = 0; i < [images count] && i < [tilesArr count]; ++i) {
 		((Tile *)tilesArr[i]).image = images[i];
 	}
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
@@ -55,14 +54,18 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 }
 
 +(UIImage *)imageForTileWithValue: (NSInteger) value {
-	return [Tile searchTileInDatabaseWithValue:value].image;
+	return [Tile tileWithValue:value].image;
 }
 
 +(BOOL)setImage: (UIImage *) image forTileWithValue: (NSInteger) value {
-	Tile *tile = [Tile searchTileInDatabaseWithValue:value];
+	Tile *tile = [Tile tileWithValue:value];
 	tile.image = image;
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	return [appDelegate saveContext];
+}
+
++(int16_t) generateRandomInitTileValue {
+	return arc4random()%100 < 90 ? 2:4; // 90% chance get 2, 10% get 4
 }
 
 @end

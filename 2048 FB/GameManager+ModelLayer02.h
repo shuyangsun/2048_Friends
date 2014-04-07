@@ -10,18 +10,12 @@
 
 @interface GameManager (ModelLayer02)
 
-+(GameManager *)createGameManagerInDatabaseWithUUID: (NSString *) uuid
-										  bestScore: (NSUInteger) bestScore;
++(GameManager *)createGameManagerWithBestScore: (int32_t) bestScore
+								currentThemeID: (NSString *) currentThemeID
+			 maxOccuredTimesOnBoardForEachTile: (NSMutableDictionary *) occurTimeDictionary;
 
-+(GameManager *)searchGameManagerInDatabaseWithUUID: (NSString *) uuid;
-+(BOOL)removeGameManagerInDatabaseWithUUID: (NSString *) uuid;
-
-+(NSArray *)allGameManagersInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor;
-+(NSArray *)allGameManagersInDatabase; // Default uuid in ascending order.
-
-- (void)addTilesObjectWithValue:(NSInteger)value;
-- (void)removeTilesObjectWithValue:(NSInteger)value;
-- (void)addTilesWithValues:(NSSet *)values;
-- (void)removeTilesWithValues:(NSSet *)values;
++(BOOL)removeGameManagerWithUUID: (NSUUID *) uuid;
++(GameManager *) findGameManagerWithUUID: (NSUUID *) uuid;
++(NSArray *)allGameManagers;
 
 @end

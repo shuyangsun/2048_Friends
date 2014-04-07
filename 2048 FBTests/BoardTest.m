@@ -26,7 +26,7 @@
 	[Tile initializeAllTiles];
 	[Board initializeNewBoard];
 	[GameManager initializeGameManager];
-	self.board = [[Board allBoardsInDatabase] lastObject];
+	self.board = [[Board allBoards] lastObject];
 }
 
 - (void)tearDown
@@ -34,19 +34,19 @@
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
 	// Remove all boards:
-	NSArray *arr = [Board allBoardsInDatabase];
+	NSArray *arr = [Board allBoards];
 	for (Board *b in arr) {
-		[Board removeBoardInDatabaseWithUUID:b.uuid];
+		[Board removeBoardWithUUID:b.uuid];
 	}
 	// Remove all Game managers:
-	arr = [GameManager allGameManagersInDatabase];
+	arr = [GameManager allGameManagers];
 	for (GameManager *g in arr) {
-		[GameManager removeGameManagerInDatabaseWithUUID:g.uuid];
+		[GameManager removeGameManagerWithUUID:g.uuid];
 	}
 	// Remove all Tiles:
-	arr = [Tile allTilesInDatabase];
+	arr = [Tile allTiles];
 	for (Tile *t in arr) {
-		[Tile removeTileInDatabaseWithUUID:t.uuid];
+		[Tile removeTileWithValue:t.value];
 	}
 }
 
@@ -55,24 +55,24 @@
 }
 
 -(void)testBoardGamePLaying {
-	XCTAssertTrue([self.board.gameplaying boolValue]);
-	self.board.gameplaying = @(NO);
-	XCTAssertFalse([self.board.gameplaying boolValue]);
+	XCTAssertTrue(self.board.gameplaying);
+	self.board.gameplaying = NO;
+	XCTAssertFalse(self.board.gameplaying);
 }
 
 -(void)testBoardScore {
-	XCTAssertEqual([self.board getIntegerScore], 0);
-	NSInteger score = 4;
-	[self.board setIntegerScore: score];
-	XCTAssertEqual([self.board getIntegerScore], 4);
+	XCTAssertEqual(self.board.score, 0);
+	int32_t score = 4;
+	self.board.score = score;
+	XCTAssertEqual(self.board.score, 4);
 }
 
 -(void)testBoardsRemoveBoard {
-	NSArray *arr = [Board allBoardsInDatabase];
+	NSArray *arr = [Board allBoards];
 	for (Board *b in arr) {
-		[Board removeBoardInDatabaseWithUUID:b.uuid];
+		[Board removeBoardWithUUID:b.uuid];
 	}
-	arr = [Board allBoardsInDatabase];
+	arr = [Board allBoards];
 	NSUInteger count = [arr count];
 	XCTAssertTrue(count == 0);
 }
@@ -81,30 +81,36 @@
 	id obj = [NSKeyedUnarchiver unarchiveObjectWithData:self.board.boardData];
 	XCTAssertTrue([obj isKindOfClass:[NSArray class]]);
 	NSArray *arr = obj;
-	for (NSArray *boardState in arr) {
-		for (int i = 0; i < 16; ++i) {
-			NSInteger val = [boardState[i] integerValue];
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < 4; ++j) {
+			int16_t val = [arr[i][j] intValue];
 			XCTAssertTrue(val == 0 || val == 2 || val == 4);
 		}
-		NSInteger swipeStateVal = [[boardState lastObject] integerValue];
+		int swipeStateVal = self.board.swipeDirection;
 		XCTAssertTrue(swipeStateVal >= 0 && swipeStateVal < 4);
 	}
 }
 
 -(void)testPrintBoard {
 	[self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
-	XCTAssertEqual([[[self.board getBoardDataArray][0] lastObject] intValue], BoardSwipeGestureDirectionLeft);
+	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+	self.board = [Board latestBoard];
 	[self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
-	XCTAssertEqual([[[self.board getBoardDataArray][1] lastObject] intValue], BoardSwipeGestureDirectionLeft);
+	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionLeft);
+	self.board = [Board latestBoard];
 	[self.board swipedToDirection:BoardSwipeGestureDirectionRight];
-	XCTAssertEqual([[[self.board getBoardDataArray][2] lastObject] intValue], BoardSwipeGestureDirectionRight);
+	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+	self.board = [Board latestBoard];
 	[self.board swipedToDirection:BoardSwipeGestureDirectionUp];
-	XCTAssertEqual([[[self.board getBoardDataArray][3] lastObject] intValue], BoardSwipeGestureDirectionUp);
+	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionUp);
+	self.board = [Board latestBoard];
 	[self.board swipedToDirection:BoardSwipeGestureDirectionDown];
-	XCTAssertEqual([[[self.board getBoardDataArray][4] lastObject] intValue], BoardSwipeGestureDirectionDown);
+	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionDown);
+	self.board = [Board latestBoard];
 	[self.board swipedToDirection:BoardSwipeGestureDirectionRight];
-	XCTAssertEqual([[[self.board getBoardDataArray][5] lastObject] intValue], BoardSwipeGestureDirectionRight);
-	XCTAssertEqual([[[self.board getBoardDataArray][6] lastObject] intValue], BoardSwipeGestureDirectionNone);
+	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionRight);
+	self.board = [Board latestBoard];
+	XCTAssertEqual(self.board.swipeDirection, BoardSwipeGestureDirectionNone);
 	[self.board printBoard];
 }
 

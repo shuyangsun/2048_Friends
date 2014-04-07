@@ -32,10 +32,10 @@ extern const CGFloat kLineWidthFractionDefault_iPad;
 extern NSString *const kThemePriceKey_Free;
 extern NSString *const kThemePriceKey_Paid;
 
-extern NSString *const kThemeUUIDDelimiter;
-extern NSString *const kThemeUUID_Default;
-extern NSString *const kThemeUUID_Night;
-extern NSString *const kThemeUUID_LightBlue;
+extern NSString *const kThemeIDDelimiter;
+extern NSString *const kThemeID_Default;
+extern NSString *const kThemeID_Night;
+extern NSString *const kThemeID_LightBlue;
 
 @interface Theme : NSObject
 
@@ -56,7 +56,7 @@ extern NSString *const kThemeUUID_LightBlue;
 @property (nonatomic, strong) UIImage *tileFrameImage;
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIColor *buttonColor;
-// This dictionary is using @{ (NSString *) tileUUID : (UIColor *) tileColor}
+// This dictionary is using @{ (NSNumber *) tileValue : (UIColor *) tileColor}
 @property (nonatomic, strong) NSDictionary *tileColors;
 // Tile's image is stored in "Tile" object.
 // Where does the glowing start.

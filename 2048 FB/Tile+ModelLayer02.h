@@ -10,21 +10,9 @@
 
 @interface Tile (ModelLayer02)
 
-+(Tile *)createTileInDatabaseWithUUID: (NSString *) uuid
-								value: (NSInteger) value
-						  displayText: (NSString *) displayText
-							 fbUserID: (NSString *) fbUserID
-						   fbUserName: (NSString *) fbUserName;
++(Tile *)tileWithValue: (int16_t) value;
++(BOOL)removeTileWithValue: (int16_t) value;
 
-+(Tile *)searchTileInDatabaseWithUUID: (NSString *) uuid;
-+(BOOL)removeTileInDatabaseWithUUID: (NSString *) uuid;
-
-+(Tile *)searchTileInDatabaseWithValue: (NSInteger) val;
-+(BOOL)removeTileInDatabaseWithVal: (NSInteger) val;
-
-+(NSArray *)allTilesInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor;
-+(NSArray *)allTilesInDatabase; // Default value in ascending order.
-
-+(NSString *)getUUIDFromTileValue: (NSInteger) val;
++(NSArray *)allTiles; // Default value in ascending order.
 
 @end

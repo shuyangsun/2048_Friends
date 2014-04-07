@@ -1,20 +1,21 @@
 //
-//  GameManager.m
+//  History.m
 //  2048 FB
 //
 //  Created by Shuyang Sun on 4/6/14.
 //  Copyright (c) 2014 Shuyang Sun. All rights reserved.
 //
 
+#import "History.h"
+#import "Board.h"
 #import "GameManager.h"
 
 
-@implementation GameManager
+@implementation History
 
-@dynamic bestScore;
-@dynamic currentThemeID;
-@dynamic maxOccuredTimesOnBoardForEachTile;
+@dynamic createDate;
 @dynamic uuid;
-@dynamic gameHistories;
+@dynamic gManager;
+@dynamic boards;
 
 @end

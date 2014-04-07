@@ -10,25 +10,17 @@
 
 @interface Board (ModelLayer02)
 
-+(Board *)createBoardInDatabaseWithUUID: (NSString *) uuid
-							  boardData: (NSMutableArray *) dataArr
-							gamePlaying: (BOOL) gamePlaying
-								  score: (NSUInteger) score;
++(Board *)createBoardWithBoardData: (NSMutableArray *) data
+					   gamePlaying: (BOOL) gamePLaying
+							 score: (int32_t) score
+					swipeDirection: (int16_t) swipeDirection;
 
-+(Board *)searchBoardInDatabaseWithUUID: (NSString *) uuid;
-+(BOOL)removeBoardInDatabaseWithUUID: (NSString *) uuid;
++(BOOL)removeBoardWithUUID: (NSUUID *) uuid;
 
-+(NSArray *)allBoardsInDatabaseWithSortDescriptor: (NSSortDescriptor *) sortDescriptor;
-+(NSArray *)allBoardsInDatabase; // Default createDate in ascending order.
++(Board *)findBoardWithUUID: (NSUUID *) uuid;
 
-+(Board *)lastestBoard;
++(NSArray *)allBoards; // Default createDate in ascending order.
 
--(NSInteger)getIntegerScore;
--(BOOL)setIntegerScore: (NSInteger) score;
-
-- (void)addOnBoardTilesObjectWithValue:(NSInteger)value;
-- (void)removeOnBoardTilesObjectWithValue:(NSInteger)value;
-- (void)addOnBoardTilesWithValues:(NSSet *) values; // Should be a set of NSNumber
-- (void)removeOnBoardTilesWithValues:(NSSet *)values; // Should be a set of NSNumber
++(Board *)latestBoard;
 
 @end

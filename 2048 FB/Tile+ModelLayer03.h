@@ -21,5 +21,5 @@ extern NSUInteger maxTilePower;
 +(BOOL)setImagesForTiles: (NSArray *) images;
 +(UIImage *)imageForTileWithValue: (NSInteger) value;
 +(BOOL)setImage: (UIImage *) image forTileWithValue: (NSInteger) value;
-
++(int16_t) generateRandomInitTileValue;
 @end

@@ -35,10 +35,10 @@ NSString *const kThemePriceKey_Free  = @"free";
 NSString *const kThemePriceKey_Paid = @"paid";
 
 // Using "_" as delemeter. Change middle element to change name of the theme, change the last word to change free/paid.
-NSString *const kThemeUUIDDelimiter = @"_";
-NSString *const kThemeUUID_Default = @"ThemeUUID_Default_free";
-NSString *const kThemeUUID_Night = @"ThemeUUID_Night_free";
-NSString *const kThemeUUID_LightBlue = @"ThemeUUID_Light Blue_paid";
+NSString *const kThemeIDDelimiter = @"_";
+NSString *const kThemeID_Default = @"ThemeUUID_Default_free";
+NSString *const kThemeID_Night = @"ThemeUUID_Night_free";
+NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 
 @interface Theme()
 
@@ -71,7 +71,7 @@ NSString *const kThemeUUID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	
 	// Set the uuid, name and price
 	theme.uuid = uuid;
-	NSArray *uuidElementsArr = [uuid componentsSeparatedByString: kThemeUUIDDelimiter];
+	NSArray *uuidElementsArr = [uuid componentsSeparatedByString: kThemeIDDelimiter];
 	theme.name = uuidElementsArr[1]; // The middle element
 	if ([(NSString*)[uuidElementsArr lastObject] compare: kThemePriceKey_Paid] == 0) { // If theme is free
 		theme.paid = YES;
@@ -82,7 +82,7 @@ NSString *const kThemeUUID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	theme.boardCornerRadius = kBoardCornerRadiusDefault_iPhone;
 	
 	// Variables varies in different themes.
-	if ([uuid compare:kThemeUUID_Default] == 0) {
+	if ([uuid compare:kThemeID_Default] == 0) {
 		theme.themeType = ThemeTypeDefault;
 		theme.backgroundColor = [UIColor colorWithRed:0.976 green:0.969 blue:0.922 alpha:1.000];
 		theme.boardColor = [UIColor colorWithRed:0.678 green:0.616 blue:0.561 alpha:1.000];
@@ -104,9 +104,9 @@ NSString *const kThemeUUID_LightBlue = @"ThemeUUID_Light Blue_paid";
 											[UIColor colorWithRed:0.910 green:0.718 blue:0.141 alpha:1.000], // 2048
 											[UIColor colorWithRed:0.176 green:0.173 blue:0.141 alpha:1.000]  // > 2048
 											]];
-	} else if ([uuid compare:kThemeUUID_Night] == 0) {
+	} else if ([uuid compare:kThemeID_Night] == 0) {
 		
-	} else if ([uuid compare:kThemeUUID_LightBlue] == 0) {
+	} else if ([uuid compare:kThemeID_LightBlue] == 0) {
 		
 	}
 	return theme;
@@ -116,16 +116,16 @@ NSString *const kThemeUUID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	NSString *uuid;
 	switch (index) {
 		case ThemeTypeDefault:
-			uuid = kThemeUUID_Default;
+			uuid = kThemeID_Default;
 			break;
 		case ThemeTypeNight:
-			uuid = kThemeUUID_Night;
+			uuid = kThemeID_Night;
 			break;
 		case ThemeTypeLightBlue:
-			uuid = kThemeUUID_LightBlue;
+			uuid = kThemeID_LightBlue;
 			break;
 		default:
-			uuid = kThemeUUID_Default;
+			uuid = kThemeID_Default;
 			break;
 	}
 	return [self sharedThemeWithUUID:uuid];
@@ -138,7 +138,7 @@ NSString *const kThemeUUID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	NSUInteger maxInd = [colorsArr count];
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 	for (NSUInteger i = 0; i < maxTilePower; ++i) {
-		dictionary[[Tile getUUIDFromTileValue: (NSInteger)(pow(2.0f, (i + 1)))]] = colorsArr[MIN(i, maxInd)];
+		dictionary[@((NSInteger)pow(2.0f, i + 1))] = colorsArr[MIN(i, maxInd)];
 	}
 	self.tileColors = [dictionary copy];
 	return YES;

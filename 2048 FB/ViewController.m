@@ -102,15 +102,11 @@
 // <FBLoginViewDelegate> method
 -(void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
 	self.showPageControl = YES;
-	self.customLoginButton.titleLabel.text = @"Logout";
-	self.customLoginButton.titleLabel.textAlignment = NSTextAlignmentCenter;
 }
 
 // <FBLoginViewDelegate> method
 -(void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
 	self.showPageControl = NO;
-	self.customLoginButton.titleLabel.text = @"Facebook";
-	self.customLoginButton.titleLabel.textAlignment = NSTextAlignmentCenter;
 }
 
 // <FBLoginViewDelegate> method

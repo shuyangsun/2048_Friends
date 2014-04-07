@@ -8,17 +8,18 @@
 
 #import "Board.h"
 
-extern NSString *const kBoard_CoreDataEntityName;
-extern NSString *const kBoard_BoardDataKey;
-extern NSString *const kBoard_GamePlayingKey;
-extern NSString *const kBoard_ScoreKey;
-extern NSString *const kBoard_OnBoardTilesKey;
-extern NSString *const kBoard_UUIDKey;
-extern NSString *const kBoard_CreateDateKey;
+extern NSString *const kCoreDataEntityName_Board;
 
 @interface Board (ModelLayer01)
 
-+(Board *)boardWithBoardInfo: (NSDictionary *) infoDictionary inManagedObjectContext: (NSManagedObjectContext *) context;
-+(BOOL)removeBoardWithUUID: (NSString *) uuid inManagedObjectContext: (NSManagedObjectContext *) context;
++(Board *)createBoardWithBoardData: (NSMutableArray *) data
+					   gamePlaying: (BOOL) gamePLaying
+							 score: (int32_t) score
+					swipeDirection: (int16_t) swipeDirection
+			inManagedObjectContext: (NSManagedObjectContext *) context;
+
++(BOOL)removeBoardWithUUID: (NSUUID *) uuid inManagedObjectContext: (NSManagedObjectContext *) context;
++(Board *)findBoardWithUUID: (NSUUID *) uuid inManagedObjectContext: (NSManagedObjectContext *) context;
++(NSArray *)allBoardsInManagedObjectContext: (NSManagedObjectContext *)context;
 
 @end
