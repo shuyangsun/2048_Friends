@@ -9,6 +9,7 @@
 #import "Board+ModelLayer03.h"
 #import "Tile+ModelLayer03.h"
 #import "History+ModelLayer03.h"
+#import "GameManager+ModelLayer03.h"
 #import "AppDelegate.h"
 
 @implementation Board (ModelLayer03)
@@ -17,9 +18,9 @@
 	Board *board = nil;
 	NSMutableArray *boardData = [NSMutableArray array];
 	for (size_t i = 0; i < 4; ++i) { // 17 elements, the last one is swipe gesture info
-		[boardData addObject:[NSMutableArray array] ];
+		boardData[i] = [NSMutableArray array];
 		for (size_t j = 0; j < 4; ++j) {
-			[boardData[i] addObject:@(0)];
+			boardData[i][j] = @(0);
 		}
 	}
 	
@@ -34,7 +35,7 @@
 			continue;
 		}
 		int16_t val = [Tile generateRandomInitTileValue];
-		boardData[(int)p.x][(int)p.y] = @(val);
+		boardData[(int)p.y][(int)p.x] = @(val);
 	}
 	[boardData addObject:boardData];
 	
@@ -46,13 +47,13 @@
 	return board;
 }
 
-// TODO
+// This makes a copy of the previouse 
 -(Board *) swipedToDirection: (BoardSwipeGestureDirection) direction {
 	Board *nextBoard = nil;
 	if (self.gameplaying) {
 		self.swipeDirection = direction; // Set the direction for current last board
 		// Data for the next board:
-		NSMutableArray *arr = [[self getBoardDataArray] mutableCopy];
+		NSMutableArray *arr = [self getBoardDataArray];
 		BOOL gamePLaying = NO;
 		int32_t score = self.score;
 		
@@ -63,7 +64,7 @@
 				int col2 = 0;
 				int col3 = 1;
 				
-				while (col3 <= 3) {
+				while (col1 < 4 && col2 < 4 && col3 < 4) {
 					if ([rowArr[col2] intValue] == 0) {
 						++col2;
 						++col3;
@@ -75,7 +76,7 @@
 					}
 					// If both formerTileInd and nextTileInd are not zero, the following code get executed.
 					int newVal = 0;
-					if ([rowArr[col2] intValue] == [rowArr[col3] intValue]) {
+					if ([rowArr[col2] intValue] == [rowArr[col3] intValue] && col2 != col3) {
 						newVal = 2 * [rowArr[col2] intValue];
 						score += newVal;
 						rowArr[col2] = @(0);
@@ -89,10 +90,12 @@
 					}
 					rowArr[col1++] = @(newVal);
 				}
-				int newVal = [rowArr[col2] intValue];
-				if (newVal != 0) {
-					rowArr[col1] = @(newVal);
-					rowArr[col2] = @(0);
+				if (col1 < 4 && col2 < 4) {
+					int newVal = [rowArr[col2] intValue];
+					if (newVal != 0 && [arr[row][col1] intValue] == 0) {
+						rowArr[col1] = @(newVal);
+						rowArr[col2] = @(0);
+					}
 				}
 			}
 		} else if (direction == BoardSwipeGestureDirectionRight) {
@@ -101,7 +104,8 @@
 				int col1 = 3;
 				int col2 = 3;
 				int col3 = 2;
-				while (col3 >= 0) {
+				
+				while (col1 >= 0 && col2 >= 0 && col3 >= 0) {
 					if ([rowArr[col2] intValue] == 0) {
 						--col2;
 						--col3;
@@ -113,7 +117,7 @@
 					}
 					// If both formerTileInd and nextTileInd are not zero, the following code get executed.
 					int newVal = 0;
-					if ([rowArr[col2] intValue] == [rowArr[col3] intValue]) {
+					if ([rowArr[col2] intValue] == [rowArr[col3] intValue] && col2 != col3) {
 						newVal = 2 * [rowArr[col2] intValue];
 						score += newVal;
 						rowArr[col2] = @(0);
@@ -127,10 +131,12 @@
 					}
 					rowArr[col1--] = @(newVal);
 				}
-				int newVal = [rowArr[col2] intValue];
-				if (newVal != 0) {
-					arr[col3] = @(newVal);
-					arr[col2] = @(0);
+				if (col1 >= 0 && col2 >= 0) {
+					int newVal = [rowArr[col2] intValue];
+					if (newVal != 0 && [arr[row][col1] intValue] == 0) {
+						rowArr[col1] = @(newVal);
+						rowArr[col2] = @(0);
+					}
 				}
 			}
 		} else if (direction == BoardSwipeGestureDirectionUp) {
@@ -138,7 +144,7 @@
 				int row1 = 0;
 				int row2 = 0;
 				int row3 = 1;
-				while (row3 <= 3) {
+				while (row1 < 4 && row2 < 4 && row3 < 4) {
 					if ([arr[row2][col] intValue] == 0) {
 						++row2;
 						++row3;
@@ -150,7 +156,7 @@
 					}
 					// If both formerTileInd and nextTileInd are not zero, the following code get executed.
 					int newVal = 0;
-					if ([arr[row2][col] intValue] == [arr[row3][col] intValue]) {
+					if ([arr[row2][col] intValue] == [arr[row3][col] intValue] && row2 != row3) {
 						newVal = 2 * [arr[row2][col] intValue];
 						score += newVal;
 						arr[row2][col] = @(0);
@@ -164,18 +170,20 @@
 					}
 					arr[row1++][col] = @(newVal);
 				}
-				int newVal = [arr[row2][col] intValue];
-				if (newVal != 0) {
-					arr[row1][col] = @(newVal);
-					arr[row2][col] = @(0);
+				if (row1 < 4 && row2 < 4) {
+					int newVal = [arr[row2][col] intValue];
+					if (newVal != 0 && [arr[row1][col] intValue] == 0) {
+						arr[row1][col] = @(newVal);
+						arr[row2][col] = @(0);
+					}
 				}
 			}
-		} else if (direction == BoardSwipeGestureDirectionUp) {
+		} else if (direction == BoardSwipeGestureDirectionDown) {
 			for (int col = 0; col < 4; ++col) {
 				int row1 = 3;
 				int row2 = 3;
 				int row3 = 2;
-				while (row3 >= 0) {
+				while (row1 >= 0 && row2 >= 0 && row3 >= 0) {
 					if ([arr[row2][col] intValue] == 0) {
 						--row2;
 						--row3;
@@ -187,7 +195,7 @@
 					}
 					// If both formerTileInd and nextTileInd are not zero, the following code get executed.
 					int newVal = 0;
-					if ([arr[row2][col] intValue] == [arr[row3][col] intValue]) {
+					if ([arr[row2][col] intValue] == [arr[row3][col] intValue] && row2 != row3) {
 						newVal = 2 * [arr[row2][col] intValue];
 						score += newVal;
 						arr[row2][col] = @(0);
@@ -201,28 +209,30 @@
 					}
 					arr[row1--][col] = @(newVal);
 				}
-				int newVal = [arr[row2][col] intValue];
-				if (newVal != 0) {
-					arr[row1][col] = @(newVal);
-					arr[row2][col] = @(0);
+				if (row1 >= 0 && row2 >= 0) {
+					int newVal = [arr[row2][col] intValue];
+					if (newVal != 0 && [arr[row1][col] intValue] == 0) {
+						arr[row1][col] = @(newVal);
+						arr[row2][col] = @(0);
+					}
 				}
 			}
 		}
 		
 		// Generate a new random tile
 		CGPoint p = [Board generateRandomAvailableCellPointFromCells2DArray: arr];
-		arr[(int)p.x][(int)p.y] = @([Tile generateRandomInitTileValue]);
+		arr[(int)p.y][(int)p.x] = @([Tile generateRandomInitTileValue]);
 		
 		
 		// Check to see if the game is still playing and update onboard tiles.
 		gamePLaying = NO;
-		for (int i = 0; i < 4; ++i) {
+		for (size_t i = 0; i < 4; ++i) {
 			if (gamePLaying) {
 				break;
 			}
-			for (int j = 0; j < 4; ++j) {
+			for (size_t j = 0; j < 4; ++j) {
 				if ([arr[i][j] integerValue] == 0) {
-					self.gameplaying = @(YES);
+					gamePLaying = YES;
 					break;
 				}
 			}
@@ -230,12 +240,18 @@
 		
 		// Update info for new board:
 		nextBoard = [Board createBoardWithBoardData:arr
-											   gamePlaying:gamePLaying
-													 score:score
-											swipeDirection:BoardSwipeGestureDirectionNone];
+										gamePlaying:gamePLaying
+											  score:score
+									 swipeDirection:BoardSwipeGestureDirectionNone];
 		
+		// Add this board to history
 		[[History latestHistory] addBoardsObject:nextBoard];
 		
+		// Update Best score
+		GameManager *gManager = [GameManager sharedGameManager];
+		if (score > gManager.bestScore) {
+			gManager.bestScore = score;
+		}
 	}
 	return nextBoard;
 }
@@ -259,7 +275,7 @@
 	for (int row = 0; row < 4; ++row) {
 		for (int col = 0; col < 4; ++col) {
 			if ([arr[row][col] intValue] == 0) {
-				[mutableArr addObject:[NSValue valueWithCGPoint:CGPointMake(row, col)]];
+				[mutableArr addObject:[NSValue valueWithCGPoint:CGPointMake(col, row)]];
 			}
 		}
 	}
@@ -291,18 +307,40 @@
 
 #ifdef DEBUG_BOARD
 -(void)printBoard {
-	printf("***************\n");
+	NSMutableString *str = [NSMutableString stringWithString:@"\n"];
 	NSMutableArray *mutableArr = [self getBoardDataArray];
 	for (int row = 0; row < 4; ++row) {
 		for (int col = 0; col < 4; ++col) {
-			printf("%d ", [mutableArr[row][col] intValue]);
+			[str appendFormat:@"%@ ", mutableArr[row][col]];
 		}
-		printf("\n");
+		[str appendString:@"\n"];
 	}
-	printf("direction: %d\n", self.swipeDirection);
-	printf("score: %d\n", self.score);
-	printf("gamePlaying: %d\n", self.gameplaying);
-	printf("***************\n");
+	
+	NSString *directionString = nil;
+	switch (self.swipeDirection) {
+		case BoardSwipeGestureDirectionNone:
+			directionString = @"NONE";
+			break;
+		case BoardSwipeGestureDirectionLeft:
+			directionString = @"LEFT";
+			break;
+		case BoardSwipeGestureDirectionRight:
+			directionString = @"RIGHT";
+			break;
+		case BoardSwipeGestureDirectionUp:
+			directionString = @"UP";
+			break;
+		case BoardSwipeGestureDirectionDown:
+			directionString = @"DOWN";
+			break;
+		default:
+			directionString = @"NONE";
+			break;
+	}
+	[str appendFormat:@"Direction: %@\n", directionString];
+	[str appendFormat:@"Score: %d\n", self.score];
+	[str appendFormat:@"Game Playing: %@", (self.gameplaying ? @"YES":@"NO")];
+	NSLog(@"%@", str);
 }
 
 #endif

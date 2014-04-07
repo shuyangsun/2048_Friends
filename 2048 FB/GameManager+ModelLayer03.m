@@ -30,6 +30,10 @@
 	return gManager;
 }
 
++(GameManager *) sharedGameManager {
+	return [[self allGameManagers] lastObject];
+}
+
 +(NSDictionary *) getMaxOccuredDictionary {
 	GameManager *gManager = [GameManager allGameManagers][0];
 	return [NSKeyedUnarchiver unarchiveObjectWithData:gManager.maxOccuredTimesOnBoardForEachTile];

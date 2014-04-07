@@ -9,7 +9,8 @@
 #import "Tile+ModelLayer03.h"
 #import "AppDelegate.h"
 
-NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
+// Because tile value is int16_t, we use 14 bits to store info. 2 ^ 14 = 16,384
+NSUInteger maxTilePower = 14;
 
 @implementation Tile (ModelLayer03)
 
@@ -22,7 +23,7 @@ NSUInteger maxTilePower = 15; // 2 ^ 15 = 32,768
 			if (i > 1) {
 				tile.previousTile = [Tile tileWithValue: val/2];
 			}
-			if (i <= maxTilePower - 1) {
+			if (i < maxTilePower) {
 				tile.nextTile = [Tile tileWithValue: val * 2];
 			}
 		}

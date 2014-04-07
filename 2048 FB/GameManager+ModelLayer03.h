@@ -12,6 +12,7 @@
 
 // Initialize one game manager for the game. Should be called only once when the app launches, and there is no iCloud data to fetch.
 +(GameManager *) initializeGameManager;
++(GameManager *) sharedGameManager;
 +(NSDictionary *) getMaxOccuredDictionary;
 +(BOOL) setMaxOccuredDictionary: (NSDictionary *) dictionary;
 +(NSUInteger) getMaxOccuredTimeForTileWithValue: (NSInteger) value;

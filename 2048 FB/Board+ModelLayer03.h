@@ -8,7 +8,9 @@
 
 #import "Board+ModelLayer02.h"
 
+#ifdef DEBUG
 #define DEBUG_BOARD
+#endif
 
 typedef enum BoardSwipeGestureDirection {
 	BoardSwipeGestureDirectionNone = 0,

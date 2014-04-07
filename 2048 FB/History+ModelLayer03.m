@@ -15,7 +15,7 @@
 +(History *)initializeNewHistory {
 	History *history = nil;
 	history = [History createHistory];
-	GameManager *gManager = [[GameManager allGameManagers] lastObject];
+	GameManager *gManager = [GameManager sharedGameManager];
 	[gManager addGameHistoriesObject:history];
 	return history;
 }

@@ -45,6 +45,7 @@
 		04983CE518EFAAB10022FB63 /* Board+ModelLayer03.m in Sources */ = {isa = PBXBuildFile; fileRef = 04983CE418EFAAB10022FB63 /* Board+ModelLayer03.m */; };
 		04983CE818EFAACA0022FB63 /* GameManager+ModelLayer03.m in Sources */ = {isa = PBXBuildFile; fileRef = 04983CE718EFAACA0022FB63 /* GameManager+ModelLayer03.m */; };
 		0499660D18ED1A3F00373E57 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0499660C18ED1A3F00373E57 /* README.md */; };
+		04A7C38418F31A0C0017C640 /* TileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A7C38318F31A0C0017C640 /* TileTest.m */; };
 		04C7042518ED0903001DBD60 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C7042418ED0903001DBD60 /* Theme.m */; };
 /* End PBXBuildFile section */
 
@@ -120,6 +121,7 @@
 		04983CE718EFAACA0022FB63 /* GameManager+ModelLayer03.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GameManager+ModelLayer03.m"; sourceTree = "<group>"; };
 		0499660C18ED1A3F00373E57 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
 		0499660E18ED1BEF00373E57 /* macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
+		04A7C38318F31A0C0017C640 /* TileTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileTest.m; sourceTree = "<group>"; };
 		04C7042318ED0903001DBD60 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
 		04C7042418ED0903001DBD60 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -320,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				044847B618EA1BA100D35B0F /* _048_FBTests.m */,
+				04A7C38318F31A0C0017C640 /* TileTest.m */,
 				049118AC18F07DE60021657D /* BoardTest.m */,
 				044847B118EA1BA100D35B0F /* Supporting Files */,
 			);
@@ -607,6 +610,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04A7C38418F31A0C0017C640 /* TileTest.m in Sources */,
 				049118AD18F07DE60021657D /* BoardTest.m in Sources */,
 				044847B718EA1BA100D35B0F /* _048_FBTests.m in Sources */,
 			);

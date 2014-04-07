@@ -16,7 +16,11 @@
 							 score: (int32_t) score
 					swipeDirection: (int16_t) swipeDirection {
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-	return [Board createBoardWithBoardData:data
+	NSMutableArray *dataCopy = [NSMutableArray array];
+	for (size_t i = 0; i < 4; ++i) {
+		dataCopy[i] = [data[i] mutableCopy];
+	}
+	return [Board createBoardWithBoardData:dataCopy
 							   gamePlaying:gamePLaying
 									 score:score
 							swipeDirection:swipeDirection
