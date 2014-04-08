@@ -66,12 +66,12 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	return sharedThm;
 }
 
-+(Theme *)sharedThemeWithUUID: (NSString *)uuid {
++(Theme *)sharedThemeWithID: (NSString *)iD {
 	Theme *theme = [self sharedTheme];
 	
 	// Set the uuid, name and price
-	theme.uuid = uuid;
-	NSArray *uuidElementsArr = [uuid componentsSeparatedByString: kThemeIDDelimiter];
+	theme.uuid = iD;
+	NSArray *uuidElementsArr = [iD componentsSeparatedByString: kThemeIDDelimiter];
 	theme.name = uuidElementsArr[1]; // The middle element
 	if ([(NSString*)[uuidElementsArr lastObject] compare: kThemePriceKey_Paid] == 0) { // If theme is free
 		theme.paid = YES;
@@ -82,7 +82,7 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	theme.boardCornerRadius = kBoardCornerRadiusDefault_iPhone;
 	
 	// Variables varies in different themes.
-	if ([uuid compare:kThemeID_Default] == 0) {
+	if ([iD compare:kThemeID_Default] == 0) {
 		theme.themeType = ThemeTypeDefault;
 		theme.backgroundColor = [UIColor colorWithRed:0.976 green:0.969 blue:0.922 alpha:1.000];
 		theme.boardColor = [UIColor colorWithRed:0.678 green:0.616 blue:0.561 alpha:1.000];
@@ -104,9 +104,9 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 											[UIColor colorWithRed:0.910 green:0.718 blue:0.141 alpha:1.000], // 2048
 											[UIColor colorWithRed:0.176 green:0.173 blue:0.141 alpha:1.000]  // > 2048
 											]];
-	} else if ([uuid compare:kThemeID_Night] == 0) {
+	} else if ([iD compare:kThemeID_Night] == 0) {
 		
-	} else if ([uuid compare:kThemeID_LightBlue] == 0) {
+	} else if ([iD compare:kThemeID_LightBlue] == 0) {
 		
 	}
 	return theme;
@@ -128,17 +128,16 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 			uuid = kThemeID_Default;
 			break;
 	}
-	return [self sharedThemeWithUUID:uuid];
+	return [self sharedThemeWithID:uuid];
 }
 
 -(BOOL)setThemeTileColorsFor2048: (NSArray *) colorsArr {
 	if ([colorsArr count] <= 0) {
 		return NO;
 	}
-	NSUInteger maxInd = [colorsArr count];
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-	for (NSUInteger i = 0; i < maxTilePower; ++i) {
-		dictionary[@((NSInteger)pow(2.0f, i + 1))] = colorsArr[MIN(i, maxInd)];
+	for (NSUInteger i = 0; i < maxTilePower && i < [colorsArr count]; ++i) {
+		dictionary[@((NSInteger)pow(2.0f, i + 1))] = colorsArr[i];
 	}
 	self.tileColors = [dictionary copy];
 	return YES;

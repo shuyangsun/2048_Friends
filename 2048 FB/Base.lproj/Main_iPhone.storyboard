@@ -21,12 +21,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="j6C-eB-99l">
-                                <rect key="frame" x="141" y="511" width="39" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="pageIndicatorTintColor" red="0.73333334922790527" green="0.67843139171600342" blue="0.62745100259780884" alpha="1" colorSpace="deviceRGB"/>
-                                <color key="currentPageIndicatorTintColor" red="0.56078433990478516" green="0.47843140363693237" blue="0.40000003576278687" alpha="1" colorSpace="deviceRGB"/>
-                            </pageControl>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2048" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hpg-ED-7cU">
                                 <rect key="frame" x="20" y="89" width="280" height="95"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -57,7 +51,7 @@
                                 <color key="textColor" red="0.46666669849999998" green="0.43137258290000002" blue="0.392156899" alpha="1" colorSpace="deviceRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@ShuyangSun" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSK-35-dQ7">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="@ShuyangSun" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSK-35-dQ7">
                                 <rect key="frame" x="20" y="477" width="280" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -96,8 +90,6 @@
                             <constraint firstItem="pYh-b1-51Q" firstAttribute="leading" secondItem="YdZ-q4-OzV" secondAttribute="leading" constant="59" id="Qjg-Xq-xFE"/>
                             <constraint firstItem="pYh-b1-51Q" firstAttribute="top" secondItem="yNL-Pj-S6t" secondAttribute="bottom" constant="24" id="XHj-Ty-d3j"/>
                             <constraint firstItem="yNL-Pj-S6t" firstAttribute="leading" secondItem="hpg-ED-7cU" secondAttribute="leading" id="YKa-i7-4bi"/>
-                            <constraint firstItem="j6C-eB-99l" firstAttribute="top" secondItem="vSK-35-dQ7" secondAttribute="bottom" constant="8" symbolic="YES" id="Ych-H3-eqk"/>
-                            <constraint firstAttribute="bottom" secondItem="j6C-eB-99l" secondAttribute="bottom" constant="20" symbolic="YES" id="dJz-tF-Kum"/>
                             <constraint firstItem="hpg-ED-7cU" firstAttribute="trailing" secondItem="yNL-Pj-S6t" secondAttribute="trailing" id="eUp-GG-5a4"/>
                             <constraint firstItem="yNL-Pj-S6t" firstAttribute="leading" secondItem="Mu0-Sr-qpS" secondAttribute="leading" id="eyu-Nb-O3E"/>
                             <constraint firstItem="yNL-Pj-S6t" firstAttribute="top" secondItem="hpg-ED-7cU" secondAttribute="bottom" constant="24" id="hKf-Ve-oeT"/>
@@ -106,7 +98,6 @@
                             <constraint firstItem="hpg-ED-7cU" firstAttribute="leading" secondItem="YdZ-q4-OzV" secondAttribute="leading" constant="20" symbolic="YES" id="qBI-ZK-BtF"/>
                             <constraint firstAttribute="trailing" secondItem="hpg-ED-7cU" secondAttribute="trailing" constant="20" symbolic="YES" id="vLN-Gh-KVB"/>
                             <constraint firstItem="Mu0-Sr-qpS" firstAttribute="top" secondItem="pYh-b1-51Q" secondAttribute="bottom" constant="25" id="zKI-UW-QXA"/>
-                            <constraint firstItem="vSK-35-dQ7" firstAttribute="centerX" secondItem="j6C-eB-99l" secondAttribute="centerX" id="zk9-yV-upu"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="9LY-9t-k7M" appends="YES" id="CKB-AE-pav"/>
@@ -116,7 +107,6 @@
                     <connections>
                         <outlet property="customLoginButton" destination="pYh-b1-51Q" id="X45-Zy-e63"/>
                         <outlet property="fbLoginView" destination="8lC-4d-pvj" id="wzv-Jj-DG1"/>
-                        <outlet property="pageControl" destination="j6C-eB-99l" id="pkI-rE-BcW"/>
                         <segue destination="7qP-hD-CQa" kind="modal" identifier="IntroPage_FirstToSecond" id="WLW-aj-iTb"/>
                     </connections>
                 </viewController>
@@ -153,7 +143,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JI9-7k-lmF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3513" y="429"/>
+            <point key="canvasLocation" x="-3508" y="456"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

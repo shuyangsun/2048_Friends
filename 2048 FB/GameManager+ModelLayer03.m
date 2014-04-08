@@ -31,7 +31,11 @@
 }
 
 +(GameManager *) sharedGameManager {
-	return [[self allGameManagers] lastObject];
+	GameManager *gManager = [[self allGameManagers] lastObject];
+	if (!gManager) {
+		gManager = [GameManager initializeGameManager];
+	}
+	return gManager;
 }
 
 +(NSDictionary *) getMaxOccuredDictionary {

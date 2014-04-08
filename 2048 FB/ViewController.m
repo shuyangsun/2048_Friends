@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "Theme.h"
+#import "GameManager+ModelLayer03.h"
 
 @interface ViewController ()
 
@@ -14,7 +16,7 @@
 
 // Private property to check if the user
 @property (nonatomic, getter = isUserLoggedIn) BOOL userLoggedIn;
-@property (nonatomic, getter = isShowPageControl) BOOL showPageControl;
+@property (nonatomic, strong) Theme *theme;
 
 /** This method is a private helper method to find the UIButton in the fbLoginView.
  *  So we can send touch events to fbLoginView programmatically.
@@ -35,6 +37,8 @@
 -(void)setup
 {
 	// Initialization code here...
+	GameManager *gManager = [GameManager sharedGameManager];
+	self.theme = [Theme sharedThemeWithID:gManager.currentThemeID];
 }
 
 -(void)awakeFromNib
@@ -63,9 +67,7 @@
 	// Get the pointer to the button.
 	[self findUIButtonInfbLoginView];
 	self.customLoginButton.layer.cornerRadius = kTTFBViewController_ButtonCornerRadiusDefault;
-	if (self.isShowPageControl == NO) {
-		self.pageControl.hidden = YES;
-	}
+	self.view.backgroundColor = self.theme.backgroundColor;
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,23 +78,7 @@
 
 // Handle events when users start panning on "Introduction" page.
 - (IBAction)handlePan:(UIPanGestureRecognizer *)sender {
-	if (sender.state == UIGestureRecognizerStateBegan) {
-		
-	} else if (sender.state == UIGestureRecognizerStateChanged) {
-		
-	} else if (sender.state == UIGestureRecognizerStateEnded) {
-		if ([sender translationInView:self.view].x < 0) { // If the user is swiping to the left:
-			if (self.pageControl.currentPage < self.pageControl.numberOfPages - 1){
-				self.pageControl.currentPage++;
-			}
-		} else if ([sender translationInView:self.view].x > 0) { // If the user is swiping to the right:
-			if (self.pageControl.currentPage > 0) {
-				self.pageControl.currentPage--;
-			}
-		} // TODO add animations to up/down swip (bouns a little bit)
-	} else if (sender.state == UIGestureRecognizerStateFailed) {
-		
-	}
+	
 }
 
 - (IBAction)customLoginButtonTouched:(UIButton *)sender {
@@ -101,12 +87,12 @@
 
 // <FBLoginViewDelegate> method
 -(void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
-	self.showPageControl = YES;
+	
 }
 
 // <FBLoginViewDelegate> method
 -(void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
-	self.showPageControl = NO;
+	
 }
 
 // <FBLoginViewDelegate> method

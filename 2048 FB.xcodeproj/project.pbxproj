@@ -299,13 +299,13 @@
 		0448478E18EA1BA100D35B0F /* 2048 FB */ = {
 			isa = PBXGroup;
 			children = (
+				0499660C18ED1A3F00373E57 /* README.md */,
 				0444F6E518EE3F7B005A0490 /* 2048 FB.entitlements */,
 				0448479A18EA1BA100D35B0F /* Main_iPhone.storyboard */,
 				0448479D18EA1BA100D35B0F /* Main_iPad.storyboard */,
 				044847A318EA1BA100D35B0F /* Images.xcassets */,
 				04983CD118EF628E0022FB63 /* GUI/UX */,
 				04601EE818EB8C39007BAC8E /* Model */,
-				0499660C18ED1A3F00373E57 /* README.md */,
 				0448478F18EA1BA100D35B0F /* Supporting Files */,
 			);
 			path = "2048 FB";

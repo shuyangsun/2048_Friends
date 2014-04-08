@@ -70,7 +70,7 @@ extern NSString *const kThemeID_LightBlue;
 @property (nonatomic) CGFloat boardEdgeWidthFraction; // Comparing with board width
 @property (nonatomic) CGFloat lineWidthFraction; // Comparing with board width
 
-+(Theme *)sharedThemeWithUUID: (NSString *)uuid;
++(Theme *)sharedThemeWithID: (NSString *)uuid;
 +(Theme *)sharedThemeWithIndex: (NSUInteger)index;
 
 // Return how many theme types are there.
