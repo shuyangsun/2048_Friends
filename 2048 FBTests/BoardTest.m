@@ -115,11 +115,404 @@
 														   @[@(2), @(4), @(8), @(16)],
 														   @[@(64), @(8), @(2), @(4)]]];
 	self.board = [Board createBoardWithBoardData:arr
-						gamePlaying:YES
-							  score:0
-					 swipeDirection:BoardSwipeGestureDirectionNone];
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
 	self.board = [self.board swipedToDirection:BoardSwipeGestureDirectionLeft];
 	XCTAssertFalse(self.board.gameplaying);
+}
+
+-(void)testBoardSwipableLeft {
+	NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@[@(2), @(4), @(8), @(16)],
+														   @[@(32), @(16), @(2), @(8)],
+														   @[@(2), @(4), @(8), @(16)],
+														   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionLeft]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(2), @(4), @(0), @(0)],
+										   @[@(32), @(16), @(2), @(0)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(0), @(0), @(0), @(0)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionLeft]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(2), @(2), @(8), @(16)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionLeft]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(0), @(2), @(2), @(16)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionLeft]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(2), @(2), @(2), @(16)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionLeft]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(2), @(2), @(4), @(16)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionLeft]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(4), @(2), @(16), @(16)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionLeft]);
+}
+
+-(void)testBoardSwipableRight {
+	NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@[@(2), @(4), @(8), @(16)],
+														   @[@(32), @(16), @(2), @(8)],
+														   @[@(2), @(4), @(8), @(16)],
+														   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionRight]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(0), @(0), @(8), @(2)],
+										   @[@(0), @(16), @(2), @(64)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(0), @(0), @(0), @(0)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionRight]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(2), @(2), @(8), @(16)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionRight]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(2), @(2), @(0)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionRight]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(2), @(2), @(2)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionRight]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(4), @(2), @(2)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionRight]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(2), @(2), @(2), @(2)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionRight]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(16), @(4), @(2)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionRight]);
+}
+
+-(void)testBoardSwipableUp {
+	NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@[@(2), @(4), @(8), @(16)],
+														   @[@(32), @(16), @(2), @(8)],
+														   @[@(2), @(4), @(8), @(16)],
+														   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionUp]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(2), @(4), @(4), @(0)],
+										   @[@(4), @(0), @(2), @(0)],
+										   @[@(2), @(0), @(0), @(0)],
+										   @[@(0), @(0), @(0), @(0)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionUp]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(4), @(2), @(8), @(16)],
+										   @[@(32), @(2), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionUp]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(4), @(2), @(8)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(4), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionUp]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(2), @(2), @(2)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(2), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionUp]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(4), @(2), @(2)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionUp]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(2), @(4), @(2), @(4)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(2), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionUp]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(16), @(4), @(2)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionUp]);
+}
+
+-(void)testBoardSwipableDown {
+	NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@[@(2), @(4), @(8), @(16)],
+														   @[@(32), @(16), @(2), @(8)],
+														   @[@(2), @(4), @(8), @(16)],
+														   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionDown]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(0), @(0), @(2), @(0)],
+										   @[@(4), @(0), @(4), @(0)],
+										   @[@(2), @(4), @(2), @(0)],
+										   @[@(4), @(2), @(4), @(0)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionDown]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(4), @(2), @(8), @(16)],
+										   @[@(32), @(2), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionDown]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(4), @(2), @(8)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(4), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionDown]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(2), @(2), @(2)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(2), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionDown]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(4), @(2), @(2)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionDown]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(2), @(4), @(2), @(4)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(2), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionDown]);
+	
+	arr = [NSMutableArray arrayWithArray:@[@[@(16), @(16), @(4), @(2)],
+										   @[@(32), @(16), @(2), @(8)],
+										   @[@(2), @(4), @(8), @(16)],
+										   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionDown]);
+}
+
+-(void)testBoardSwipableMix {
+	NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@[@(2), @(4), @(8), @(16)],
+														   @[@(32), @(16), @(2), @(8)],
+														   @[@(2), @(4), @(8), @(16)],
+														   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionLeft]);
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionRight]);
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionUp]);
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionDown]);
+	
+	NSMutableArray *arr2 = [NSMutableArray arrayWithArray:@[@[@(0), @(4), @(8), @(16)],
+														   @[@(32), @(16), @(2), @(8)],
+														   @[@(2), @(4), @(8), @(16)],
+														   @[@(64), @(8), @(2), @(4)]]];
+	self.board = [Board createBoardWithBoardData:arr2
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionLeft]);
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionRight]);
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionUp]);
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionDown]);
+	
+	NSMutableArray *arr3 = [NSMutableArray arrayWithArray:@[@[@(2), @(4), @(8), @(16)],
+															@[@(32), @(16), @(2), @(8)],
+															@[@(2), @(4), @(8), @(16)],
+															@[@(64), @(8), @(2), @(0)]]];
+	self.board = [Board createBoardWithBoardData:arr3
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionLeft]);
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionRight]);
+	XCTAssertFalse([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionUp]);
+	XCTAssertTrue([self.board canBeSwipedIntoDirection:BoardSwipeGestureDirectionDown]);
 }
 
 /// Swipping tests:
