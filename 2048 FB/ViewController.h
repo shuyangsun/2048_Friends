@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 
-// constant variables:
-const CGFloat kTTFBViewController_ButtonCornerRadiusDefault = 3.0f;
+// constant variables
+extern const NSTimeInterval kViewControllerDuration_Animation;
+extern const NSTimeInterval kViewControllerDuration_Delay;
+extern const NSTimeInterval kViewControllerDuration_SpringDamping;
+extern const NSTimeInterval kViewControllerDuration_SpringVelocity;
 
 @interface ViewController : UIViewController <FBLoginViewDelegate>
 
@@ -19,7 +22,7 @@ const CGFloat kTTFBViewController_ButtonCornerRadiusDefault = 3.0f;
 @property (weak, nonatomic) IBOutlet UIButton *customLoginButton;
 
 /// Handles pan gestures on the "Introduction" page.
-- (IBAction)handlePan:(UIPanGestureRecognizer *)sender;
+- (void)handlePan:(UIPanGestureRecognizer *)sender;
 // When the custom login UI get touched
 - (IBAction)customLoginButtonTouched:(UIButton *)sender;
 

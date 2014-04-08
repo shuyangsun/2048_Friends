@@ -12,11 +12,12 @@
 #import "Theme.h"
 
 #import "GameManager+ModelLayer03.h"
+#import "History+ModelLayer01.h"
 #import "Board+ModelLayer03.h"
 #import "Tile+ModelLayer03.h"
 
 NSString *const kUserDefaultKeyAppFirstTimeLaunch  = @"UserDefault_ApplicationFirstTimeLaunch";
-NSString *const kCurrentThemeUUIDKey = @"UserDefault_CurrentThemeUUIDKey";
+NSString *const kCurrentThemeIDKey = @"UserDefault_CurrentThemeUUIDKey";
 
 @interface AppDelegate()
 
@@ -29,7 +30,10 @@ NSString *const kCurrentThemeUUIDKey = @"UserDefault_CurrentThemeUUIDKey";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	
+	// TODO
+	[GameManager initializeGameManager];
+	[Board initializeNewBoard];
+	[Tile initializeAllTiles];
     // Override point for customization after application launch.
 	[FBLoginView class];
 	[UIApplication sharedApplication].statusBarHidden = YES;
@@ -37,12 +41,12 @@ NSString *const kCurrentThemeUUIDKey = @"UserDefault_CurrentThemeUUIDKey";
 	// Using NSUserDefaukt and iCloud to store currentThemeUUID
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	NSUbiquitousKeyValueStore *ubiquitousStore = [NSUbiquitousKeyValueStore defaultStore];
-	NSString *themeUUID = kThemeID_Default;
-	themeUUID = ([userDefaults objectForKey:kCurrentThemeUUIDKey] ? [userDefaults objectForKey:kCurrentThemeUUIDKey]:themeUUID);
-	themeUUID = ([ubiquitousStore objectForKey:kCurrentThemeUUIDKey] ? [ubiquitousStore objectForKey:kCurrentThemeUUIDKey]:themeUUID);
-	[userDefaults setObject:themeUUID forKey: kCurrentThemeUUIDKey];
+	NSString *themeID = kThemeID_Default;
+	themeID = ([userDefaults objectForKey:kCurrentThemeIDKey] ? [userDefaults objectForKey:kCurrentThemeIDKey]:themeID);
+	themeID = ([ubiquitousStore objectForKey:kCurrentThemeIDKey] ? [ubiquitousStore objectForKey:kCurrentThemeIDKey]:themeID);
+	[userDefaults setObject:themeID forKey: kCurrentThemeIDKey];
 	[userDefaults synchronize];
-	[ubiquitousStore setObject:themeUUID forKey:kCurrentThemeUUIDKey];
+	[ubiquitousStore setObject:themeID forKey:kCurrentThemeIDKey];
 	[ubiquitousStore synchronize];
     return YES;
 }

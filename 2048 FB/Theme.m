@@ -80,6 +80,7 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	
 	// Need to set the corner radius, widthFraction, etc.
 	theme.boardCornerRadius = kBoardCornerRadiusDefault_iPhone;
+	theme.buttonCornerRadius = kButtonCornerRadiusDefault_iPhone;
 	
 	// Variables varies in different themes.
 	if ([iD compare:kThemeID_Default] == 0) {

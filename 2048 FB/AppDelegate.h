@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 extern NSString *const kAppDelegate_UserDefaultKeyAppFirstTimeLaunch;
-extern NSString *const kAppDelegate_CurrentThemeUUIDKey;
+extern NSString *const kAppDelegate_CurrentThemeIDKey;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
