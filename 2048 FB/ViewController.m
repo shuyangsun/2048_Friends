@@ -100,7 +100,6 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 			v.translatesAutoresizingMaskIntoConstraints = YES;
 		}
 		self.originCutomButtonFrame = self.customLoginButton.frame;
-		newFrame = self.originCutomButtonFrame;
 	} else if (sender.state == UIGestureRecognizerStateChanged) {
 		CGFloat translationX = [sender translationInView:self.view].x;
 		newWidthAdded += maxPanLength1 * MIN(1.0f, fabs(translationX)/(viewWidth/2));

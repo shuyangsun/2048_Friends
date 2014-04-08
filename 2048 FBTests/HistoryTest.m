@@ -58,6 +58,7 @@
 	XCTAssertNotNil([History latestHistory]);
 }
 
+// TODO Has BUGS
 -(void)testHistoryCreatedWhenNewBoardInitialized
 {
 	[Board initializeNewBoard];
