@@ -75,4 +75,26 @@
 	}
 }
 
+-(void)testMaxOccuredTimeForEachTile
+{
+	NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@[@(2), @(4), @(2), @(8)],
+														   @[@(4), @(2), @(4), @(0)],
+														   @[@(8), @(8), @(32), @(32)],
+														   @[@(32), @(256), @(512), @(1024)]]];
+	Board *board = [Board createBoardWithBoardData:arr
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	[board swipedToDirection:BoardSwipeGestureDirectionDown];
+	
+	NSDictionary *maxOccuredTimeDictionary = [GameManager getMaxOccuredDictionary];
+	XCTAssertTrue([maxOccuredTimeDictionary[@(2)] intValue] == 3 || [maxOccuredTimeDictionary[@(2)] intValue] == 4);
+	XCTAssertTrue([maxOccuredTimeDictionary[@(4)] intValue] == 3 || [maxOccuredTimeDictionary[@(4)] intValue] == 4);
+	XCTAssertEqualObjects(maxOccuredTimeDictionary[@(8)], @(3));
+	XCTAssertEqualObjects(maxOccuredTimeDictionary[@(32)], @(3));
+	XCTAssertEqualObjects(maxOccuredTimeDictionary[@(256)], @(1));
+	XCTAssertEqualObjects(maxOccuredTimeDictionary[@(512)], @(1));
+	XCTAssertEqualObjects(maxOccuredTimeDictionary[@(1024)], @(1));
+}
+
 @end
