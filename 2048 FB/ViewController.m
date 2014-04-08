@@ -93,7 +93,6 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 	CGFloat maxPanLength1 = 5.0f;
 	CGFloat maxPanLength2 = 2.0f;
 	CGFloat newWidthAdded = 0.0f;
-	CGRect newFrame;
 	if (sender.state == UIGestureRecognizerStateBegan) {
 		NSArray *viewArr = [self.view subviews];
 		for (UIView *v in viewArr) {
@@ -105,12 +104,11 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 		newWidthAdded += maxPanLength1 * MIN(1.0f, fabs(translationX)/(viewWidth/2));
 		newWidthAdded += maxPanLength2 * MAX(0.0f, (fabs(translationX) - (viewWidth/2))/(viewWidth/2));
 		if (translationX > 0) {
-			newFrame = CGRectMake(self.originCutomButtonFrame.origin.x, self.originCutomButtonFrame.origin.y, self.originCutomButtonFrame.size.width + newWidthAdded, self.originCutomButtonFrame.size.height);
+			self.customLoginButton.frame = CGRectMake(self.originCutomButtonFrame.origin.x, self.originCutomButtonFrame.origin.y, self.originCutomButtonFrame.size.width + newWidthAdded, self.originCutomButtonFrame.size.height);
 		} else {
-			newFrame = CGRectMake(self.originCutomButtonFrame.origin.x - newWidthAdded, self.originCutomButtonFrame.origin.y, self.originCutomButtonFrame.size.width + newWidthAdded, self.originCutomButtonFrame.size.height);
+			self.customLoginButton.frame = CGRectMake(self.originCutomButtonFrame.origin.x - newWidthAdded, self.originCutomButtonFrame.origin.y, self.originCutomButtonFrame.size.width + newWidthAdded, self.originCutomButtonFrame.size.height);
 		}
 		
-		self.customLoginButton.frame = newFrame;
 		[self.customLoginButton setNeedsDisplay];
 	} else if (sender.state == UIGestureRecognizerStateEnded || sender.state == UIGestureRecognizerStateCancelled) {
 		[UIView animateWithDuration:kViewControllerDuration_Animation
