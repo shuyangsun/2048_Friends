@@ -17,7 +17,7 @@
 @property (nonatomic, retain) NSString * fbUserName;
 @property (nonatomic, retain) UIImage * image;
 @property (nonatomic, retain) NSUUID * uuid;
-@property (nonatomic) int16_t value;
+@property (nonatomic) int32_t value;
 @property (nonatomic, retain) NSString * text;
 @property (nonatomic, retain) Tile *nextTile;
 @property (nonatomic, retain) Tile *previousTile;

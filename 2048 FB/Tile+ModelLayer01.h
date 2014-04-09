@@ -12,7 +12,7 @@ extern NSString *const kCoreDataEntityName_Tile;
 
 @interface Tile (ModelLayer01)
 
-+(Tile *)tileWithValue: (int16_t) value inManagedObjectContext: (NSManagedObjectContext *)context;
-+(BOOL)removeTileWithValue: (int16_t) value inManagedObjectContext: (NSManagedObjectContext *)context;
++(Tile *)tileWithValue: (int32_t) value inManagedObjectContext: (NSManagedObjectContext *)context;
++(BOOL)removeTileWithValue: (int32_t) value inManagedObjectContext: (NSManagedObjectContext *)context;
 
 @end

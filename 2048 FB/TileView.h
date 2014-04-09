@@ -10,6 +10,7 @@
 
 @interface TileView : UIView
 
+@property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) NSString *text;
 @property (strong, nonatomic) UILabel *label;
 

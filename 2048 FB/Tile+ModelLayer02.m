@@ -17,12 +17,12 @@
 
 @implementation Tile (ModelLayer02)
 
-+(Tile *)tileWithValue: (int16_t) value {
++(Tile *)tileWithValue: (int32_t) value {
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	return [Tile tileWithValue:value inManagedObjectContext:appDelegate.managedObjectContext];
 }
 
-+(BOOL)removeTileWithValue: (int16_t) value {
++(BOOL)removeTileWithValue: (int32_t) value {
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	return [Tile removeTileWithValue:value inManagedObjectContext:appDelegate.managedObjectContext];
 }

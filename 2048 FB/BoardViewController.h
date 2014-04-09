@@ -10,6 +10,7 @@
 #import <iAd/iAd.h>
 
 extern const CGFloat kAnimationDuration_ScreenBlur;
+extern const CGFloat kAnimationDelay_GameOver;
 extern const CGFloat kAnimationDuration_TextFade;
 extern const CGFloat kTextShowDuration;
 extern const CGFloat kBoardPanMinDistance;
@@ -29,10 +30,17 @@ extern const CGFloat kBoardPanMinDistance;
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *tileContainerViews;
 @property (weak, nonatomic) IBOutlet UIView *boardViewInteractionLayer;
 
+@property (weak, nonatomic) IBOutlet UIView *pauseView;
+@property (weak, nonatomic) IBOutlet UIImageView *pauseImageView;
+@property (weak, nonatomic) IBOutlet UILabel *gameStatusLabel;
+@property (weak, nonatomic) IBOutlet UIButton *retryOrKeepPlayingButton;
+@property (weak, nonatomic) IBOutlet UIButton *shareButton;
+
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *panGestureRecognizer;
 
 - (IBAction)menuTapped:(UIButton *)sender;
 - (IBAction)boardPanned:(UIPanGestureRecognizer *)sender;
+- (IBAction)retryOrKeepPlayingTapped:(UIButton *)sender;
 
 @end

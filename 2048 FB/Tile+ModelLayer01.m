@@ -13,7 +13,7 @@ NSString *const kCoreDataEntityName_Tile = @"Tile";
 
 @implementation Tile (ModelLayer01)
 
-+(Tile *)tileWithValue: (int16_t) value inManagedObjectContext: (NSManagedObjectContext *)context{
++(Tile *)tileWithValue: (int32_t) value inManagedObjectContext: (NSManagedObjectContext *)context{
 	Tile *tile = nil;
 	
 	// Check if the tile already exists
@@ -38,7 +38,7 @@ NSString *const kCoreDataEntityName_Tile = @"Tile";
 	return tile;
 }
 
-+(BOOL)removeTileWithValue: (int16_t) value inManagedObjectContext: (NSManagedObjectContext *)context{
++(BOOL)removeTileWithValue: (int32_t) value inManagedObjectContext: (NSManagedObjectContext *)context{
 	// Check if the tile already exists
 	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName: (NSString *)kCoreDataEntityName_Tile];
 	request.predicate = [NSPredicate predicateWithFormat:@"value = %d", value];

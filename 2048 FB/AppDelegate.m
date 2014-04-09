@@ -57,12 +57,22 @@ NSString *const kCurrentThemeIDKey = @"UserDefault_CurrentThemeUUIDKey";
 {
 	// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
 	// Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+	NSError *error = nil;
+	[self.managedObjectContext save:&error];
+	if (error) {
+		NSLog(@"%@", error);
+	}
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
 	// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
 	// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+	NSError *error = nil;
+	[self.managedObjectContext save:&error];
+	if (error) {
+		NSLog(@"%@", error);
+	}
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -80,6 +90,11 @@ NSString *const kCurrentThemeIDKey = @"UserDefault_CurrentThemeUUIDKey";
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 	// After the app gets terminate once, set the "First time launching app" to NO.
 	// This is a local userDefault, we do NOT want it to be synced to iCloud
+	NSError *error = nil;
+	[self.managedObjectContext save:&error];
+	if (error) {
+		NSLog(@"%@", error);
+	}
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	[userDefaults setObject:@(NO) forKey:kUserDefaultKeyAppFirstTimeLaunch];
 	[userDefaults synchronize];

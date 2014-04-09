@@ -34,7 +34,7 @@
 			--i;
 			continue;
 		}
-		int16_t val = [Tile generateRandomInitTileValue];
+		int32_t val = [Tile generateRandomInitTileValue];
 		boardData[(int)p.y][(int)p.x] = @(val);
 	}
 	[boardData addObject:boardData];
@@ -48,8 +48,7 @@
 	return board;
 }
 
-// This makes a copy of the previouse 
--(Board *) swipedToDirection: (BoardSwipeGestureDirection) direction {
+-(Board *) swipedToDirection: (BoardSwipeGestureDirection) direction newTileValue: (int32_t *) newVal newTilePos: (CGPoint *) newPos {
 	Board *nextBoard = nil;
 	if (self.gameplaying && [self canBeSwipedIntoDirection:direction]) {
 		self.swipeDirection = direction; // Set the direction for current last board
@@ -222,8 +221,10 @@
 		
 		// Generate a new random tile
 		CGPoint p = [Board generateRandomAvailableCellPointFromCells2DArray: arr];
-		arr[(int)p.y][(int)p.x] = @([Tile generateRandomInitTileValue]);
-		
+		if (newPos) {*newPos = p;}
+		NSNumber *val = @([Tile generateRandomInitTileValue]);
+		arr[(int)p.y][(int)p.x] = val;
+		if (newVal) {*newVal = (int32_t)[val intValue];}
 		
 		// Check to see if the game is still playing and update onboard tiles.
 		gamePLaying = [Board gameEndFrom2DArray:arr];
@@ -266,6 +267,12 @@
 		[GameManager setMaxOccuredDictionary:[maxOccuredDictionary copy]];
 	}
 	return nextBoard;
+
+}
+
+// This makes a copy of the previouse
+-(Board *) swipedToDirection: (BoardSwipeGestureDirection) direction {
+	return [self swipedToDirection:direction newTileValue:nil newTilePos:nil];
 }
 
 -(NSMutableArray *)getBoardDataArray {

@@ -9,7 +9,7 @@
 #import "Tile+ModelLayer03.h"
 #import "AppDelegate.h"
 
-// Because tile value is int16_t, we use 14 bits to store info. 2 ^ 14 = 16,384
+// Because tile value is int32_t, we use 14 bits to store info. 2 ^ 14 = 16,384
 NSUInteger maxTilePower = 14;
 
 @implementation Tile (ModelLayer03)
@@ -18,7 +18,7 @@ NSUInteger maxTilePower = 14;
 +(BOOL)initializeAllTiles {
 	if ([[Tile allTiles] count] <= 0) { // If there is no tiles in data base:
 		for (int i = 1; i <= maxTilePower; ++i) {
-			int16_t val = (int16_t)pow(2.0f, i);
+			int32_t val = (int32_t)pow(2.0f, i);
 			Tile *tile = [Tile tileWithValue:val];
 			if (i > 1) {
 				tile.previousTile = [Tile tileWithValue: val/2];
@@ -54,18 +54,18 @@ NSUInteger maxTilePower = 14;
 	return [appDelegate saveContext];
 }
 
-+(UIImage *)imageForTileWithValue: (NSInteger) value {
++(UIImage *)imageForTileWithValue: (int32_t) value {
 	return [Tile tileWithValue:value].image;
 }
 
-+(BOOL)setImage: (UIImage *) image forTileWithValue: (NSInteger) value {
++(BOOL)setImage: (UIImage *) image forTileWithValue: (int32_t) value {
 	Tile *tile = [Tile tileWithValue:value];
 	tile.image = image;
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	return [appDelegate saveContext];
 }
 
-+(int16_t) generateRandomInitTileValue {
++(int32_t) generateRandomInitTileValue {
 	return arc4random()%100 < 90 ? 2:4; // 90% chance get 2, 10% get 4
 }
 

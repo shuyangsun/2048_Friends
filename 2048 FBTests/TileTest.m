@@ -36,7 +36,7 @@
 - (void)testInitialize
 {
 	for (size_t i = 1; i <= maxTilePower; ++i) {
-		Tile *t = [Tile tileWithValue:(int16_t)pow(2.0f, i)];
+		Tile *t = [Tile tileWithValue:(int32_t)pow(2.0f, i)];
 		XCTAssertNotNil(t);
 	}
 }
@@ -44,14 +44,14 @@
 - (void)testTileRelationships
 {
 	for (size_t i = 1; i <= maxTilePower; ++i) {
-		Tile *t = [Tile tileWithValue:(int16_t)pow(2.0f, i)];
+		Tile *t = [Tile tileWithValue:(int32_t)pow(2.0f, i)];
 		if (i <= 1) {
-			XCTAssertEqual(t.nextTile.value, (int16_t)pow(2.0f, i + 1));
+			XCTAssertEqual(t.nextTile.value, (int32_t)pow(2.0f, i + 1));
 		} else if (i >= maxTilePower) {
-			XCTAssertEqual(t.previousTile.value, (int16_t)pow(2.0f, i - 1));
+			XCTAssertEqual(t.previousTile.value, (int32_t)pow(2.0f, i - 1));
 		} else {
-			XCTAssertEqual(t.nextTile.value, (int16_t)pow(2.0f, i + 1));
-			XCTAssertEqual(t.previousTile.value, (int16_t)pow(2.0f, i - 1));
+			XCTAssertEqual(t.nextTile.value, (int32_t)pow(2.0f, i + 1));
+			XCTAssertEqual(t.previousTile.value, (int32_t)pow(2.0f, i - 1));
 		}
 		
 	}
@@ -76,7 +76,7 @@
 -(void)testTileText
 {
 	for (size_t i = 1; i <= maxTilePower; ++i) {
-		Tile *t = [Tile tileWithValue:(int16_t)pow(2.0f, i)];
+		Tile *t = [Tile tileWithValue:(int32_t)pow(2.0f, i)];
 		NSString *temp = [NSString stringWithFormat:@"%d", t.value];
 		XCTAssertEqualObjects(t.text, temp);
 	}

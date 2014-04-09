@@ -17,7 +17,9 @@
 #import "Theme.h"
 #import "TileView.h"
 
-const CGFloat kAnimationDuration_ScreenBlur = 0.2f;
+const CGFloat kAnimationDuration_ScreenBlur = 1.0f;
+const CGFloat kAnimationDuration_SpineTile = 1.0f;
+const CGFloat kAnimationDelay_GameOver = 0.0f;
 const CGFloat kAnimationDuration_TextFade = 0.5f;
 const CGFloat kTextShowDuration = 5.0f;
 
@@ -34,6 +36,7 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 
 // Use this method to set the text, interact with iAd
 @property (strong, nonatomic) NSTimer *lastTimer;
+
 -(void)setTextForTextLabel: (NSString *) text;
 -(void)setCanDisplayiAdBannerYES;
 -(void)updateBoardFromLatestBoardData;
@@ -73,6 +76,9 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 	
 	// Change the corner radius of views
 	self.boardView.layer.cornerRadius = self.theme.boardCornerRadius;
+	self.boardView.layer.masksToBounds = YES;
+	self.pauseImageView.layer.cornerRadius = self.theme.boardCornerRadius;
+	self.pauseImageView.layer.masksToBounds = YES;
 	self.profilePictureView.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.menuView.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.bestScoreView.layer.cornerRadius = self.theme.buttonCornerRadius;
@@ -201,6 +207,7 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 //	
 //}
 
+
 -(CGRect) frameOfTileContainerAtPosition: (CGPoint) pos {
 	CGRect res = CGRectZero;
 	UIView *view = self.tileContainerViewsSorted[(int)(pos.y * 4 + pos.x)];
@@ -244,6 +251,15 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 	}
 }
 
+- (IBAction)retryOrKeepPlayingTapped:(UIButton *)sender {
+	if (sender.tag == 0) {
+		self.pauseView.alpha = 0.0f;
+		[Board initializeNewBoard];
+		[self updateBoardFromLatestBoardData];
+		self.panGestureRecognizer.enabled = YES;
+	}
+}
+
 -(void)updateBoardFromLatestBoardData {
 	for (UIView *tView in [self.boardView subviews]) {
 		if ([tView isKindOfClass:[TileView class]]) {
@@ -254,7 +270,8 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 		[self.onBoardTileViews removeObject:[self.onBoardTileViews lastObject]];
 	}
 	[self.boardView setNeedsDisplay];
-	NSArray *gameData = [[Board latestBoard] getBoardDataArray];
+	Board *board = [Board latestBoard];
+	NSArray *gameData = [board getBoardDataArray];
 	for (size_t i = 0; i < 4; ++i) {
 		for (size_t j = 0; j < 4; ++j) {
 			int val = [gameData[i][j] intValue];
@@ -274,7 +291,60 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 	}
 	[self.boardView bringSubviewToFront:self.boardViewInteractionLayer];
 	self.bestScoreLabel.text = [NSString stringWithFormat:@"%d", [GameManager sharedGameManager].bestScore];
-	self.scoreLabel.text = [NSString stringWithFormat:@"%d", [Board latestBoard].score];
+	self.scoreLabel.text = [NSString stringWithFormat:@"%d", board.score];
+	if (board.gameplaying == NO) {
+		self.panGestureRecognizer.enabled = NO;
+		self.pauseView.alpha = 0.0f;
+				[self.boardView bringSubviewToFront:self.pauseView];
+		[self.pauseView bringSubviewToFront:self.pauseImageView];
+		[self.pauseView bringSubviewToFront:self.gameStatusLabel];
+		[self.pauseView bringSubviewToFront:self.shareButton];
+		[self.pauseView bringSubviewToFront:self.retryOrKeepPlayingButton];
+		self.retryOrKeepPlayingButton.titleLabel.text = @"Play Again";
+		self.retryOrKeepPlayingButton.tag = 0;
+		for (UIView *tView in self.onBoardTileViews) {
+			CGAffineTransform transform = tView.transform;
+			[UIView animateWithDuration:kAnimationDuration_SpineTile
+								  delay:kAnimationDelay_GameOver
+				 usingSpringWithDamping:0.4f
+				  initialSpringVelocity:0.6f
+								options:UIViewAnimationOptionCurveLinear
+							 animations:^{
+								 tView.transform = CGAffineTransformScale(transform, 1.1f, 1.1f);
+							 }
+							 completion:^(BOOL finished){
+								 [UIView animateWithDuration:kAnimationDuration_SpineTile
+													   delay:kAnimationDelay_GameOver
+									  usingSpringWithDamping:0.4f
+									   initialSpringVelocity:0.6f
+													 options:UIViewAnimationOptionCurveLinear
+												  animations:^{
+													  tView.transform = CGAffineTransformIdentity;
+												  }
+												  completion:nil];
+							 }];
+		}
+		UIGraphicsBeginImageContextWithOptions(self.boardView.bounds.size, YES, 0.0f);
+		[self.boardView drawViewHierarchyInRect:self.boardView.bounds afterScreenUpdates:YES];
+		UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+		UIGraphicsEndImageContext();
+		
+		UIColor *blurtTintColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.7f];
+		snapshot = [snapshot applyBlurEffectWithRadius:5.0f tintColor:blurtTintColor];
+		self.pauseImageView.image = snapshot;
+
+		[UIView animateWithDuration:kAnimationDuration_ScreenBlur
+							  delay:kAnimationDuration_SpineTile
+							options:UIViewAnimationOptionCurveEaseInOut
+						 animations:^{
+							 self.pauseView.alpha = 1.0f;
+						 }
+						 completion:^(BOOL finished) {
+							 [self.view bringSubviewToFront:self.pauseView];
+						 }];
+	} else {
+		self.pauseView.alpha = 0.0f;
+	}
 }
 
 @end

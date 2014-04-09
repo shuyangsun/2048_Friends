@@ -22,10 +22,18 @@
 
 - (void)drawRect:(CGRect)rect
 {
-	self.label = [[UILabel alloc] initWithFrame:self.bounds];
-	[self addSubview:self.label];
-	self.label.textAlignment = NSTextAlignmentCenter;
-	self.label.text = self.text;
+	if (self.image) {
+		UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+		imageView.image = self.image;
+		imageView.contentMode = UIViewContentModeScaleToFill;
+		[self addSubview:imageView];
+		[self bringSubviewToFront:imageView];
+	} else {
+		self.label = [[UILabel alloc] initWithFrame:self.bounds];
+		[self addSubview:self.label];
+		self.label.textAlignment = NSTextAlignmentCenter;
+		self.label.text = self.text;
+	}
 }
 
 @end

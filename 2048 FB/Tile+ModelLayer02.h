@@ -10,8 +10,8 @@
 
 @interface Tile (ModelLayer02)
 
-+(Tile *)tileWithValue: (int16_t) value;
-+(BOOL)removeTileWithValue: (int16_t) value;
++(Tile *)tileWithValue: (int32_t) value;
++(BOOL)removeTileWithValue: (int32_t) value;
 
 +(NSArray *)allTiles; // Default value in ascending order.
 

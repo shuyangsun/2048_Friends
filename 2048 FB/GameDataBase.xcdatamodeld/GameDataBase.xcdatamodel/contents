@@ -28,7 +28,7 @@
         <attribute name="image" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uuid" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="value" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="nextTile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tile" inverseName="previousTile" inverseEntity="Tile" syncable="YES"/>
         <relationship name="previousTile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tile" inverseName="nextTile" inverseEntity="Tile" syncable="YES"/>
     </entity>

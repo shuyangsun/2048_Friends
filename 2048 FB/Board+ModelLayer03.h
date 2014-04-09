@@ -24,6 +24,8 @@ typedef enum BoardSwipeGestureDirection {
 
 // Every time initializing a new board, a new history is created automatically, later boards created are added into latest history
 +(Board *) initializeNewBoard;
+// Swipe the board to the given direction, the two pointers variables are for getting the newTile information.
+-(Board *) swipedToDirection: (BoardSwipeGestureDirection) direction newTileValue: (int32_t *) newVal newTilePos: (CGPoint *) newPos;
 -(Board *) swipedToDirection: (BoardSwipeGestureDirection) direction;
 
 -(NSMutableArray *)getBoardDataArray;

@@ -19,7 +19,7 @@ extern NSUInteger maxTilePower;
 +(NSArray *)imagesForAllTiles;
 // Pass in an array of images, they are set to tiles with value 2, 4, 8... respectively.
 +(BOOL)setImagesForTiles: (NSArray *) images;
-+(UIImage *)imageForTileWithValue: (NSInteger) value;
-+(BOOL)setImage: (UIImage *) image forTileWithValue: (NSInteger) value;
-+(int16_t) generateRandomInitTileValue;
++(UIImage *)imageForTileWithValue: (int32_t) value;
++(BOOL)setImage: (UIImage *) image forTileWithValue: (int32_t) value;
++(int32_t) generateRandomInitTileValue;
 @end

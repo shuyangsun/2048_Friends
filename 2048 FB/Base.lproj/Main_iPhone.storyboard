@@ -119,7 +119,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-3865" y="414"/>
+            <point key="canvasLocation" x="-3401" y="414"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="L2q-4y-gsq">
@@ -145,7 +145,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JI9-7k-lmF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3443" y="414"/>
+            <point key="canvasLocation" x="-3041" y="414"/>
         </scene>
         <!--Board View Controller-->
         <scene sceneID="O3s-DU-QKw">
@@ -173,6 +173,41 @@
                                 <rect key="frame" x="20" y="144" width="280" height="280"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Guw-Ku-BH7" userLabel="pauseView">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="280"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jIp-TS-zzd" userLabel="pauseImageView">
+                                                <rect key="frame" x="0.0" y="0.0" width="280" height="280"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Game Over" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0i6-mt-hFL" userLabel="gameStatusLabel">
+                                                <rect key="frame" x="20" y="56" width="240" height="61"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="25"/>
+                                                <color key="textColor" red="0.60000002384185791" green="0.56078433990478516" blue="0.51764708757400513" alpha="1" colorSpace="deviceRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zy3-a8-A2P" userLabel="shareButton">
+                                                <rect key="frame" x="20" y="125" width="240" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Share">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sET-21-38b" userLabel="retryKeepPlaying_Button">
+                                                <rect key="frame" x="20" y="168" width="240" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Play Again">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="retryOrKeepPlayingTapped:" destination="lLf-va-6rw" eventType="touchUpInside" id="hsn-k8-qeg"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aCN-CX-CDI" userLabel="tileContainer01">
                                         <rect key="frame" x="8" y="8" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -254,7 +289,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EI7-Xz-55b" userLabel="boardViewInteractionLayer">
-                                        <rect key="frame" x="8" y="8" width="264" height="264"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="279" height="280"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
@@ -419,11 +454,16 @@
                         <outlet property="bestScoreView" destination="uUF-Mq-jTh" id="Phm-Xv-XxD"/>
                         <outlet property="boardView" destination="uNF-7A-bUm" id="gV5-tT-vDP"/>
                         <outlet property="boardViewInteractionLayer" destination="EI7-Xz-55b" id="mG5-vf-vh3"/>
+                        <outlet property="gameStatusLabel" destination="0i6-mt-hFL" id="Clz-q1-mds"/>
                         <outlet property="menuView" destination="YAB-pF-2Sm" id="LVr-26-YKV"/>
                         <outlet property="panGestureRecognizer" destination="cY2-lb-agg" id="Soa-vK-n0m"/>
+                        <outlet property="pauseImageView" destination="jIp-TS-zzd" id="Y63-YE-Gbd"/>
+                        <outlet property="pauseView" destination="Guw-Ku-BH7" id="eNl-Lo-mqn"/>
                         <outlet property="profilePictureView" destination="hLZ-iW-Zf1" id="3dq-Gk-hvJ"/>
+                        <outlet property="retryOrKeepPlayingButton" destination="sET-21-38b" id="Aqr-tL-GdU"/>
                         <outlet property="scoreLabel" destination="oiR-V7-pHo" id="HhM-2V-qUk"/>
                         <outlet property="scoreView" destination="Rco-5H-Hc1" id="pKZ-dv-uGx"/>
+                        <outlet property="shareButton" destination="zy3-a8-A2P" id="4G8-8T-uYP"/>
                         <outlet property="textLabel" destination="1aI-fe-0Fb" id="YFz-ZL-5qb"/>
                         <outletCollection property="tileContainerViews" destination="aCN-CX-CDI" id="0Al-Xq-ZbG"/>
                         <outletCollection property="tileContainerViews" destination="ADJ-wb-dSm" id="eki-0H-kac"/>
@@ -450,7 +490,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-4291" y="414"/>
+            <point key="canvasLocation" x="-4889" y="371"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

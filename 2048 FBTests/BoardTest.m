@@ -92,7 +92,7 @@
 	NSArray *arr = obj;
 	for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < 4; ++j) {
-			int16_t val = [arr[i][j] intValue];
+			int32_t val = [arr[i][j] intValue];
 			XCTAssertTrue(val == 0 || val == 2 || val == 4);
 		}
 		int swipeStateVal = self.board.swipeDirection;
