@@ -22,7 +22,6 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 // Private property to check if the user
 @property (nonatomic, getter = isUserLoggedIn) BOOL userLoggedIn;
 @property (nonatomic, strong) Theme *theme;
-@property (nonatomic) CGRect originCutomButtonFrame;
 
 /** This method is a private helper method to find the UIButton in the fbLoginView.
  *  So we can send touch events to fbLoginView programmatically.
@@ -74,7 +73,6 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 	[self findUIButtonInfbLoginView];
 	self.customLoginButton.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.view.backgroundColor = self.theme.backgroundColor;
-	self.originCutomButtonFrame = self.customLoginButton.frame;
 }
 
 -(void)viewDidLayoutSubviews {
@@ -90,26 +88,31 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 // Handle events when users start panning on "Introduction" page.
 - (IBAction)handlePan:(UIPanGestureRecognizer *)sender {
 	CGFloat viewWidth = self.view.frame.size.width;
-	CGFloat maxPanLength1 = 5.0f;
-	CGFloat maxPanLength2 = 2.0f;
+	CGFloat maxPanLength1 = 10.0f;
+	CGFloat maxPanLength2 = 5.0f;
 	CGFloat newWidthAdded = 0.0f;
+	CGAffineTransform transform = CGAffineTransformIdentity;
 	if (sender.state == UIGestureRecognizerStateBegan) {
 		NSArray *viewArr = [self.view subviews];
 		for (UIView *v in viewArr) {
-			v.translatesAutoresizingMaskIntoConstraints = YES;
+			v.translatesAutoresizingMaskIntoConstraints = NO;
 		}
-		self.originCutomButtonFrame = self.customLoginButton.frame;
 	} else if (sender.state == UIGestureRecognizerStateChanged) {
-		CGFloat translationX = [sender translationInView:self.view].x;
-		newWidthAdded += maxPanLength1 * MIN(1.0f, fabs(translationX)/(viewWidth/2));
-		newWidthAdded += maxPanLength2 * MAX(0.0f, (fabs(translationX) - (viewWidth/2))/(viewWidth/2));
-		if (translationX > 0) {
-			self.customLoginButton.frame = CGRectMake(self.originCutomButtonFrame.origin.x, self.originCutomButtonFrame.origin.y, self.originCutomButtonFrame.size.width + newWidthAdded, self.originCutomButtonFrame.size.height);
-		} else {
-			self.customLoginButton.frame = CGRectMake(self.originCutomButtonFrame.origin.x - newWidthAdded, self.originCutomButtonFrame.origin.y, self.originCutomButtonFrame.size.width + newWidthAdded, self.originCutomButtonFrame.size.height);
+		if (fabs([sender translationInView:self.view].x) >  fabs([sender translationInView:self.view].y)) {
+			CGFloat translationX = [sender translationInView:self.view].x;
+			newWidthAdded += maxPanLength1 * MIN(1.0f, fabs(translationX)/(viewWidth/2));
+			newWidthAdded += maxPanLength2 * MAX(0.0f, (fabs(translationX) - (viewWidth/2))/(viewWidth/2));
+			if (translationX > 0) {
+				self.customLoginButton.transform = CGAffineTransformScale(transform,
+																		  1.0f + newWidthAdded/self.customLoginButton.frame.size.width,
+																		  1.0f);
+			} else {
+				self.customLoginButton.transform = CGAffineTransformScale(transform,
+																		  1.0f + newWidthAdded/self.customLoginButton.frame.size.width,
+																		  1.0f);
+				self.customLoginButton.transform = CGAffineTransformTranslate(self.customLoginButton.transform, -newWidthAdded, 0.0f);
+			}
 		}
-		
-		[self.customLoginButton setNeedsDisplay];
 	} else if (sender.state == UIGestureRecognizerStateEnded || sender.state == UIGestureRecognizerStateCancelled) {
 		[UIView animateWithDuration:kViewControllerDuration_Animation
 							  delay:kViewControllerDuration_Delay
@@ -117,7 +120,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 			   initialSpringVelocity:kViewControllerDuration_SpringVelocity
 							options:UIViewAnimationOptionCurveEaseInOut
 						 animations:^{
-							 self.customLoginButton.frame = self.originCutomButtonFrame;
+							 self.customLoginButton.transform = CGAffineTransformIdentity;
 						 }
 						 completion:^(BOOL finished){
 							 NSArray *viewArr = [self.view subviews];

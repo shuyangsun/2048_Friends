@@ -13,10 +13,10 @@
 
 const NSUInteger kGlowingStartPowValueDefault = 7;
 
-const CGFloat kBoardCornerRadiusDefault_iPhone = 3.0f;
+const CGFloat kBoardCornerRadiusDefault_iPhone = 5.0f;
 const CGFloat kBoardCornerRadiusDefault_iPad = 5.0f;
 
-const CGFloat kTileCornerRadiusDefault_iPhone = 2.0f;
+const CGFloat kTileCornerRadiusDefault_iPhone = 3.0f;
 const CGFloat kTileCornerRadiusDefault_iPad = 3.0f;
 
 const CGFloat kButtonCornerRadiusDefault_iPhone = 5.0f;
@@ -25,11 +25,16 @@ const CGFloat kButtonCornerRadiusDefault_iPad = 7.0f;
 const CGFloat kBoardWidthFractionDefault_iPhone = 0.9f; // Comparing with screen width
 const CGFloat kBoardWidthFractionDefault_iPad = 0.9f;
 
+const CGFloat kTileWidthFractionDefault_iPhone = 0.216f; // Comparing with board width
+const CGFloat kTileWidthFractionDefault_iPad = 0.216f;
+
 const CGFloat kBoardEdgeWidthFractionDefault_iPhone = 0.05f; // Comparing with board width
 const CGFloat kBoardEdgeWidthFractionDefault_iPad = 0.05f;
 
 const CGFloat kLineWidthFractionDefault_iPhone = 0.03f; // Comparing with board width
 const CGFloat kLineWidthFractionDefault_iPad = 0.03f;
+
+
 
 NSString *const kThemePriceKey_Free  = @"free";
 NSString *const kThemePriceKey_Paid = @"paid";
@@ -80,7 +85,12 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	
 	// Need to set the corner radius, widthFraction, etc.
 	theme.boardCornerRadius = kBoardCornerRadiusDefault_iPhone;
+	theme.tileCornerRadius = kTileCornerRadiusDefault_iPhone;
 	theme.buttonCornerRadius = kButtonCornerRadiusDefault_iPhone;
+	theme.boardWidthFraction = kBoardWidthFractionDefault_iPhone;
+	theme.boardEdgeWidthFraction = kBoardEdgeWidthFractionDefault_iPhone;
+	theme.lineWidthFraction = kLineWidthFractionDefault_iPhone;
+	theme.tileWidthFraction = kTileWidthFractionDefault_iPhone;
 	
 	// Variables varies in different themes.
 	if ([iD compare:kThemeID_Default] == 0) {
@@ -89,7 +99,7 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 		theme.boardColor = [UIColor colorWithRed:0.678 green:0.616 blue:0.561 alpha:1.000];
 		theme.foldAnimationBackgroundColor = [UIColor colorWithRed:0.678 green:0.616 blue:0.561 alpha:1.000]; // TODO
 		theme.settingsPageColor = [UIColor colorWithRed:0.486 green:0.404 blue:0.325 alpha:1.000]; // TODO
-		theme.tileFrameColor = [UIColor colorWithRed:0.914 green:0.855 blue:0.737 alpha:1.000];
+		theme.tileContainerColor = [UIColor colorWithRed:0.80392 green:0.75686 blue:0.7098 alpha:1];
 		theme.textColor = [UIColor whiteColor]; // TODO
 		theme.buttonColor = [UIColor colorWithRed:0.914 green:0.855 blue:0.737 alpha:1.000];
 		[theme setThemeTileColorsFor2048: @[[UIColor colorWithRed:0.918 green:0.871 blue:0.824 alpha:1.000], // 2

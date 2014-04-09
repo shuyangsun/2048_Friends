@@ -35,6 +35,7 @@
 		04601EE718EB8C33007BAC8E /* GameDataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04601EE518EB8C33007BAC8E /* GameDataBase.xcdatamodeld */; };
 		04601F0F18EB9C32007BAC8E /* Board+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F0E18EB9C32007BAC8E /* Board+ModelLayer01.m */; };
 		04601F1518EB9C5B007BAC8E /* Tile+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1418EB9C5B007BAC8E /* Tile+ModelLayer01.m */; };
+		046C5EF418F48B1E00DC96A3 /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046C5EF318F48B1E00DC96A3 /* BoardViewController.m */; };
 		048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048FD05D18EA587A0068C6CE /* FacebookSDK.framework */; };
 		048FD06518EA5DFB0068C6CE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048FD06418EA5DFB0068C6CE /* ViewController.m */; };
 		049118AD18F07DE60021657D /* BoardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 049118AC18F07DE60021657D /* BoardTest.m */; };
@@ -49,6 +50,14 @@
 		0499660D18ED1A3F00373E57 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0499660C18ED1A3F00373E57 /* README.md */; };
 		04A7C38418F31A0C0017C640 /* TileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A7C38318F31A0C0017C640 /* TileTest.m */; };
 		04C7042518ED0903001DBD60 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C7042418ED0903001DBD60 /* Theme.m */; };
+		04E3FD2A18F4BFFC004A0DB8 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FD2918F4BFFC004A0DB8 /* UIImage+ImageEffects.m */; };
+		04E3FD5618F4C064004A0DB8 /* FacingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FD4818F4C064004A0DB8 /* FacingView.m */; };
+		04E3FD5718F4C064004A0DB8 /* FoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FD4A18F4C064004A0DB8 /* FoldView.m */; };
+		04E3FD5818F4C064004A0DB8 /* MultiFoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FD4C18F4C064004A0DB8 /* MultiFoldView.m */; };
+		04E3FD5918F4C064004A0DB8 /* PaperFoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FD4F18F4C064004A0DB8 /* PaperFoldView.m */; };
+		04E3FD5A18F4C064004A0DB8 /* ShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FD5118F4C064004A0DB8 /* ShadowView.m */; };
+		04E3FD5B18F4C064004A0DB8 /* TouchThroughUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FD5318F4C064004A0DB8 /* TouchThroughUIView.m */; };
+		04E3FD5C18F4C064004A0DB8 /* UIView+Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FD5518F4C064004A0DB8 /* UIView+Screenshot.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +113,8 @@
 		04601F0E18EB9C32007BAC8E /* Board+ModelLayer01.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Board+ModelLayer01.m"; sourceTree = "<group>"; };
 		04601F1318EB9C5B007BAC8E /* Tile+ModelLayer01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tile+ModelLayer01.h"; sourceTree = "<group>"; };
 		04601F1418EB9C5B007BAC8E /* Tile+ModelLayer01.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Tile+ModelLayer01.m"; sourceTree = "<group>"; };
+		046C5EF218F48B1E00DC96A3 /* BoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardViewController.h; sourceTree = "<group>"; };
+		046C5EF318F48B1E00DC96A3 /* BoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardViewController.m; sourceTree = "<group>"; };
 		048FD05D18EA587A0068C6CE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		048FD06318EA5DFB0068C6CE /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		048FD06418EA5DFB0068C6CE /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
@@ -128,6 +139,23 @@
 		04A7C38318F31A0C0017C640 /* TileTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileTest.m; sourceTree = "<group>"; };
 		04C7042318ED0903001DBD60 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
 		04C7042418ED0903001DBD60 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
+		04E3FD2818F4BFFC004A0DB8 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		04E3FD2918F4BFFC004A0DB8 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		04E3FD4718F4C064004A0DB8 /* FacingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacingView.h; sourceTree = "<group>"; };
+		04E3FD4818F4C064004A0DB8 /* FacingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacingView.m; sourceTree = "<group>"; };
+		04E3FD4918F4C064004A0DB8 /* FoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldView.h; sourceTree = "<group>"; };
+		04E3FD4A18F4C064004A0DB8 /* FoldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldView.m; sourceTree = "<group>"; };
+		04E3FD4B18F4C064004A0DB8 /* MultiFoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiFoldView.h; sourceTree = "<group>"; };
+		04E3FD4C18F4C064004A0DB8 /* MultiFoldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFoldView.m; sourceTree = "<group>"; };
+		04E3FD4D18F4C064004A0DB8 /* PaperFoldConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperFoldConstants.h; sourceTree = "<group>"; };
+		04E3FD4E18F4C064004A0DB8 /* PaperFoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperFoldView.h; sourceTree = "<group>"; };
+		04E3FD4F18F4C064004A0DB8 /* PaperFoldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperFoldView.m; sourceTree = "<group>"; };
+		04E3FD5018F4C064004A0DB8 /* ShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadowView.h; sourceTree = "<group>"; };
+		04E3FD5118F4C064004A0DB8 /* ShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShadowView.m; sourceTree = "<group>"; };
+		04E3FD5218F4C064004A0DB8 /* TouchThroughUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchThroughUIView.h; sourceTree = "<group>"; };
+		04E3FD5318F4C064004A0DB8 /* TouchThroughUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchThroughUIView.m; sourceTree = "<group>"; };
+		04E3FD5418F4C064004A0DB8 /* UIView+Screenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Screenshot.h"; sourceTree = "<group>"; };
+		04E3FD5518F4C064004A0DB8 /* UIView+Screenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Screenshot.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -306,6 +334,7 @@
 				044847A318EA1BA100D35B0F /* Images.xcassets */,
 				04983CD118EF628E0022FB63 /* GUI/UX */,
 				04601EE818EB8C39007BAC8E /* Model */,
+				04E3FD2518F4BF23004A0DB8 /* Third Party Frameworks */,
 				0448478F18EA1BA100D35B0F /* Supporting Files */,
 			);
 			path = "2048 FB";
@@ -363,6 +392,8 @@
 			children = (
 				048FD06318EA5DFB0068C6CE /* ViewController.h */,
 				048FD06418EA5DFB0068C6CE /* ViewController.m */,
+				046C5EF218F48B1E00DC96A3 /* BoardViewController.h */,
+				046C5EF318F48B1E00DC96A3 /* BoardViewController.m */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -401,6 +432,7 @@
 			children = (
 				043786C618ECFF970034651C /* Theme */,
 				048FD06218EA5A020068C6CE /* View Controller */,
+				04E3FD2118F4BC6C004A0DB8 /* Delegate */,
 			);
 			name = GUI/UX;
 			sourceTree = "<group>";
@@ -468,6 +500,53 @@
 				04601F0E18EB9C32007BAC8E /* Board+ModelLayer01.m */,
 			);
 			name = Board_01;
+			sourceTree = "<group>";
+		};
+		04E3FD2118F4BC6C004A0DB8 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Delegate;
+			sourceTree = "<group>";
+		};
+		04E3FD2518F4BF23004A0DB8 /* Third Party Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				04E3FD2718F4BF4F004A0DB8 /* Paper Fold */,
+				04E3FD2618F4BF44004A0DB8 /* Image Blur Effect */,
+			);
+			name = "Third Party Frameworks";
+			sourceTree = "<group>";
+		};
+		04E3FD2618F4BF44004A0DB8 /* Image Blur Effect */ = {
+			isa = PBXGroup;
+			children = (
+				04E3FD2818F4BFFC004A0DB8 /* UIImage+ImageEffects.h */,
+				04E3FD2918F4BFFC004A0DB8 /* UIImage+ImageEffects.m */,
+			);
+			name = "Image Blur Effect";
+			sourceTree = "<group>";
+		};
+		04E3FD2718F4BF4F004A0DB8 /* Paper Fold */ = {
+			isa = PBXGroup;
+			children = (
+				04E3FD4D18F4C064004A0DB8 /* PaperFoldConstants.h */,
+				04E3FD4718F4C064004A0DB8 /* FacingView.h */,
+				04E3FD4818F4C064004A0DB8 /* FacingView.m */,
+				04E3FD4918F4C064004A0DB8 /* FoldView.h */,
+				04E3FD4A18F4C064004A0DB8 /* FoldView.m */,
+				04E3FD4B18F4C064004A0DB8 /* MultiFoldView.h */,
+				04E3FD4C18F4C064004A0DB8 /* MultiFoldView.m */,
+				04E3FD4E18F4C064004A0DB8 /* PaperFoldView.h */,
+				04E3FD4F18F4C064004A0DB8 /* PaperFoldView.m */,
+				04E3FD5018F4C064004A0DB8 /* ShadowView.h */,
+				04E3FD5118F4C064004A0DB8 /* ShadowView.m */,
+				04E3FD5218F4C064004A0DB8 /* TouchThroughUIView.h */,
+				04E3FD5318F4C064004A0DB8 /* TouchThroughUIView.m */,
+				04E3FD5418F4C064004A0DB8 /* UIView+Screenshot.h */,
+				04E3FD5518F4C064004A0DB8 /* UIView+Screenshot.m */,
+			);
+			name = "Paper Fold";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -591,17 +670,26 @@
 				040F6E3318F21FA4006D237B /* History+ModelLayer01.m in Sources */,
 				040F6E3B18F22230006D237B /* History+ModelLayer03.m in Sources */,
 				040F6E2118F20CE6006D237B /* GameManager.m in Sources */,
+				04E3FD5818F4C064004A0DB8 /* MultiFoldView.m in Sources */,
+				04E3FD5C18F4C064004A0DB8 /* UIView+Screenshot.m in Sources */,
 				040F6E3818F22225006D237B /* History+ModelLayer02.m in Sources */,
 				04983CCF18EF5E320022FB63 /* Board+ModelLayer02.m in Sources */,
 				04601F0F18EB9C32007BAC8E /* Board+ModelLayer01.m in Sources */,
 				0448479918EA1BA100D35B0F /* AppDelegate.m in Sources */,
+				04E3FD5718F4C064004A0DB8 /* FoldView.m in Sources */,
+				046C5EF418F48B1E00DC96A3 /* BoardViewController.m in Sources */,
 				040F6E1E18F1EED9006D237B /* Board.m in Sources */,
 				04983CE818EFAACA0022FB63 /* GameManager+ModelLayer03.m in Sources */,
+				04E3FD5618F4C064004A0DB8 /* FacingView.m in Sources */,
 				04983CE518EFAAB10022FB63 /* Board+ModelLayer03.m in Sources */,
 				04601F1518EB9C5B007BAC8E /* Tile+ModelLayer01.m in Sources */,
+				04E3FD5B18F4C064004A0DB8 /* TouchThroughUIView.m in Sources */,
 				040F6E3018F21F79006D237B /* History.m in Sources */,
+				04E3FD5A18F4C064004A0DB8 /* ShadowView.m in Sources */,
 				04911A9818ED964000013B8E /* GameManager+ModelLayer01.m in Sources */,
 				04C7042518ED0903001DBD60 /* Theme.m in Sources */,
+				04E3FD2A18F4BFFC004A0DB8 /* UIImage+ImageEffects.m in Sources */,
+				04E3FD5918F4C064004A0DB8 /* PaperFoldView.m in Sources */,
 				0448479518EA1BA100D35B0F /* main.m in Sources */,
 				048FD06518EA5DFB0068C6CE /* ViewController.m in Sources */,
 				04601EE718EB8C33007BAC8E /* GameDataBase.xcdatamodeld in Sources */,

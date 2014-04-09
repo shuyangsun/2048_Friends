@@ -58,10 +58,11 @@
 	XCTAssertNotNil([History latestHistory]);
 }
 
-// TODO Has BUGS
 -(void)testHistoryCreatedWhenNewBoardInitialized
 {
+	XCTAssertEqual([[History allHistories] count], 1);
 	[Board initializeNewBoard];
+	__unused NSArray *arr = [History allHistories];
 	XCTAssertEqual([[History allHistories] count], 2);
 }
 
@@ -79,10 +80,13 @@
 	XCTAssertTrue([[History latestHistory].boards containsObject:board]);
 }
 
+
 -(void)testBoardAddedToHistoryWhenSwippingBoard
 {
 	Board *board = [[Board latestBoard] swipedToDirection:BoardSwipeGestureDirectionUp];
-	XCTAssertTrue([[History latestHistory].boards containsObject:board]);
+	if (board) {
+		XCTAssertTrue([[History latestHistory].boards containsObject:board]);
+	}
 	board = [Board latestBoard];
 	XCTAssertTrue([[History latestHistory].boards containsObject:board]);
 }

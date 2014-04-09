@@ -30,11 +30,9 @@ NSString *const kCurrentThemeIDKey = @"UserDefault_CurrentThemeUUIDKey";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	// TODO
-	[GameManager initializeGameManager];
-	[Board initializeNewBoard];
-	[Tile initializeAllTiles];
     // Override point for customization after application launch.
+	[Tile initializeAllTiles];
+	
 	[FBLoginView class];
 	[UIApplication sharedApplication].statusBarHidden = YES;
 	
