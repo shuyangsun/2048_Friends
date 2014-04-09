@@ -101,21 +101,23 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 -(void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear: animated];
 	// Sort the view outlets
-	self.tileContainerViewsSorted = [self.tileContainerViews sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-		NSComparisonResult res = NSOrderedAscending;
-		if ([obj1 isKindOfClass:[UIView class]] && [obj2 isKindOfClass:[UIView class]]) {
-			UIView *v1 = obj1;
-			UIView *v2 = obj2;
-			if (v1.frame.origin.x > v2.frame.origin.x) {
-				res = NSOrderedDescending;
-			} else if (v1.frame.origin.x == v2.frame.origin.x) {
-				if (v1.frame.origin.y > v2.frame.origin.y) {
+	if ([self.tileContainerViewsSorted count] == 0) {
+		self.tileContainerViewsSorted = [self.tileContainerViews sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+			NSComparisonResult res = NSOrderedAscending;
+			if ([obj1 isKindOfClass:[UIView class]] && [obj2 isKindOfClass:[UIView class]]) {
+				UIView *v1 = obj1;
+				UIView *v2 = obj2;
+				if (v1.frame.origin.x > v2.frame.origin.x) {
 					res = NSOrderedDescending;
+				} else if (v1.frame.origin.x == v2.frame.origin.x) {
+					if (v1.frame.origin.y > v2.frame.origin.y) {
+						res = NSOrderedDescending;
+					}
 				}
 			}
-		}
-		return res;
-	}];
+			return res;
+		}];
+	}
 	
 	[self updateBoardFromLatestBoardData];
 }
@@ -159,45 +161,45 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 					 }];
 }
 
--(void)bannerViewWillLoadAd:(ADBannerView *)banner {
-	// Taking snapshot:
-	UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, YES, 0.0f);
-	[self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
-	UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
-	
-	UIColor *blurtTintColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.0f];
-	snapshot = [snapshot applyBlurEffectWithRadius:5.0f tintColor:blurtTintColor];
-	self.latestSnapshotView = [[UIImageView alloc] initWithImage:snapshot];
-	CGRect snapshotMaskFrame = self.latestSnapshotView.frame;
-	CAShapeLayer *mask = (CAShapeLayer *)self.latestSnapshotView.layer.mask;
-	mask.frame = snapshotMaskFrame;
-
-	self.latestSnapshotView.alpha = 0.0f;
-	[self.view addSubview:self.latestSnapshotView];
-	[self.view bringSubviewToFront:self.latestSnapshotView];
-	[UIView animateWithDuration:kAnimationDuration_ScreenBlur
-					 animations:^{
-						 self.latestSnapshotView.alpha = 1.0f;
-					 }];
-}
-
--(void)bannerViewDidLoadAd:(ADBannerView *)banner {
-	
-}
-
--(void)bannerViewActionDidFinish:(ADBannerView *)banner {
-	[UIView animateWithDuration:kAnimationDuration_ScreenBlur
-					 animations:^{
-						 self.latestSnapshotView.alpha = 0.0f;
-					 } completion:^(BOOL finished) {
-						 self.latestSnapshotView = nil;
-					 }];
-}
-
--(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
-	
-}
+//-(void)bannerViewWillLoadAd:(ADBannerView *)banner {
+//	// Taking snapshot:
+//	UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, YES, 0.0f);
+//	[self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
+//	UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+//	UIGraphicsEndImageContext();
+//	
+//	UIColor *blurtTintColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.0f];
+//	snapshot = [snapshot applyBlurEffectWithRadius:5.0f tintColor:blurtTintColor];
+//	self.latestSnapshotView = [[UIImageView alloc] initWithImage:snapshot];
+//	CGRect snapshotMaskFrame = self.latestSnapshotView.frame;
+//	CAShapeLayer *mask = (CAShapeLayer *)self.latestSnapshotView.layer.mask;
+//	mask.frame = snapshotMaskFrame;
+//
+//	self.latestSnapshotView.alpha = 0.0f;
+//	[self.view addSubview:self.latestSnapshotView];
+//	[self.view bringSubviewToFront:self.latestSnapshotView];
+//	[UIView animateWithDuration:kAnimationDuration_ScreenBlur
+//					 animations:^{
+//						 self.latestSnapshotView.alpha = 1.0f;
+//					 }];
+//}
+//
+//-(void)bannerViewDidLoadAd:(ADBannerView *)banner {
+//	
+//}
+//
+//-(void)bannerViewActionDidFinish:(ADBannerView *)banner {
+//	[UIView animateWithDuration:kAnimationDuration_ScreenBlur
+//					 animations:^{
+//						 self.latestSnapshotView.alpha = 0.0f;
+//					 } completion:^(BOOL finished) {
+//						 self.latestSnapshotView = nil;
+//					 }];
+//}
+//
+//-(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
+//	
+//}
 
 -(CGRect) frameOfTileContainerAtPosition: (CGPoint) pos {
 	CGRect res = CGRectZero;
@@ -212,9 +214,6 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 
 - (IBAction)menuTapped:(UIButton *)sender {
 	[self setTextForTextLabel:[NSString stringWithFormat:@"%@", [NSDate date]]];
-//	[[Board latestBoard] swipedToDirection:BoardSwipeGestureDirectionLeft];
-	// TODO (next line) has bugs.
-//	[self updateBoardFromLatestBoardData];
 }
 
 - (IBAction)boardPanned:(UIPanGestureRecognizer *)sender {
@@ -223,8 +222,6 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 	} else if (sender.state == UIGestureRecognizerStateChanged) {
 		
 	} else if (sender.state == UIGestureRecognizerStateEnded) {
-		
-	} else if (sender.state == UIGestureRecognizerStateFailed || sender.state == UIGestureRecognizerStateCancelled) {
 		int x = [sender translationInView:self.boardView].x;
 		int y = [sender translationInView:self.boardView].y;
 		if (fabs(x) >= fabs(y) && fabs(x) > kBoardPanMinDistance) {
@@ -242,14 +239,21 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 			}
 			[self updateBoardFromLatestBoardData];
 		}
+	} else if (sender.state == UIGestureRecognizerStateFailed || sender.state == UIGestureRecognizerStateCancelled) {
+		
 	}
 }
 
 -(void)updateBoardFromLatestBoardData {
-	for (UIView *tView in self.onBoardTileViews ) {
-		[tView removeFromSuperview];
-		[self.onBoardTileViews removeObject:tView];
+	for (UIView *tView in [self.boardView subviews]) {
+		if ([tView isKindOfClass:[TileView class]]) {
+			[tView removeFromSuperview];
+		}
 	}
+	for (size_t i = 0; i <= [self.onBoardTileViews count]; ++i) {
+		[self.onBoardTileViews removeObject:[self.onBoardTileViews lastObject]];
+	}
+	[self.boardView setNeedsDisplay];
 	NSArray *gameData = [[Board latestBoard] getBoardDataArray];
 	for (size_t i = 0; i < 4; ++i) {
 		for (size_t j = 0; j < 4; ++j) {
@@ -259,15 +263,18 @@ const CGFloat kBoardPanMinDistance = 5.0f;
 				TileView *tView = [[TileView alloc] initWithFrame:frame];
 				tView.text = [Tile tileWithValue: val].text;
 				tView.backgroundColor = [self.theme tileColors][@(val)];
-				tView.layer.cornerRadius = [self.theme tileCornerRadius];
-				tView.label.textColor = [self.theme textColor];
 				[self.onBoardTileViews addObject:tView];
 				[self.boardView addSubview:tView];
 				[self.boardView bringSubviewToFront:tView];
+				tView.layer.cornerRadius = [self.theme tileCornerRadius];
+				tView.layer.masksToBounds = YES;
+				tView.label.textColor = [self.theme textColor];
 			}
 		}
 	}
-
+	[self.boardView bringSubviewToFront:self.boardViewInteractionLayer];
+	self.bestScoreLabel.text = [NSString stringWithFormat:@"%d", [GameManager sharedGameManager].bestScore];
+	self.scoreLabel.text = [NSString stringWithFormat:@"%d", [Board latestBoard].score];
 }
 
 @end

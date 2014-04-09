@@ -20,11 +20,14 @@ extern const CGFloat kBoardPanMinDistance;
 @property (weak, nonatomic) IBOutlet UIView *profilePictureView;
 @property (weak, nonatomic) IBOutlet UIButton *menuView;
 @property (weak, nonatomic) IBOutlet UIView *bestScoreView;
+@property (weak, nonatomic) IBOutlet UILabel *bestScoreLabel;
 @property (weak, nonatomic) IBOutlet UIView *scoreView;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
 // On board views
 @property (weak, nonatomic) IBOutlet UIView *boardView;
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *tileContainerViews;
+@property (weak, nonatomic) IBOutlet UIView *boardViewInteractionLayer;
 
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *panGestureRecognizer;
