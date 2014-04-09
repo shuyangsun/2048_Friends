@@ -62,6 +62,11 @@
 	XCTAssertNotNil(self.gManager);
 }
 
+-(void)testGameManagerUnique
+{
+	XCTAssertEqual([[GameManager allGameManagers] count], 1);
+}
+
 -(void)testHighScoreZero
 {
 	XCTAssertEqual(self.gManager.bestScore, 0);

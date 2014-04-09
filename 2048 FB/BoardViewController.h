@@ -10,6 +10,9 @@
 #import <iAd/iAd.h>
 
 extern const CGFloat kAnimationDuration_ScreenBlur;
+extern const CGFloat kAnimationDuration_TextFade;
+extern const CGFloat kTextShowDuration;
+extern const CGFloat kBoardPanMinDistance;
 
 @interface BoardViewController : UIViewController <ADBannerViewDelegate>
 
@@ -19,12 +22,14 @@ extern const CGFloat kAnimationDuration_ScreenBlur;
 @property (weak, nonatomic) IBOutlet UIView *bestScoreView;
 @property (weak, nonatomic) IBOutlet UIView *scoreView;
 
-@property (weak, nonatomic) IBOutlet UILabel *textLabel;
-
 // On board views
 @property (weak, nonatomic) IBOutlet UIView *boardView;
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *tileContainerViews;
 
-@property (weak, nonatomic) IBOutlet ADBannerView *iAdBannerView;
+@property (weak, nonatomic) IBOutlet UILabel *textLabel;
+@property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *panGestureRecognizer;
+
+- (IBAction)menuTapped:(UIButton *)sender;
+- (IBAction)boardPanned:(UIPanGestureRecognizer *)sender;
 
 @end

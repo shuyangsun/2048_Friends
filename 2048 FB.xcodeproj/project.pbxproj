@@ -50,6 +50,8 @@
 		0499660D18ED1A3F00373E57 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0499660C18ED1A3F00373E57 /* README.md */; };
 		04A7C38418F31A0C0017C640 /* TileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A7C38318F31A0C0017C640 /* TileTest.m */; };
 		04C7042518ED0903001DBD60 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C7042418ED0903001DBD60 /* Theme.m */; };
+		04DA479E18F4DD4C00693AED /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DA479D18F4DD4C00693AED /* iAd.framework */; };
+		04DA47A218F4F79900693AED /* TileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DA47A118F4F79900693AED /* TileView.m */; };
 		04E3FD2A18F4BFFC004A0DB8 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FD2918F4BFFC004A0DB8 /* UIImage+ImageEffects.m */; };
 		04E3FD5618F4C064004A0DB8 /* FacingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FD4818F4C064004A0DB8 /* FacingView.m */; };
 		04E3FD5718F4C064004A0DB8 /* FoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FD4A18F4C064004A0DB8 /* FoldView.m */; };
@@ -139,6 +141,9 @@
 		04A7C38318F31A0C0017C640 /* TileTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileTest.m; sourceTree = "<group>"; };
 		04C7042318ED0903001DBD60 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
 		04C7042418ED0903001DBD60 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
+		04DA479D18F4DD4C00693AED /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		04DA47A018F4F79900693AED /* TileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileView.h; sourceTree = "<group>"; };
+		04DA47A118F4F79900693AED /* TileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileView.m; sourceTree = "<group>"; };
 		04E3FD2818F4BFFC004A0DB8 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		04E3FD2918F4BFFC004A0DB8 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		04E3FD4718F4C064004A0DB8 /* FacingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacingView.h; sourceTree = "<group>"; };
@@ -163,6 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04DA479E18F4DD4C00693AED /* iAd.framework in Frameworks */,
 				04983CCB18EE5FB90022FB63 /* CoreData.framework in Frameworks */,
 				0448478B18EA1BA100D35B0F /* CoreGraphics.framework in Frameworks */,
 				048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */,
@@ -312,6 +318,7 @@
 		0448478718EA1BA100D35B0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04DA479D18F4DD4C00693AED /* iAd.framework */,
 				04983CCA18EE5FB90022FB63 /* CoreData.framework */,
 				0444F6E618EE3F7E005A0490 /* StoreKit.framework */,
 				0444F6E318EE3F75005A0490 /* GameKit.framework */,
@@ -432,6 +439,7 @@
 			children = (
 				043786C618ECFF970034651C /* Theme */,
 				048FD06218EA5A020068C6CE /* View Controller */,
+				04DA479F18F4F78400693AED /* View */,
 				04E3FD2118F4BC6C004A0DB8 /* Delegate */,
 			);
 			name = GUI/UX;
@@ -500,6 +508,15 @@
 				04601F0E18EB9C32007BAC8E /* Board+ModelLayer01.m */,
 			);
 			name = Board_01;
+			sourceTree = "<group>";
+		};
+		04DA479F18F4F78400693AED /* View */ = {
+			isa = PBXGroup;
+			children = (
+				04DA47A018F4F79900693AED /* TileView.h */,
+				04DA47A118F4F79900693AED /* TileView.m */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		04E3FD2118F4BC6C004A0DB8 /* Delegate */ = {
@@ -689,6 +706,7 @@
 				04911A9818ED964000013B8E /* GameManager+ModelLayer01.m in Sources */,
 				04C7042518ED0903001DBD60 /* Theme.m in Sources */,
 				04E3FD2A18F4BFFC004A0DB8 /* UIImage+ImageEffects.m in Sources */,
+				04DA47A218F4F79900693AED /* TileView.m in Sources */,
 				04E3FD5918F4C064004A0DB8 /* PaperFoldView.m in Sources */,
 				0448479518EA1BA100D35B0F /* main.m in Sources */,
 				048FD06518EA5DFB0068C6CE /* ViewController.m in Sources */,
