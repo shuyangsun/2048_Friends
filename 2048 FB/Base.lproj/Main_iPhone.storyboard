@@ -294,7 +294,10 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
                                         <connections>
-                                            <outletCollection property="gestureRecognizers" destination="cY2-lb-agg" appends="YES" id="qUs-HY-VYq"/>
+                                            <outletCollection property="gestureRecognizers" destination="mhU-gV-eOd" appends="YES" id="zVH-j6-dXL"/>
+                                            <outletCollection property="gestureRecognizers" destination="OMC-0H-zXv" appends="YES" id="nxC-gv-JG7"/>
+                                            <outletCollection property="gestureRecognizers" destination="AGC-aZ-4nG" appends="YES" id="JeN-Zv-Kow"/>
+                                            <outletCollection property="gestureRecognizers" destination="1mZ-bA-J9y" appends="YES" id="gLD-x4-hjL"/>
                                         </connections>
                                     </view>
                                 </subviews>
@@ -456,7 +459,6 @@
                         <outlet property="boardViewInteractionLayer" destination="EI7-Xz-55b" id="mG5-vf-vh3"/>
                         <outlet property="gameStatusLabel" destination="0i6-mt-hFL" id="Clz-q1-mds"/>
                         <outlet property="menuView" destination="YAB-pF-2Sm" id="LVr-26-YKV"/>
-                        <outlet property="panGestureRecognizer" destination="cY2-lb-agg" id="Soa-vK-n0m"/>
                         <outlet property="pauseImageView" destination="jIp-TS-zzd" id="Y63-YE-Gbd"/>
                         <outlet property="pauseView" destination="Guw-Ku-BH7" id="eNl-Lo-mqn"/>
                         <outlet property="profilePictureView" destination="hLZ-iW-Zf1" id="3dq-Gk-hvJ"/>
@@ -481,16 +483,35 @@
                         <outletCollection property="tileContainerViews" destination="M8e-t7-2bm" id="99J-uc-Zeu"/>
                         <outletCollection property="tileContainerViews" destination="b5R-Rc-Psj" id="lh8-hz-Wal"/>
                         <outletCollection property="tileContainerViews" destination="Whu-z2-Wen" id="sQZ-mX-mVY"/>
+                        <outletCollection property="swipeGestureRecognizers" destination="mhU-gV-eOd" id="o6M-YK-Fxg"/>
+                        <outletCollection property="swipeGestureRecognizers" destination="OMC-0H-zXv" id="p1A-Ox-60X"/>
+                        <outletCollection property="swipeGestureRecognizers" destination="AGC-aZ-4nG" id="yDI-8F-OKC"/>
+                        <outletCollection property="swipeGestureRecognizers" destination="1mZ-bA-J9y" id="N0k-43-Ssh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xyb-e0-hY9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="cY2-lb-agg">
+                <swipeGestureRecognizer direction="left" id="mhU-gV-eOd" userLabel="Swipe Gesture Recognizer (Left)">
                     <connections>
-                        <action selector="boardPanned:" destination="lLf-va-6rw" id="sqR-r1-dqW"/>
+                        <action selector="boardSwiped:" destination="lLf-va-6rw" id="jjr-qn-n4p"/>
                     </connections>
-                </panGestureRecognizer>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="right" id="OMC-0H-zXv" userLabel="Swipe Gesture Recognizer (Right)">
+                    <connections>
+                        <action selector="boardSwiped:" destination="lLf-va-6rw" id="ZGE-VG-8aQ"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="up" id="1mZ-bA-J9y" userLabel="Swipe Gesture Recognizer (Up)">
+                    <connections>
+                        <action selector="boardSwiped:" destination="lLf-va-6rw" id="v4z-BY-Ic3"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="down" id="AGC-aZ-4nG" userLabel="Swipe Gesture Recognizer (Down)">
+                    <connections>
+                        <action selector="boardSwiped:" destination="lLf-va-6rw" id="mP9-n9-jRA"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-4889" y="371"/>
+            <point key="canvasLocation" x="-4846" y="371"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

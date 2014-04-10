@@ -55,6 +55,7 @@ extern NSString *const kThemeID_LightBlue;
 @property (nonatomic, strong) UIColor *settingsPageColor;
 @property (nonatomic, strong) UIImage *settingsPageImage;
 @property (nonatomic, strong) UIColor *tileContainerColor;
+@property (nonatomic, strong) UIColor *tileTextColor;
 @property (nonatomic, strong) UIImage *tileContainerImage;
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIColor *buttonColor;

@@ -9,11 +9,23 @@
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
 
+extern const CGFloat kAnimationDuration_Default;
 extern const CGFloat kAnimationDuration_ScreenBlur;
+extern const CGFloat kAnimationDuration_MoveTile;
 extern const CGFloat kAnimationDelay_GameOver;
+extern const CGFloat kAnimationDuration_ScaleTile;
 extern const CGFloat kAnimationDuration_TextFade;
+extern const CGFloat kAnimationSpring_Damping;
+extern const CGFloat kAnimationSpring_Velocity;
 extern const CGFloat kTextShowDuration;
 extern const CGFloat kBoardPanMinDistance;
+extern const CGFloat kLineWidthDefault_iPhone;
+
+typedef enum BoardViewControllerMode {
+	BoardViewControllerModePlaying = 0, // When user is playing with this board
+	BoardViewControllerModeHisory,      // When user is using this board reviewing history
+	BoardViewControllerModeShow         // When this is just a non interactive showing of the board
+} BoardViewControllerMode;
 
 @interface BoardViewController : UIViewController <ADBannerViewDelegate>
 
@@ -35,12 +47,14 @@ extern const CGFloat kBoardPanMinDistance;
 @property (weak, nonatomic) IBOutlet UILabel *gameStatusLabel;
 @property (weak, nonatomic) IBOutlet UIButton *retryOrKeepPlayingButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
+@property (strong, nonatomic) IBOutletCollection(UISwipeGestureRecognizer) NSArray *swipeGestureRecognizers;
+
 
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
-@property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *panGestureRecognizer;
 
 - (IBAction)menuTapped:(UIButton *)sender;
-- (IBAction)boardPanned:(UIPanGestureRecognizer *)sender;
 - (IBAction)retryOrKeepPlayingTapped:(UIButton *)sender;
+
+- (IBAction)boardSwiped:(UISwipeGestureRecognizer *)sender;
 
 @end

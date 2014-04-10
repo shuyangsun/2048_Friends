@@ -10,8 +10,13 @@
 
 @interface TileView : UIView
 
+@property (nonatomic) int32_t val;
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) NSString *text;
 @property (strong, nonatomic) UILabel *label;
+
+@property (strong, nonatomic) UIColor *textColor;
+
+@property (strong, nonatomic) TileView *nextTileView;
 
 @end

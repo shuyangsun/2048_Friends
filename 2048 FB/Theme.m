@@ -100,6 +100,7 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 		theme.foldAnimationBackgroundColor = [UIColor colorWithRed:0.678 green:0.616 blue:0.561 alpha:1.000]; // TODO
 		theme.settingsPageColor = [UIColor colorWithRed:0.486 green:0.404 blue:0.325 alpha:1.000]; // TODO
 		theme.tileContainerColor = [UIColor colorWithRed:0.80392 green:0.75686 blue:0.7098 alpha:1];
+		theme.tileTextColor = [UIColor colorWithRed:0.46667 green:0.43137 blue:0.39608 alpha:1];
 		theme.textColor = [UIColor whiteColor]; // TODO
 		theme.buttonColor = [UIColor colorWithRed:0.914 green:0.855 blue:0.737 alpha:1.000];
 		[theme setThemeTileColorsFor2048: @[[UIColor colorWithRed:0.918 green:0.871 blue:0.824 alpha:1.000], // 2
@@ -107,7 +108,7 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 											[UIColor colorWithRed:0.933 green:0.635 blue:0.400 alpha:1.000], // 8
 											[UIColor colorWithRed:0.945 green:0.506 blue:0.318 alpha:1.000], // 16
 											[UIColor colorWithRed:0.945 green:0.396 blue:0.302 alpha:1.000], // 32
-											[UIColor colorWithRed:0.945 green:0.275 blue:0.176 alpha:1.000], // 64
+											[UIColor colorWithRed:0.950 green:0.373 blue:0.263 alpha:1.000], // 64
 											[UIColor colorWithRed:0.910 green:0.776 blue:0.373 alpha:1.000], // 128
 											[UIColor colorWithRed:0.910 green:0.765 blue:0.310 alpha:1.000], // 256
 											[UIColor colorWithRed:0.910 green:0.745 blue:0.247 alpha:1.000], // 512

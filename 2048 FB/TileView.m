@@ -33,6 +33,9 @@
 		[self addSubview:self.label];
 		self.label.textAlignment = NSTextAlignmentCenter;
 		self.label.text = self.text;
+		self.label.textColor = self.textColor;
+		CGFloat fontSize = 25.0f;
+		self.label.font = [UIFont fontWithName:@"Arial-BoldMT" size:fontSize];
 	}
 }
 
