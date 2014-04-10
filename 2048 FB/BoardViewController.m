@@ -41,6 +41,12 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 
 -(CGRect) frameOfTileContainerAtPosition: (CGPoint) pos;
 -(CGPoint) positionOfTileContainerAtFrame: (CGRect) frame;
+
+-(void)startLeftSwipeAnimation;
+-(void)startRightSwipeAnimation;
+-(void)startUpSwipeAnimation;
+-(void)startDownSwipeAnimation;
+
 -(void) animateTileView: (TileView *) tView intoPosition: (CGPoint) posEnd;
 
 -(BOOL) saveContext;
@@ -69,6 +75,9 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 	// Setup iAd
 	self.canDisplayBannerAds = YES;
 	self.onBoardTileViews = [NSMutableArray array];
+	for (size_t i = 0; i < 4; ++i) {
+		[self.onBoardTileViews addObject:[NSMutableArray array]];
+	}
 }
 
 -(void)awakeFromNib
@@ -131,11 +140,11 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 			if ([obj1 isKindOfClass:[UIView class]] && [obj2 isKindOfClass:[UIView class]]) {
 				UIView *v1 = obj1;
 				UIView *v2 = obj2;
-				if (v1.frame.origin.x > v2.frame.origin.x) {
-					res = NSOrderedDescending;
-				} else if (v1.frame.origin.x == v2.frame.origin.x) {
-					if (v1.frame.origin.y > v2.frame.origin.y) {
-						res = NSOrderedDescending;
+				if (v1.frame.origin.y < v2.frame.origin.y) {
+					res = NSOrderedAscending;
+				} else if (v1.frame.origin.y == v2.frame.origin.y) {
+					if (v1.frame.origin.x < v2.frame.origin.x) {
+						res = NSOrderedAscending;
 					}
 				}
 			}
@@ -191,6 +200,7 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 
 - (IBAction)menuTapped:(UIButton *)sender {
 	[self setTextForTextLabel:[NSString stringWithFormat:@"%@", [NSDate date]]];
+	[self updateBoardFromLatestBoardData];
 }
 
 -(void) animateTileView: (TileView *) tView intoPosition: (CGPoint) posEnd {
@@ -265,110 +275,251 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 
 - (IBAction)boardSwiped:(UISwipeGestureRecognizer *)sender {
 	BoardSwipeGestureDirection direction;
-	NSMutableArray *arr;
 	if (sender.state == UIGestureRecognizerStateBegan) {
-		arr  = [[Board latestBoard] getBoardDataArray];
-		NSSortDescriptor *sortDescriptor1 = [NSSortDescriptor sortDescriptorWithKey:@"frame.origin.y" ascending:YES];
-		NSSortDescriptor *sortDescriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"frame.origin.x" ascending:YES];
-		[self.onBoardTileViews sortUsingDescriptors:@[sortDescriptor1, sortDescriptor2]];
+		
 	} else if (sender.state == UIGestureRecognizerStateChanged) {
 		
 	} else if (sender.state == UIGestureRecognizerStateEnded) {
 		
 		if (sender.direction == UISwipeGestureRecognizerDirectionRight) {
 			direction = BoardSwipeGestureDirectionRight;
+			[self startRightSwipeAnimation];
 		} else if (sender.direction == UISwipeGestureRecognizerDirectionLeft) {
 			direction = BoardSwipeGestureDirectionLeft;
-			for (int row = 0; row < 4; ++row) {
-				NSMutableArray *rowArr = arr[row];
-				int col1 = 0;
-				int col2 = 0;
-				int col3 = 1;
-				
-				while (col1 < 4 && col2 < 4 && col3 < 4) {
-					if ([rowArr[col2] intValue] == 0) {
-						++col2;
-						++col3;
-						continue;
-					}
-					if ([rowArr[col3] intValue] == 0) {
-						++col3;
-						continue;
-					}
-					// If both formerTileInd and nextTileInd are not zero, the following code get executed.
-					int newVal = 0;
-					if ([rowArr[col2] intValue] == [rowArr[col3] intValue] && col2 != col3) {
-						newVal = 2 * [rowArr[col2] intValue];
-						TileView *tView1 = self.onBoardTileViews[row * 4 + col2];
-						TileView *tView2 = self.onBoardTileViews[row * 4 + col2];
-						col2 += 2;
-						col3 += 2;
-						[self animateTileView:tView1 intoPosition:CGPointMake(col1, row)];
-						[self animateTileView:tView2 intoPosition:CGPointMake(col1, row)];
-						TileView *newTileView;
-						// Add the new tile as the subview of the joining tile.
-						CGRect frame = [self frameOfTileContainerAtPosition:CGPointMake(col1, row)];
-						int32_t val = tView1.val * 2;
-						newTileView = [[TileView alloc] initWithFrame:frame];
-						newTileView.text = [Tile tileWithValue: val].text;
-						newTileView.backgroundColor = self.theme.tileColors[@(val)];
-						[self.boardView addSubview:newTileView];
-						[self.boardView bringSubviewToFront:newTileView];
-						newTileView.layer.cornerRadius = self.theme.tileCornerRadius;
-						newTileView.layer.masksToBounds = YES;
-						newTileView.textColor = (val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor]);
-						newTileView.alpha = 0.0f;
-						[UIView animateWithDuration:kAnimationDuration_Default/2.0f
-											  delay:0.0f
-							 usingSpringWithDamping:kAnimationSpring_Damping
-							  initialSpringVelocity:kAnimationSpring_Velocity
-											options:UIViewAnimationOptionCurveEaseOut
-										 animations:^{
-											 CGFloat scaleFactor = 1.0f + ((self.boardView.bounds.size.width - newTileView.bounds.size.width * 4.0f)/5.0f)/(newTileView.bounds.size.width);
-											 newTileView.alpha = 1.0f;
-											 CGAffineTransform transform = newTileView.nextTileView.transform;
-											 newTileView.transform = CGAffineTransformScale(transform, scaleFactor, scaleFactor);
-										 }
-										 completion:^(BOOL finished) {
-											 [UIView animateWithDuration:kAnimationDuration_Default/2.0f
-																   delay:0.0f
-												  usingSpringWithDamping:kAnimationSpring_Damping
-												   initialSpringVelocity:kAnimationSpring_Velocity
-																 options:UIViewAnimationOptionCurveEaseOut
-															  animations:^{
-																  newTileView.transform = CGAffineTransformIdentity;
-															  }
-															  completion:nil];
-										 }];
-						[newTileView setNeedsDisplay];
-						// Adding new tile completed.
-					} else {
-						newVal = [rowArr[col2] intValue];
-						TileView *tView = self.onBoardTileViews[row * 4 + col2];
-						[self animateTileView:tView intoPosition:CGPointMake(col1, row)];
-						col2 = col3++;
-					}
-					rowArr[col1++] = @(newVal);
-				}
-				if (col1 < 4 && col2 < 4) {
-					int newVal = [rowArr[col2] intValue];
-					if (newVal != 0 && [arr[row][col1] intValue] == 0) {
-						rowArr[col1] = @(newVal);
-						rowArr[col2] = @(0);
-					}
-				}
-			}
+			[self startLeftSwipeAnimation];
 		} else if (sender.direction == UISwipeGestureRecognizerDirectionUp) {
 			direction = BoardSwipeGestureDirectionUp;
+			[self startUpSwipeAnimation];
 		} else if (sender.direction == UISwipeGestureRecognizerDirectionDown) {
 			direction = BoardSwipeGestureDirectionDown;
+			[self startDownSwipeAnimation];
 		}
 		
 		Board *board = [[Board latestBoard] swipedToDirection:direction];
-		[self updateBoardFromBoard:board];
+		// TODO animation for the new random tile
 	} else if (sender.state == UIGestureRecognizerStateFailed || sender.state == UIGestureRecognizerStateCancelled) {
 		
 	}
+}
+
+-(void)startLeftSwipeAnimation {
+	NSMutableArray *arr = [[Board latestBoard] getBoardDataArray];
+	arr = [arr mutableCopy];
+
+	for (int row = 0; row < 4; ++row) {
+		NSMutableArray *rowArr = arr[row];
+		int col1 = 0;
+		int col2 = 0;
+		int col3 = 1;
+		
+		while (col1 < 4 && col2 < 4 && col3 < 4) {
+			if ([rowArr[col2] intValue] == 0) {
+				++col2;
+				++col3;
+				continue;
+			}
+			if ([rowArr[col3] intValue] == 0) {
+				++col3;
+				continue;
+			}
+			// If both formerTileInd and nextTileInd are not zero, the following code get executed.
+			int newVal = 0;
+			if ([rowArr[col2] intValue] == [rowArr[col3] intValue] && col2 != col3) {
+				newVal = 2 * [rowArr[col2] intValue];
+				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
+					CGPoint center = ((UIView *)self.onBoardTileViews[row][col2]).center;
+					((UIView *)self.onBoardTileViews[row][col2]).center = CGPointMake(center.x - 68 * (col2 - col1), center.y);
+				}];
+				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
+					CGPoint center = ((UIView *)self.onBoardTileViews[row][col3]).center;
+					((UIView *)self.onBoardTileViews[row][col3]).center = CGPointMake(center.x - 68 * (col3 - col1), center.y);
+				}];
+				
+				TileView *newTileView = [[TileView alloc] init];
+				CGRect frame = CGRectMake(col1 * 68 + 8, row * 68 + 8, 60, 60);
+				int32_t val = newVal;
+				newTileView = [[TileView alloc] initWithFrame:frame];
+				newTileView.text = [Tile tileWithValue: val].text;
+				newTileView.backgroundColor = self.theme.tileColors[@(val)];
+				[self.boardView addSubview:newTileView];
+				[self.boardView bringSubviewToFront:newTileView];
+				newTileView.layer.cornerRadius = self.theme.tileCornerRadius;
+				newTileView.layer.masksToBounds = YES;
+				newTileView.textColor = (val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor]);
+				newTileView.alpha = 0.0f;
+				[newTileView setNeedsDisplay];
+				
+				[UIView animateWithDuration:kAnimationDuration_Default/2.0f
+									  delay:kAnimationDuration_Default
+					 usingSpringWithDamping:kAnimationSpring_Damping
+					  initialSpringVelocity:kAnimationSpring_Velocity
+									options:UIViewAnimationOptionCurveEaseOut
+								 animations:^{
+									 CGFloat scaleFactor = 1.0f + 4.0f/60.0f;
+									 newTileView.alpha = 1.0f;
+									 CGAffineTransform transform = newTileView.transform;
+									 newTileView.transform = CGAffineTransformScale(transform, scaleFactor, scaleFactor);
+								 }
+								 completion:^(BOOL finished) {
+									 [UIView animateWithDuration:kAnimationDuration_Default/2.0f
+														   delay:0.0f
+										  usingSpringWithDamping:kAnimationSpring_Damping
+										   initialSpringVelocity:kAnimationSpring_Velocity
+														 options:UIViewAnimationOptionCurveEaseOut
+													  animations:^{
+														  newTileView.transform = CGAffineTransformIdentity;
+													  }
+													  completion:nil];
+								 }];
+				self.onBoardTileViews[row][col2] = [[UIView alloc] init];
+				self.onBoardTileViews[row][col3] = [[UIView alloc] init];
+				self.onBoardTileViews[row][col1] = newTileView;
+				rowArr[col2] = @(0);
+				rowArr[col3] = @(0);
+				col2 += 2;
+				col3 += 2;
+				
+			} else {
+				newVal = [rowArr[col2] intValue];
+				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
+					CGPoint center = ((UIView *)self.onBoardTileViews[row][col2]).center;
+					((UIView *)self.onBoardTileViews[row][col2]).center = CGPointMake(center.x - 68 * (col2 - col1), center.y);
+				}];
+				self.onBoardTileViews[row][col1] = self.onBoardTileViews[row][col2];
+				self.onBoardTileViews[row][col2] = [[UIView alloc] init];
+				rowArr[col2] = @(0);
+				col2 = col3++;
+			}
+			rowArr[col1++] = @(newVal);
+		}
+		if (col1 < 4 && col2 < 4) {
+			int newVal = [rowArr[col2] intValue];
+			if (newVal != 0 && [arr[row][col1] intValue] == 0) {
+				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
+					CGPoint center = ((UIView *)self.onBoardTileViews[row][col2]).center;
+					((UIView *)self.onBoardTileViews[row][col2]).center = CGPointMake(center.x - 68 * (col2 - col1), center.y);
+				}];
+				self.onBoardTileViews[row][col1] = self.onBoardTileViews[row][col2];
+				self.onBoardTileViews[row][col2] = [[UIView alloc] init];
+				rowArr[col1] = @(newVal);
+				rowArr[col2] = @(0);
+			}
+		}
+	}
+}
+
+-(void)startRightSwipeAnimation {
+	NSMutableArray *arr = [[Board latestBoard] getBoardDataArray];
+	arr = [arr mutableCopy];
+	
+	for (int row = 0; row < 4; ++row) {
+		NSMutableArray *rowArr = arr[row];
+		int col1 = 3;
+		int col2 = 3;
+		int col3 = 2;
+		
+		while (col1 >= 0 && col2 >= 0 && col3 >= 0) {
+			if ([rowArr[col2] intValue] == 0) {
+				--col2;
+				--col3;
+				continue;
+			}
+			if ([rowArr[col3] intValue] == 0) {
+				--col3;
+				continue;
+			}
+			// If both formerTileInd and nextTileInd are not zero, the following code get executed.
+			int newVal = 0;
+			if ([rowArr[col2] intValue] == [rowArr[col3] intValue] && col2 != col3) {
+				newVal = 2 * [rowArr[col2] intValue];
+				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
+					CGPoint center = ((UIView *)self.onBoardTileViews[row][col2]).center;
+					((UIView *)self.onBoardTileViews[row][col2]).center = CGPointMake(center.x + 68 * (col1 - col2), center.y);
+				}];
+				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
+					CGPoint center = ((UIView *)self.onBoardTileViews[row][col3]).center;
+					((UIView *)self.onBoardTileViews[row][col3]).center = CGPointMake(center.x + 68 * (col1 - col2), center.y);
+				}];
+				
+				TileView *newTileView = [[TileView alloc] init];
+				CGRect frame = CGRectMake(col1 * 68 + 8, row * 68 + 8, 60, 60);
+				int32_t val = newVal;
+				newTileView = [[TileView alloc] initWithFrame:frame];
+				newTileView.text = [Tile tileWithValue: val].text;
+				newTileView.backgroundColor = self.theme.tileColors[@(val)];
+				[self.boardView addSubview:newTileView];
+				[self.boardView bringSubviewToFront:newTileView];
+				newTileView.layer.cornerRadius = self.theme.tileCornerRadius;
+				newTileView.layer.masksToBounds = YES;
+				newTileView.textColor = (val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor]);
+				newTileView.alpha = 0.0f;
+				[newTileView setNeedsDisplay];
+				
+				[UIView animateWithDuration:kAnimationDuration_Default/2.0f
+									  delay:kAnimationDuration_Default
+					 usingSpringWithDamping:kAnimationSpring_Damping
+					  initialSpringVelocity:kAnimationSpring_Velocity
+									options:UIViewAnimationOptionCurveEaseOut
+								 animations:^{
+									 CGFloat scaleFactor = 1.067f;
+									 newTileView.alpha = 1.0f;
+									 CGAffineTransform transform = newTileView.transform;
+									 newTileView.transform = CGAffineTransformScale(transform, scaleFactor, scaleFactor);
+								 }
+								 completion:^(BOOL finished) {
+									 [UIView animateWithDuration:kAnimationDuration_Default/2.0f
+														   delay:0.0f
+										  usingSpringWithDamping:kAnimationSpring_Damping
+										   initialSpringVelocity:kAnimationSpring_Velocity
+														 options:UIViewAnimationOptionCurveEaseOut
+													  animations:^{
+														  newTileView.transform = CGAffineTransformIdentity;
+													  }
+													  completion:nil];
+								 }];
+				self.onBoardTileViews[row][col2] = [[UIView alloc] init];
+				self.onBoardTileViews[row][col3] = [[UIView alloc] init];
+				self.onBoardTileViews[row][col1] = newTileView;
+				rowArr[col2] = @(0);
+				rowArr[col3] = @(0);
+				col2 -= 2;
+				col3 -= 2;
+				
+			} else {
+				newVal = [rowArr[col2] intValue];
+				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
+					CGPoint center = ((UIView *)self.onBoardTileViews[row][col2]).center;
+					((UIView *)self.onBoardTileViews[row][col2]).center = CGPointMake(center.x + 68 * (col1 - col2), center.y);
+				}];
+				self.onBoardTileViews[row][col1] = self.onBoardTileViews[row][col2];
+				self.onBoardTileViews[row][col2] = [[UIView alloc] init];
+				rowArr[col2] = @(0);
+				col2 = col3--;
+			}
+			rowArr[col1--] = @(newVal);
+		}
+		if (col1 >= 0 && col2 >= 0) {
+			int newVal = [rowArr[col2] intValue];
+			if (newVal != 0 && [arr[row][col1] intValue] == 0) {
+				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
+					CGPoint center = ((UIView *)self.onBoardTileViews[row][col2]).center;
+					((UIView *)self.onBoardTileViews[row][col2]).center = CGPointMake(center.x + 68 * (col1 - col2), center.y);
+				}];
+				self.onBoardTileViews[row][col1] = self.onBoardTileViews[row][col2];
+				self.onBoardTileViews[row][col2] = [[UIView alloc] init];
+				rowArr[col1] = @(newVal);
+				rowArr[col2] = @(0);
+			}
+		}
+	}
+}
+
+-(void)startUpSwipeAnimation {
+	
+}
+
+-(void)startDownSwipeAnimation {
+	
 }
 
 -(void)setMode:(BoardViewControllerMode) mode {
@@ -391,8 +542,10 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 			[tView removeFromSuperview];
 		}
 	}
-	for (size_t i = 0; i <= [self.onBoardTileViews count]; ++i) {
-		[self.onBoardTileViews removeObject:[self.onBoardTileViews lastObject]];
+	for (size_t i = 0; i < 4; ++i) {
+		for (size_t j = 0; j < 4; ++j) {
+			self.onBoardTileViews[i][j] = [[UIView alloc] init];
+		}
 	}
 	[self.boardView setNeedsDisplay];
 	board = [Board latestBoard];
@@ -401,20 +554,18 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 		for (size_t j = 0; j < 4; ++j) {
 			int val = [gameData[i][j] intValue];
 			if (val) { // If there is a tile
-				CGRect frame = [self frameOfTileContainerAtPosition:CGPointMake(i, j)];
+				CGRect frame = CGRectMake(j * 68 + 8, i * 68 + 8, 60, 60);
 				TileView *tView = [[TileView alloc] initWithFrame:frame];
 				tView.val = val;
 				tView.text = [Tile tileWithValue: val].text;
 				tView.backgroundColor = self.theme.tileColors[@(val)];
-				[self.onBoardTileViews addObject:tView];
+				self.onBoardTileViews[i][j] = tView;
 				[self.boardView addSubview:tView];
 				[self.boardView bringSubviewToFront:tView];
 				tView.layer.cornerRadius = self.theme.tileCornerRadius;
 				tView.layer.masksToBounds = YES;
 				tView.textColor = (val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor]);
 				[tView setNeedsDisplay];
-			} else {
-				[self.onBoardTileViews addObject: [[UIView alloc] init]];
 			}
 		}
 	}
@@ -433,9 +584,12 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 		self.retryOrKeepPlayingButton.tag = 0;
 		__block UIImage *snapshot;
 		NSMutableArray *allTileViews = [NSMutableArray array];
-		for (UIView *tView in self.onBoardTileViews) {
-			if ([tView isKindOfClass:[TileView class]]) {
-				[allTileViews addObject:tView];
+		for (size_t i = 0; i < 4; ++i) {
+			for (size_t j = 0; j < 4; ++j) {
+				UIView *tView = self.onBoardTileViews[i][j];
+				if ([tView isKindOfClass:[TileView class]]) {
+					[allTileViews addObject:tView];
+				}
 			}
 		}
 		for (UIView *tView in allTileViews) {
