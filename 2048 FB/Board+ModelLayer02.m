@@ -8,6 +8,7 @@
 
 #import "Board+ModelLayer02.h"
 #import "AppDelegate.h"
+#import "History+ModelLayer03.h"
 
 @implementation Board (ModelLayer02)
 
@@ -43,7 +44,11 @@
 }
 
 +(Board *)latestBoard {
-	return [[self allBoards] lastObject];
+	History *histories = [History latestHistory];
+	NSSet *boardSet = histories.boards;
+	NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"createDate" ascending:YES];
+	NSArray *boardArr = [boardSet sortedArrayUsingDescriptors:@[sortDescriptor]];
+	return [boardArr lastObject];
 }
 
 @end

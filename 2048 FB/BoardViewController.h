@@ -31,6 +31,7 @@ typedef enum BoardViewControllerMode {
 
 // Upper screen views
 @property (weak, nonatomic) IBOutlet UIView *profilePictureView;
+@property (weak, nonatomic) IBOutlet UIButton *profilePictureButton;
 @property (weak, nonatomic) IBOutlet UIButton *menuView;
 @property (weak, nonatomic) IBOutlet UIView *bestScoreView;
 @property (weak, nonatomic) IBOutlet UILabel *bestScoreLabel;
@@ -52,6 +53,7 @@ typedef enum BoardViewControllerMode {
 
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 
+- (IBAction)profilePictureButtonTouched:(UIButton *)sender;
 - (IBAction)menuTapped:(UIButton *)sender;
 - (IBAction)retryOrKeepPlayingTapped:(UIButton *)sender;
 

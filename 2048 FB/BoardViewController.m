@@ -17,8 +17,9 @@
 #import "Tile+ModelLayer03.h"
 #import "Theme.h"
 #import "TileView.h"
+#import "PaperFoldView.h"
 
-const CGFloat kAnimationDuration_Default = 0.07f;
+const CGFloat kAnimationDuration_Default = 0.1f;
 const CGFloat kAnimationDuration_ScreenBlur = 1.0f;
 const CGFloat kAnimationDuration_ScaleTile = 1.0f;
 const CGFloat kAnimationDuration_MoveTile = 0.5f;
@@ -31,6 +32,8 @@ const CGFloat kTextShowDuration = 5.0f;
 const CGFloat kBoardPanMinDistance = 5.0f;
 const CGFloat kLineWidthDefault_iPhone = 8.0f;
 
+const NSUInteger kDefaultContextSavingSwipeNumber = 10;
+
 @interface BoardViewController ()
 
 @property  (nonatomic) BoardViewControllerMode mode;
@@ -38,6 +41,9 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 @property (nonatomic, strong) UIView *latestSnapshotView;
 @property (strong, nonatomic) NSArray *tileContainerViewsSorted;
 @property (strong, nonatomic) NSMutableArray *onBoardTileViews;
+
+// This swipe count is only for saving context.
+@property (nonatomic) NSUInteger swipeCount_NotAccurate;
 
 -(CGRect) frameOfTileContainerAtPosition: (CGPoint) pos;
 -(CGPoint) positionOfTileContainerAtFrame: (CGRect) frame;
@@ -100,6 +106,7 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
     // Do any additional setup after loading the view.
 	
 	// Change the corner radius of views
+	self.originalContentView.backgroundColor = self.theme.backgroundColor;
 	self.boardView.layer.cornerRadius = self.theme.boardCornerRadius;
 	self.boardView.layer.masksToBounds = YES;
 	self.pauseView.layer.cornerRadius = self.theme.boardCornerRadius;
@@ -120,6 +127,14 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 	self.menuView.backgroundColor = self.theme.tileColors[@(8)];
 	self.bestScoreView.backgroundColor = self.theme.tileColors[@(2048)];
 	self.scoreView.backgroundColor = self.theme.tileColors[@(4)];
+	self.retryOrKeepPlayingButton.titleLabel.textColor = [UIColor whiteColor];
+	self.retryOrKeepPlayingButton.backgroundColor = self.theme.tileColors[@(8)];
+	self.retryOrKeepPlayingButton.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.retryOrKeepPlayingButton.layer.masksToBounds = YES;
+	self.shareButton.titleLabel.textColor = [UIColor whiteColor];
+	self.shareButton.backgroundColor = self.theme.tileColors[@(8)];
+	self.shareButton.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.shareButton.layer.masksToBounds = YES;
 	for (UIView *v in self.tileContainerViews) {
 		v.backgroundColor = self.theme.tileContainerColor;
 	}
@@ -151,7 +166,14 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 			return res;
 		}];
 	}
-	
+	// Set profile picture view
+	CGRect frame = CGRectMake(2, 2, self.profilePictureView.bounds.size.width - 4, self.profilePictureView.bounds.size.height - 4);
+	UIImageView *profilePicImageView = [[UIImageView alloc] initWithFrame:frame];
+	profilePicImageView.layer.cornerRadius = self.theme.buttonCornerRadius;
+	profilePicImageView.layer.masksToBounds = YES;
+	profilePicImageView.image = [Tile tileWithValue:2048].image;
+	[self.profilePictureView addSubview:profilePicImageView];
+	[self.profilePictureView bringSubviewToFront:self.profilePictureButton];
 	[self updateBoardFromLatestBoardData];
 }
 
@@ -198,12 +220,14 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 	self.canDisplayBannerAds = YES;
 }
 
+- (IBAction)profilePictureButtonTouched:(UIButton *)sender {
+
+}
+
 - (IBAction)menuTapped:(UIButton *)sender {
 	[self setTextForTextLabel:[NSString stringWithFormat:@"%@", [NSDate date]]];
 	[self updateBoardFromLatestBoardData];
 }
-
-
 
 - (IBAction)retryOrKeepPlayingTapped:(UIButton *)sender {
 	if (sender.tag == 0) {
@@ -212,9 +236,11 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 		[self updateBoardFromLatestBoardData];
 		[self enableGestureRecognizers:YES];
 	}
+	[self saveContext];
 }
 
 - (IBAction)boardSwiped:(UISwipeGestureRecognizer *)sender {
+	self.swipeCount_NotAccurate++;
 	BoardSwipeGestureDirection direction;
 	if (sender.state == UIGestureRecognizerStateBegan) {
 		
@@ -236,10 +262,49 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 			[self startDownSwipeAnimation];
 		}
 		
-		Board *board = [[Board latestBoard] swipedToDirection:direction];
-		// TODO animation for the new random tile
+		// Everything down here is to deal with new tile animation
+		int32_t newTileVal;
+		CGPoint newTilePos;
+		Board *board = [[Board latestBoard] swipedToDirection:direction newTileValue:&newTileVal newTilePos:&newTilePos];
+		
+		if (board) {
+			TileView *newTileView = [[TileView alloc] init];
+			CGRect frame = CGRectMake(newTilePos.x * 68 + 8, newTilePos.y * 68 + 8, 60, 60);
+			int32_t val = newTileVal;
+			newTileView = [[TileView alloc] initWithFrame:frame];
+			Tile *tile = [Tile tileWithValue:val];
+			newTileView.image = tile.image;
+			newTileView.text = tile.text;
+			newTileView.backgroundColor = self.theme.tileColors[@(val)];
+			[self.boardView addSubview:newTileView];
+			[self.boardView bringSubviewToFront:newTileView];
+			newTileView.layer.cornerRadius = self.theme.tileCornerRadius;
+			newTileView.layer.masksToBounds = YES;
+			newTileView.textColor = (val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor]);
+			newTileView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0f, 0.0f);
+			newTileView.alpha = 0.0f;
+			[newTileView setNeedsDisplay];
+			
+			[UIView animateWithDuration:kAnimationDuration_Default * 2
+								  delay:kAnimationDuration_Default * 2
+				 usingSpringWithDamping:kAnimationSpring_Damping
+				  initialSpringVelocity:kAnimationSpring_Velocity
+								options:UIViewAnimationOptionCurveEaseOut
+							 animations:^{
+								 newTileView.alpha = 1.0f;
+								 newTileView.transform = CGAffineTransformIdentity;
+							 }
+							 completion:^(BOOL finished) {
+								 self.onBoardTileViews[(int)newTilePos.x][(int)newTilePos.y] = newTileView;
+								 [self updateBoardFromBoard:board];
+							 }];
+				
+		}
 	} else if (sender.state == UIGestureRecognizerStateFailed || sender.state == UIGestureRecognizerStateCancelled) {
 		
+	}
+	if (self.swipeCount_NotAccurate%kDefaultContextSavingSwipeNumber == 0) {
+		[self saveContext];
 	}
 }
 
@@ -280,7 +345,9 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 				CGRect frame = CGRectMake(col1 * 68 + 8, row * 68 + 8, 60, 60);
 				int32_t val = newVal;
 				newTileView = [[TileView alloc] initWithFrame:frame];
-				newTileView.text = [Tile tileWithValue: val].text;
+				Tile *tile = [Tile tileWithValue:newVal];
+				newTileView.image = tile.image;
+				newTileView.text = tile.text;
 				newTileView.backgroundColor = self.theme.tileColors[@(val)];
 				[self.boardView addSubview:newTileView];
 				[self.boardView bringSubviewToFront:newTileView];
@@ -386,7 +453,9 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 				CGRect frame = CGRectMake(col1 * 68 + 8, row * 68 + 8, 60, 60);
 				int32_t val = newVal;
 				newTileView = [[TileView alloc] initWithFrame:frame];
-				newTileView.text = [Tile tileWithValue: val].text;
+				Tile *tile = [Tile tileWithValue:newVal];
+				newTileView.image = tile.image;
+				newTileView.text = tile.text;
 				newTileView.backgroundColor = self.theme.tileColors[@(val)];
 				[self.boardView addSubview:newTileView];
 				[self.boardView bringSubviewToFront:newTileView];
@@ -492,7 +561,9 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 				CGRect frame = CGRectMake(col * 68 + 8, row1 * 68 + 8, 60, 60);
 				int32_t val = newVal;
 				newTileView = [[TileView alloc] initWithFrame:frame];
-				newTileView.text = [Tile tileWithValue: val].text;
+				Tile *tile = [Tile tileWithValue:newVal];
+				newTileView.image = tile.image;
+				newTileView.text = tile.text;
 				newTileView.backgroundColor = self.theme.tileColors[@(val)];
 				[self.boardView addSubview:newTileView];
 				[self.boardView bringSubviewToFront:newTileView];
@@ -598,7 +669,9 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 				CGRect frame = CGRectMake(col * 68 + 8, row1 * 68 + 8, 60, 60);
 				int32_t val = newVal;
 				newTileView = [[TileView alloc] initWithFrame:frame];
-				newTileView.text = [Tile tileWithValue: val].text;
+				Tile *tile = [Tile tileWithValue:newVal];
+				newTileView.image = tile.image;
+				newTileView.text = tile.text;
 				newTileView.backgroundColor = self.theme.tileColors[@(val)];
 				[self.boardView addSubview:newTileView];
 				[self.boardView bringSubviewToFront:newTileView];
@@ -700,9 +773,11 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 			int val = [gameData[i][j] intValue];
 			if (val) { // If there is a tile
 				CGRect frame = CGRectMake(j * 68 + 8, i * 68 + 8, 60, 60);
+				Tile *tile = [Tile tileWithValue:val];
 				TileView *tView = [[TileView alloc] initWithFrame:frame];
 				tView.val = val;
-				tView.text = [Tile tileWithValue: val].text;
+				tView.image = tile.image;
+				tView.text = tile.text;
 				tView.backgroundColor = self.theme.tileColors[@(val)];
 				self.onBoardTileViews[i][j] = tView;
 				[self.boardView addSubview:tView];
@@ -748,8 +823,10 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 								options:UIViewAnimationOptionCurveLinear
 							 animations:^{
 								 tView.transform = CGAffineTransformScale(transform, scaleFactor, scaleFactor);
+								 tView.layer.cornerRadius = 0.0f;
 							 }
 							 completion:^(BOOL finished){
+								 tView.layer.cornerRadius = self.theme.tileCornerRadius;
 								 // Only execute once when the last tView is sent message
 								 if (tView == [allTileViews lastObject]) { // Only taks one snapshot
 									 if (!snapshot) {
@@ -773,7 +850,6 @@ const CGFloat kLineWidthDefault_iPhone = 8.0f;
 														  }
 														  completion:^(BOOL finished) {
 															  [self.boardView bringSubviewToFront:self.pauseView];
-															  self.pauseView.layer.mask.transform = CATransform3DTranslate(self.pauseView.layer.mask.transform, -100, -100, 0);
 														  }];
 									 }
 								 }

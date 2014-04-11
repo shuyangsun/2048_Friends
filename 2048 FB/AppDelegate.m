@@ -38,11 +38,11 @@ NSString *const kCurrentThemeIDKey = @"UserDefault_CurrentThemeUUIDKey";
 	}
 	
 	// Save context every 10 seconds
-	[NSTimer scheduledTimerWithTimeInterval:10.0f
-									 target:self
-								   selector: @selector(saveContext)
-								   userInfo:nil
-									repeats:YES];
+//	[NSTimer scheduledTimerWithTimeInterval:10.0f
+//									 target:self
+//								   selector: @selector(saveContext)
+//								   userInfo:nil
+//									repeats:YES];
 	
 	[FBLoginView class];
 	[UIApplication sharedApplication].statusBarHidden = YES;

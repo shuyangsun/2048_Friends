@@ -25,5 +25,6 @@ extern const NSTimeInterval kViewControllerDuration_SpringVelocity;
 - (void)handlePan:(UIPanGestureRecognizer *)sender;
 // When the custom login UI get touched
 - (IBAction)customLoginButtonTouched:(UIButton *)sender;
+- (IBAction)backTapped:(UIButton *)sender;
 
 @end

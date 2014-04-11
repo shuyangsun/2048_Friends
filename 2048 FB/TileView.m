@@ -15,7 +15,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-		
     }
     return self;
 }
@@ -23,8 +22,11 @@
 - (void)drawRect:(CGRect)rect
 {
 	if (self.image) {
-		UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+		UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1, 1, self.bounds.size.width - 2, self.bounds.size.height - 2)];
+		imageView.contentMode = UIViewContentModeScaleAspectFit;
 		imageView.image = self.image;
+		imageView.layer.cornerRadius = self.layer.cornerRadius;
+		imageView.layer.masksToBounds = YES;
 		imageView.contentMode = UIViewContentModeScaleToFill;
 		[self addSubview:imageView];
 		[self bringSubviewToFront:imageView];

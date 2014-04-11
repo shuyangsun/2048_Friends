@@ -34,8 +34,6 @@ const CGFloat kBoardEdgeWidthFractionDefault_iPad = 0.05f;
 const CGFloat kLineWidthFractionDefault_iPhone = 0.03f; // Comparing with board width
 const CGFloat kLineWidthFractionDefault_iPad = 0.03f;
 
-
-
 NSString *const kThemePriceKey_Free  = @"free";
 NSString *const kThemePriceKey_Paid = @"paid";
 
@@ -96,6 +94,7 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	if ([iD compare:kThemeID_Default] == 0) {
 		theme.themeType = ThemeTypeDefault;
 		theme.backgroundColor = [UIColor colorWithRed:0.976 green:0.969 blue:0.922 alpha:1.000];
+//		theme.backgroundColor = [UIColor colorWithRed:0.27059 green:0.38039 blue:0.6 alpha:1];
 		theme.boardColor = [UIColor colorWithRed:0.678 green:0.616 blue:0.561 alpha:1.000];
 		theme.foldAnimationBackgroundColor = [UIColor colorWithRed:0.678 green:0.616 blue:0.561 alpha:1.000]; // TODO
 		theme.settingsPageColor = [UIColor colorWithRed:0.486 green:0.404 blue:0.325 alpha:1.000]; // TODO

@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "Theme.h"
 #import "GameManager+ModelLayer03.h"
+#import "Tile+ModelLayer03.h"
 
 const NSTimeInterval kViewControllerDuration_Animation = 0.1f;
 const NSTimeInterval kViewControllerDuration_Delay = 0.0f;
@@ -23,6 +24,9 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 @property (nonatomic, getter = isUserLoggedIn) BOOL userLoggedIn;
 @property (nonatomic, strong) Theme *theme;
 
++(NSURL *)profilePictureURLFromFBUserID: (NSString *) userId;
+-(void)executeFacebookFetchRequests;
+
 /** This method is a private helper method to find the UIButton in the fbLoginView.
  *  So we can send touch events to fbLoginView programmatically.
  *  This is used for customizing our own Facebook login UI.
@@ -31,9 +35,9 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 -(void)findUIButtonInfbLoginView;
 
 /**
- * 
+ * Always return yes for now
  */
--(BOOL)fetchFbFriendsImages;
+-(BOOL)fetchFbImages;
 
 @end
 
@@ -64,6 +68,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+	self.fbLoginView.readPermissions = @[@"read_friendlists", @"user_about_me", @"friends_about_me"];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -73,6 +78,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 	[self findUIButtonInfbLoginView];
 	self.customLoginButton.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.view.backgroundColor = self.theme.backgroundColor;
+	[self fetchFbImages];
 }
 
 -(void)viewDidLayoutSubviews {
@@ -135,6 +141,10 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 	[self.fbLoginViewButton sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
 
+- (IBAction)backTapped:(UIButton *)sender {
+	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
 // <FBLoginViewDelegate> method
 -(void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
 	
@@ -148,11 +158,22 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 // <FBLoginViewDelegate> method
 -(void)loginViewFetchedUserInfo:(FBLoginView *)loginView
 						   user:(id<FBGraphUser>)user {
-}
-
-// Private helper method.
--(BOOL)fetchFbFriendsImages {
-	return YES;
+	
+	dispatch_queue_t fetchingImageQueue = dispatch_queue_create("Fetch Facebook Profile Picture Queue", NULL);
+	dispatch_async(fetchingImageQueue, ^{
+		// Assign user's own profile pictures to a tile.
+		Tile *tile = [Tile tileWithValue:2048];
+		// Get a random friend from the list:
+		NSString *name = user.name;
+		NSString *fbUserID = user.id;
+		NSURL *profilePictureURL = [ViewController profilePictureURLFromFBUserID:fbUserID];
+		// Get image:
+		NSData *imageData = [NSData dataWithContentsOfURL:profilePictureURL];
+		UIImage *profilePic = [UIImage imageWithData:imageData];
+		tile.fbUserID = fbUserID;
+		tile.fbUserName = name;
+		tile.image = profilePic;
+	});
 }
 
 // Get the pointer to UIButton in fbLoginView, so we can programmatically "touch" it.
@@ -163,6 +184,78 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
 			self.fbLoginViewButton = (UIButton *)obj;
 		}
 	}
+}
+
++(NSURL *)profilePictureURLFromFBUserID: (NSString *) userId {
+	return [NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", userId]];
+}
+
+-(BOOL)fetchFbImages {
+	if (!FBSession.activeSession.isOpen) {
+		// if the session is closed, then we open it here, and establish a handler for state changes
+		[FBSession openActiveSessionWithReadPermissions:@[@"read_friendlists", @"user_about_me", @"friends_about_me"]
+										   allowLoginUI:YES
+									  completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+										  if (error) {
+											  UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+																								  message:error.localizedDescription
+																								 delegate:nil
+																						cancelButtonTitle:@"OK"
+																						otherButtonTitles:nil];
+											  [alertView show];
+										  } else if (session.isOpen) {
+											  //run your user info request here
+											  [self executeFacebookFetchRequests];
+										  }
+									  }];
+	} else {
+		[self executeFacebookFetchRequests];
+	}
+	return YES;
+}
+
+-(void)executeFacebookFetchRequests {
+
+	NSString *graphPath = @"/me/friends";
+	[FBRequestConnection startWithGraphPath:graphPath
+								 parameters:nil
+								 HTTPMethod:@"GET"
+						  completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+							  /* handle the result */
+							  if (error) {
+								  NSLog(@"%@", error);
+							  } else {
+								  NSArray* friends = [result objectForKey:@"data"];
+								  // Fetch profile pictures in a different thread:
+								  dispatch_queue_t fetchingImageQueue = dispatch_queue_create("Fetch Facebook Profile Picture Queue", NULL);
+								  dispatch_async(fetchingImageQueue, ^{
+									  // Assign profile pictures to Tiles.
+									  if ([friends count] < 16) {
+										  NSLog(@"Not enough facebook friends.");
+										  return;
+									  }
+									  int ind = arc4random()%[friends count];
+									  ind = MAX(0, ind - 15);
+									  for (size_t i = 1; i <= maxTilePower; ++i) {
+										  if (i != 11) { // 2048 is user's own profile picture
+											  Tile *tile = [Tile tileWithValue:(int32_t)pow(2.0f, i)];
+											  // Get a random friend from the list:
+											  NSDictionary<FBGraphUser> *friend = friends[ind++];
+											  NSString *name = friend.name;
+											  NSString *fbUserID = friend.id;
+											  NSURL *profilePictureURL = [ViewController profilePictureURLFromFBUserID:fbUserID];
+											  // Get image:
+											  NSData *imageData = [NSData dataWithContentsOfURL:profilePictureURL];
+											  UIImage *profilePic = [UIImage imageWithData:imageData];
+											  tile.fbUserID = fbUserID;
+											  tile.fbUserName = name;
+											  tile.image = profilePic;
+										  }
+									  }
+									  NSLog(@"Friends image fetching done.");
+								  });
+							  }
+						  }];
 }
 
 /*
