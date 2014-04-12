@@ -11,6 +11,7 @@
 
 @implementation GameManager
 
+@dynamic tileViewType;
 @dynamic bestScore;
 @dynamic currentThemeID;
 @dynamic maxOccuredTimesOnBoardForEachTile;

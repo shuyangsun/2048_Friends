@@ -81,8 +81,8 @@
 						score += newVal;
 						rowArr[col2] = @(0);
 						rowArr[col3] = @(0);
-						col2 += 2;
-						col3 += 2;
+						col2++;
+						col3++;
 					} else {
 						newVal = [rowArr[col2] intValue];
 						rowArr[col2] = @(0);
@@ -90,12 +90,13 @@
 					}
 					rowArr[col1++] = @(newVal);
 				}
-				if (col1 < 4 && col2 < 4) {
+				while (col1 < 4 && col2 < 4) {
 					int newVal = [rowArr[col2] intValue];
 					if (newVal != 0 && [arr[row][col1] intValue] == 0) {
-						rowArr[col1] = @(newVal);
+						rowArr[col1++] = @(newVal);
 						rowArr[col2] = @(0);
 					}
+					col2++;
 				}
 			}
 		} else if (direction == BoardSwipeGestureDirectionRight) {
@@ -122,8 +123,8 @@
 						score += newVal;
 						rowArr[col2] = @(0);
 						rowArr[col3] = @(0);
-						col2 -= 2;
-						col3 -= 2;
+						col2--;
+						col3--;
 					} else {
 						newVal = [rowArr[col2] intValue];
 						rowArr[col2] = @(0);
@@ -131,12 +132,13 @@
 					}
 					rowArr[col1--] = @(newVal);
 				}
-				if (col1 >= 0 && col2 >= 0) {
+				while (col1 >= 0 && col2 >= 0) {
 					int newVal = [rowArr[col2] intValue];
 					if (newVal != 0 && [arr[row][col1] intValue] == 0) {
-						rowArr[col1] = @(newVal);
+						rowArr[col1--] = @(newVal);
 						rowArr[col2] = @(0);
 					}
+					col2--;
 				}
 			}
 		} else if (direction == BoardSwipeGestureDirectionUp) {
@@ -161,8 +163,8 @@
 						score += newVal;
 						arr[row2][col] = @(0);
 						arr[row3][col] = @(0);
-						row2 += 2;
-						row3 += 2;
+						row2++;
+						row3++;
 					} else {
 						newVal = [arr[row2][col] intValue];
 						arr[row2][col] = @(0);
@@ -170,12 +172,13 @@
 					}
 					arr[row1++][col] = @(newVal);
 				}
-				if (row1 < 4 && row2 < 4) {
+				while (row1 < 4 && row2 < 4) {
 					int newVal = [arr[row2][col] intValue];
 					if (newVal != 0 && [arr[row1][col] intValue] == 0) {
-						arr[row1][col] = @(newVal);
+						arr[row1++][col] = @(newVal);
 						arr[row2][col] = @(0);
 					}
+					row2++;
 				}
 			}
 		} else if (direction == BoardSwipeGestureDirectionDown) {
@@ -200,8 +203,8 @@
 						score += newVal;
 						arr[row2][col] = @(0);
 						arr[row3][col] = @(0);
-						row2 -= 2;
-						row3 -= 2;
+						row2--;
+						row3--;
 					} else {
 						newVal = [arr[row2][col] intValue];
 						arr[row2][col] = @(0);
@@ -209,12 +212,13 @@
 					}
 					arr[row1--][col] = @(newVal);
 				}
-				if (row1 >= 0 && row2 >= 0) {
+				while (row1 >= 0 && row2 >= 0) {
 					int newVal = [arr[row2][col] intValue];
 					if (newVal != 0 && [arr[row1][col] intValue] == 0) {
-						arr[row1][col] = @(newVal);
+						arr[row1--][col] = @(newVal);
 						arr[row2][col] = @(0);
 					}
+					row2--;
 				}
 			}
 		}

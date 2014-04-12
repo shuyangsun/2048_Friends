@@ -36,6 +36,7 @@
 		04601F0F18EB9C32007BAC8E /* Board+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F0E18EB9C32007BAC8E /* Board+ModelLayer01.m */; };
 		04601F1518EB9C5B007BAC8E /* Tile+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1418EB9C5B007BAC8E /* Tile+ModelLayer01.m */; };
 		046C5EF418F48B1E00DC96A3 /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046C5EF318F48B1E00DC96A3 /* BoardViewController.m */; };
+		04886C0E18F895BB008D7BDC /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04886C0D18F895BB008D7BDC /* FXBlurView.m */; };
 		048FD05E18EA587A0068C6CE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048FD05D18EA587A0068C6CE /* FacebookSDK.framework */; };
 		048FD06518EA5DFB0068C6CE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048FD06418EA5DFB0068C6CE /* ViewController.m */; };
 		049118AD18F07DE60021657D /* BoardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 049118AC18F07DE60021657D /* BoardTest.m */; };
@@ -117,6 +118,8 @@
 		04601F1418EB9C5B007BAC8E /* Tile+ModelLayer01.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Tile+ModelLayer01.m"; sourceTree = "<group>"; };
 		046C5EF218F48B1E00DC96A3 /* BoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardViewController.h; sourceTree = "<group>"; };
 		046C5EF318F48B1E00DC96A3 /* BoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardViewController.m; sourceTree = "<group>"; };
+		04886C0C18F895BB008D7BDC /* FXBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXBlurView.h; sourceTree = "<group>"; };
+		04886C0D18F895BB008D7BDC /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
 		048FD05D18EA587A0068C6CE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		048FD06318EA5DFB0068C6CE /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		048FD06418EA5DFB0068C6CE /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
@@ -394,6 +397,15 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		04886C0B18F895BB008D7BDC /* FXBlurView */ = {
+			isa = PBXGroup;
+			children = (
+				04886C0C18F895BB008D7BDC /* FXBlurView.h */,
+				04886C0D18F895BB008D7BDC /* FXBlurView.m */,
+			);
+			path = FXBlurView;
+			sourceTree = "<group>";
+		};
 		048FD06218EA5A020068C6CE /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -530,6 +542,7 @@
 			isa = PBXGroup;
 			children = (
 				04E3FD2718F4BF4F004A0DB8 /* Paper Fold */,
+				04886C0B18F895BB008D7BDC /* FXBlurView */,
 				04E3FD2618F4BF44004A0DB8 /* Image Blur Effect */,
 			);
 			name = "Third Party Frameworks";
@@ -705,6 +718,7 @@
 				04E3FD5A18F4C064004A0DB8 /* ShadowView.m in Sources */,
 				04911A9818ED964000013B8E /* GameManager+ModelLayer01.m in Sources */,
 				04C7042518ED0903001DBD60 /* Theme.m in Sources */,
+				04886C0E18F895BB008D7BDC /* FXBlurView.m in Sources */,
 				04E3FD2A18F4BFFC004A0DB8 /* UIImage+ImageEffects.m in Sources */,
 				04DA47A218F4F79900693AED /* TileView.m in Sources */,
 				04E3FD5918F4C064004A0DB8 /* PaperFoldView.m in Sources */,
@@ -868,7 +882,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -893,7 +907,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

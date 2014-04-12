@@ -14,7 +14,7 @@
 @interface History : NSManagedObject
 
 @property (nonatomic) NSTimeInterval createDate;
-@property (nonatomic, retain) id uuid;
+@property (nonatomic, retain) NSUUID *uuid;
 @property (nonatomic, retain) GameManager *gManager;
 @property (nonatomic, retain) NSSet *boards;
 @end

@@ -22,17 +22,17 @@ const CGFloat kTileCornerRadiusDefault_iPad = 3.0f;
 const CGFloat kButtonCornerRadiusDefault_iPhone = 5.0f;
 const CGFloat kButtonCornerRadiusDefault_iPad = 7.0f;
 
-const CGFloat kBoardWidthFractionDefault_iPhone = 0.9f; // Comparing with screen width
-const CGFloat kBoardWidthFractionDefault_iPad = 0.9f;
-
-const CGFloat kTileWidthFractionDefault_iPhone = 0.216f; // Comparing with board width
-const CGFloat kTileWidthFractionDefault_iPad = 0.216f;
-
-const CGFloat kBoardEdgeWidthFractionDefault_iPhone = 0.05f; // Comparing with board width
-const CGFloat kBoardEdgeWidthFractionDefault_iPad = 0.05f;
-
-const CGFloat kLineWidthFractionDefault_iPhone = 0.03f; // Comparing with board width
-const CGFloat kLineWidthFractionDefault_iPad = 0.03f;
+//const CGFloat kBoardWidthFractionDefault_iPhone = 0.9f; // Comparing with screen width
+//const CGFloat kBoardWidthFractionDefault_iPad = 0.9f;
+//
+//const CGFloat kTileWidthFractionDefault_iPhone = 0.216f; // Comparing with board width
+//const CGFloat kTileWidthFractionDefault_iPad = 0.216f;
+//
+//const CGFloat kBoardEdgeWidthFractionDefault_iPhone = 0.05f; // Comparing with board width
+//const CGFloat kBoardEdgeWidthFractionDefault_iPad = 0.05f;
+//
+//const CGFloat kLineWidthFractionDefault_iPhone = 0.03f; // Comparing with board width
+//const CGFloat kLineWidthFractionDefault_iPad = 0.03f;
 
 NSString *const kThemePriceKey_Free  = @"free";
 NSString *const kThemePriceKey_Paid = @"paid";
@@ -85,16 +85,11 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	theme.boardCornerRadius = kBoardCornerRadiusDefault_iPhone;
 	theme.tileCornerRadius = kTileCornerRadiusDefault_iPhone;
 	theme.buttonCornerRadius = kButtonCornerRadiusDefault_iPhone;
-	theme.boardWidthFraction = kBoardWidthFractionDefault_iPhone;
-	theme.boardEdgeWidthFraction = kBoardEdgeWidthFractionDefault_iPhone;
-	theme.lineWidthFraction = kLineWidthFractionDefault_iPhone;
-	theme.tileWidthFraction = kTileWidthFractionDefault_iPhone;
 	
 	// Variables varies in different themes.
 	if ([iD compare:kThemeID_Default] == 0) {
 		theme.themeType = ThemeTypeDefault;
 		theme.backgroundColor = [UIColor colorWithRed:0.976 green:0.969 blue:0.922 alpha:1.000];
-//		theme.backgroundColor = [UIColor colorWithRed:0.27059 green:0.38039 blue:0.6 alpha:1];
 		theme.boardColor = [UIColor colorWithRed:0.678 green:0.616 blue:0.561 alpha:1.000];
 		theme.foldAnimationBackgroundColor = [UIColor colorWithRed:0.678 green:0.616 blue:0.561 alpha:1.000]; // TODO
 		theme.settingsPageColor = [UIColor colorWithRed:0.486 green:0.404 blue:0.325 alpha:1.000]; // TODO

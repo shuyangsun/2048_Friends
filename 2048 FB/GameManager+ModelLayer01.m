@@ -8,6 +8,7 @@
 
 #import "GameManager+ModelLayer01.h"
 #import "macro.h"
+#import "TileView.h"
 
 NSString *const kCoreDataEntityName_GameManager = @"GameManager";
 
@@ -19,7 +20,7 @@ NSString *const kCoreDataEntityName_GameManager = @"GameManager";
 						inManagedObjectContext: (NSManagedObjectContext *) context {
 	
 	GameManager *gManager = nil;
-	
+	gManager.tileViewType = TileViewTypeImage;
 	gManager = [NSEntityDescription insertNewObjectForEntityForName:kCoreDataEntityName_GameManager inManagedObjectContext:context];
 
 	gManager.uuid = [NSUUID UUID];

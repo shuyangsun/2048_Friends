@@ -25,8 +25,8 @@ const CGFloat kAnimationDuration_ScaleTile = 1.0f;
 const CGFloat kAnimationDuration_MoveTile = 0.5f;
 const CGFloat kAnimationDelay_GameOver = 0.0f;
 const CGFloat kAnimationDuration_TextFade = 0.5f;
-const CGFloat kAnimationSpring_Damping = 0.3f;
-const CGFloat kAnimationSpring_Velocity = 0.6f;
+const CGFloat kAnimationSpring_Damping = 0.5f;
+const CGFloat kAnimationSpring_Velocity = 0.4f;
 const CGFloat kTextShowDuration = 5.0f;
 
 const CGFloat kBoardPanMinDistance = 5.0f;
@@ -41,9 +41,12 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 @property (nonatomic, strong) UIView *latestSnapshotView;
 @property (strong, nonatomic) NSArray *tileContainerViewsSorted;
 @property (strong, nonatomic) NSMutableArray *onBoardTileViews;
+@property (nonatomic) TileViewType tileViewType;
 
 // This swipe count is only for saving context.
 @property (nonatomic) NSUInteger swipeCount_NotAccurate;
+// Hold the latest board data for performence, so each board request would not need to fetch data.
+@property (strong, nonatomic) Board *latestBoard;
 
 -(CGRect) frameOfTileContainerAtPosition: (CGPoint) pos;
 -(CGPoint) positionOfTileContainerAtFrame: (CGRect) frame;
@@ -60,6 +63,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 // Use this method to set the text, interact with iAd
 @property (strong, nonatomic) NSTimer *lastTimer;
 
+-(void)updateThemeAnimated:(BOOL) animated;
 -(void)setTextForTextLabel: (NSString *) text;
 -(void)setCanDisplayiAdBannerYES;
 -(void)updateBoardFromBoard: (Board *)board;
@@ -84,6 +88,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	for (size_t i = 0; i < 4; ++i) {
 		[self.onBoardTileViews addObject:[NSMutableArray array]];
 	}
+	self.tileViewType = gManager.tileViewType;
 }
 
 -(void)awakeFromNib
@@ -100,11 +105,35 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-	
+// Overriding getter for longPressGestureRecognizer, the enable is depending on current mode
+-(UILongPressGestureRecognizer *)longPressGestureRecognizer {
+	UILongPressGestureRecognizer *res = _longPressGestureRecognizer;
+	res.enabled = (self.tileViewType == TileViewTypeImage);
+	return res;
+}
+
+// Overriding getter for latest board.
+-(Board *)latestBoard {
+	if (!_latestBoard) {
+		_latestBoard = [Board latestBoard];
+	}
+	return _latestBoard;
+}
+
+-(void)updateThemeAnimated:(BOOL) animated {
+	if (animated) {
+		[UIView animateWithDuration:kAnimationDuration_ScreenBlur
+							  delay:0.0f
+							options:UIViewAnimationOptionCurveEaseIn
+						 animations:^{
+							 [self setThemeDataForViews];
+						 } completion:nil];
+	} else {
+		[self setThemeDataForViews];
+	}
+}
+
+-(void)setThemeDataForViews {
 	// Change the corner radius of views
 	self.originalContentView.backgroundColor = self.theme.backgroundColor;
 	self.boardView.layer.cornerRadius = self.theme.boardCornerRadius;
@@ -114,11 +143,15 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	self.pauseImageView.layer.cornerRadius = self.theme.boardCornerRadius;
 	self.pauseImageView.layer.masksToBounds = YES;
 	self.profilePictureView.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.profilePictureView.layer.masksToBounds = YES;
+	self.profilePictureButton.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.profilePictureButton.layer.masksToBounds = YES;
 	self.menuView.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.bestScoreView.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.scoreView.layer.cornerRadius = self.theme.buttonCornerRadius;
 	for (UIView *v in self.tileContainerViews) {
 		v.layer.cornerRadius = self.theme.tileCornerRadius;
+		v.layer.masksToBounds = YES;
 	}
 	
 	// Change the color of views
@@ -138,6 +171,20 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	for (UIView *v in self.tileContainerViews) {
 		v.backgroundColor = self.theme.tileContainerColor;
 	}
+	for (UIView *tView in self.onBoardTileViews) {
+		if ([tView isKindOfClass:[TileView class]]) {
+			tView.backgroundColor = self.theme.tileColors[@(((TileView *)tView).val)];
+			tView.layer.cornerRadius = self.theme.tileCornerRadius;
+			tView.layer.masksToBounds = YES;
+		}
+	}
+}
+
+-(void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+	[self updateThemeAnimated:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -221,7 +268,58 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 }
 
 - (IBAction)profilePictureButtonTouched:(UIButton *)sender {
+	// Do nothing for now, because it will probably conflict with longPressGestureRecognizer
+	for (size_t i = 0; i < 4; ++i) {
+		for (size_t j = 0; j < 4; ++j) {
+			if ([self.onBoardTileViews[i][j] isKindOfClass:[TileView class]]) {
+				TileView *tView = (TileView *)self.onBoardTileViews[i][j];
+				if (tView.type == TileViewTypeImage) {
+					[tView hideImageLayerAnimated:YES];
+					tView.type = TileViewTypeNumber;
+				} else {
+					[tView showImageLayerAnimated:YES];
+					tView.type = TileViewTypeImage;
+				}
+			}
+		}
+	}
+	if (self.tileViewType == TileViewTypeNumber) {
+		self.tileViewType = TileViewTypeImage;
+	} else if (self.tileViewType == TileViewTypeImage) {
+		self.tileViewType = TileViewTypeNumber;
+	}
+	GameManager *gManager = [GameManager sharedGameManager];
+	gManager.tileViewType = (int16_t)self.tileViewType;
+}
 
+- (IBAction)profilePictureBeingHold:(UILongPressGestureRecognizer *)sender {
+	if ([GameManager sharedGameManager].tileViewType == TileViewTypeImage) {
+		if (sender.state == UIGestureRecognizerStateBegan) { // Animate show number layer
+				for (size_t i = 0; i < 4; ++i) {
+					for (size_t j = 0; j < 4; ++j) {
+						if ([self.onBoardTileViews[i][j] isKindOfClass:[TileView class]]) {
+							TileView *tView = (TileView *)self.onBoardTileViews[i][j];
+							[tView setImageTransparent:YES];
+						}
+					}
+				}
+			self.profilePictureButton.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
+		} else if (sender.state == UIGestureRecognizerStateEnded ||
+				   sender.state == UIGestureRecognizerStateCancelled ||
+				   sender.state == UIGestureRecognizerStateFailed) { // Animate hide number layer
+			for (size_t i = 0; i < 4; ++i) {
+				for (size_t j = 0; j < 4; ++j) {
+					if ([self.onBoardTileViews[i][j] isKindOfClass:[TileView class]]) {
+						TileView *tView = (TileView *)self.onBoardTileViews[i][j];
+						[tView setImageTransparent:NO];
+					}
+				}
+			}
+			self.profilePictureButton.backgroundColor = [UIColor clearColor];
+		}
+	} else {
+		
+	}
 }
 
 - (IBAction)menuTapped:(UIButton *)sender {
@@ -230,11 +328,13 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 }
 
 - (IBAction)retryOrKeepPlayingTapped:(UIButton *)sender {
-	if (sender.tag == 0) {
+	if (sender.tag == 0) { // If it's retry
 		self.pauseView.alpha = 0.0f;
-		[Board initializeNewBoard];
+		self.latestBoard = [Board initializeNewBoard];
 		[self updateBoardFromLatestBoardData];
+		self.profilePictureButton.enabled = YES;
 		[self enableGestureRecognizers:YES];
+	} else { // If it's keep playing
 	}
 	[self saveContext];
 }
@@ -265,22 +365,26 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 		// Everything down here is to deal with new tile animation
 		int32_t newTileVal;
 		CGPoint newTilePos;
-		Board *board = [[Board latestBoard] swipedToDirection:direction newTileValue:&newTileVal newTilePos:&newTilePos];
+		Board *board = [self.latestBoard swipedToDirection:direction newTileValue:&newTileVal newTilePos:&newTilePos];
 		
 		if (board) {
-			TileView *newTileView = [[TileView alloc] init];
+			self.latestBoard = board;
 			CGRect frame = CGRectMake(newTilePos.x * 68 + 8, newTilePos.y * 68 + 8, 60, 60);
 			int32_t val = newTileVal;
-			newTileView = [[TileView alloc] initWithFrame:frame];
 			Tile *tile = [Tile tileWithValue:val];
+			TileView *newTileView = [[TileView alloc]
+									 initWithFrame:frame
+									 value:val
+									 text:tile.text
+									 textColor:(val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+									 type:self.tileViewType];
+			
 			newTileView.image = tile.image;
-			newTileView.text = tile.text;
 			newTileView.backgroundColor = self.theme.tileColors[@(val)];
 			[self.boardView addSubview:newTileView];
 			[self.boardView bringSubviewToFront:newTileView];
 			newTileView.layer.cornerRadius = self.theme.tileCornerRadius;
 			newTileView.layer.masksToBounds = YES;
-			newTileView.textColor = (val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor]);
 			newTileView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0f, 0.0f);
 			newTileView.alpha = 0.0f;
 			[newTileView setNeedsDisplay];
@@ -296,7 +400,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 							 }
 							 completion:^(BOOL finished) {
 								 self.onBoardTileViews[(int)newTilePos.x][(int)newTilePos.y] = newTileView;
-								 [self updateBoardFromBoard:board];
+								 [self updateBoardFromBoard:self.latestBoard];
 							 }];
 				
 		}
@@ -306,6 +410,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	if (self.swipeCount_NotAccurate%kDefaultContextSavingSwipeNumber == 0) {
 		[self saveContext];
 	}
+	[self updateThemeAnimated:NO];
 }
 
 -(void)startLeftSwipeAnimation {
@@ -341,19 +446,20 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 					((UIView *)self.onBoardTileViews[row][col3]).center = CGPointMake(center.x - 68 * (col3 - col1), center.y);
 				}];
 				
-				TileView *newTileView = [[TileView alloc] init];
 				CGRect frame = CGRectMake(col1 * 68 + 8, row * 68 + 8, 60, 60);
 				int32_t val = newVal;
-				newTileView = [[TileView alloc] initWithFrame:frame];
 				Tile *tile = [Tile tileWithValue:newVal];
+				TileView *newTileView = [[TileView alloc] initWithFrame:frame
+																  value:val
+																   text:tile.text
+															  textColor:(val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+																   type:self.tileViewType];
 				newTileView.image = tile.image;
-				newTileView.text = tile.text;
 				newTileView.backgroundColor = self.theme.tileColors[@(val)];
 				[self.boardView addSubview:newTileView];
 				[self.boardView bringSubviewToFront:newTileView];
 				newTileView.layer.cornerRadius = self.theme.tileCornerRadius;
 				newTileView.layer.masksToBounds = YES;
-				newTileView.textColor = (val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor]);
 				newTileView.alpha = 0.0f;
 				[newTileView setNeedsDisplay];
 				
@@ -384,8 +490,8 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 				self.onBoardTileViews[row][col1] = newTileView;
 				rowArr[col2] = @(0);
 				rowArr[col3] = @(0);
-				col2 += 2;
-				col3 += 2;
+				col2++;
+				col3++;
 				
 			} else {
 				newVal = [rowArr[col2] intValue];
@@ -400,7 +506,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 			}
 			rowArr[col1++] = @(newVal);
 		}
-		if (col1 < 4 && col2 < 4) {
+		while (col1 < 4 && col2 < 4) {
 			int newVal = [rowArr[col2] intValue];
 			if (newVal != 0 && [rowArr[col1] intValue] == 0) {
 				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
@@ -409,9 +515,10 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 				}];
 				self.onBoardTileViews[row][col1] = self.onBoardTileViews[row][col2];
 				self.onBoardTileViews[row][col2] = [[UIView alloc] init];
-				rowArr[col1] = @(newVal);
+				rowArr[col1++] = @(newVal);
 				rowArr[col2] = @(0);
 			}
+			col2++;
 		}
 	}
 }
@@ -449,19 +556,20 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 					((UIView *)self.onBoardTileViews[row][col3]).center = CGPointMake(center.x + 68 * (col1 - col3), center.y);
 				}];
 				
-				TileView *newTileView = [[TileView alloc] init];
 				CGRect frame = CGRectMake(col1 * 68 + 8, row * 68 + 8, 60, 60);
 				int32_t val = newVal;
-				newTileView = [[TileView alloc] initWithFrame:frame];
 				Tile *tile = [Tile tileWithValue:newVal];
+				TileView *newTileView = [[TileView alloc] initWithFrame:frame
+																  value:val
+																   text:tile.text
+															  textColor:(val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+																   type:self.tileViewType];
 				newTileView.image = tile.image;
-				newTileView.text = tile.text;
 				newTileView.backgroundColor = self.theme.tileColors[@(val)];
 				[self.boardView addSubview:newTileView];
 				[self.boardView bringSubviewToFront:newTileView];
 				newTileView.layer.cornerRadius = self.theme.tileCornerRadius;
 				newTileView.layer.masksToBounds = YES;
-				newTileView.textColor = (val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor]);
 				newTileView.alpha = 0.0f;
 				[newTileView setNeedsDisplay];
 				
@@ -492,8 +600,8 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 				self.onBoardTileViews[row][col1] = newTileView;
 				rowArr[col2] = @(0);
 				rowArr[col3] = @(0);
-				col2 -= 2;
-				col3 -= 2;
+				col2--;
+				col3--;
 				
 			} else {
 				newVal = [rowArr[col2] intValue];
@@ -508,7 +616,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 			}
 			rowArr[col1--] = @(newVal);
 		}
-		if (col1 >= 0 && col2 >= 0) {
+		while (col1 >= 0 && col2 >= 0) {
 			int newVal = [rowArr[col2] intValue];
 			if (newVal != 0 && [arr[row][col1] intValue] == 0) {
 				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
@@ -517,9 +625,10 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 				}];
 				self.onBoardTileViews[row][col1] = self.onBoardTileViews[row][col2];
 				self.onBoardTileViews[row][col2] = [[UIView alloc] init];
-				rowArr[col1] = @(newVal);
+				rowArr[col1--] = @(newVal);
 				rowArr[col2] = @(0);
 			}
+			col2--;
 		}
 	}
 }
@@ -557,19 +666,20 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 					((UIView *)self.onBoardTileViews[row3][col]).center = CGPointMake(center.x, center.y - 68 * (row3 - row1));
 				}];
 				
-				TileView *newTileView = [[TileView alloc] init];
 				CGRect frame = CGRectMake(col * 68 + 8, row1 * 68 + 8, 60, 60);
 				int32_t val = newVal;
-				newTileView = [[TileView alloc] initWithFrame:frame];
 				Tile *tile = [Tile tileWithValue:newVal];
+				TileView *newTileView = [[TileView alloc] initWithFrame:frame
+																  value:val
+																   text:tile.text
+															  textColor:(val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+																   type:self.tileViewType];
 				newTileView.image = tile.image;
-				newTileView.text = tile.text;
 				newTileView.backgroundColor = self.theme.tileColors[@(val)];
 				[self.boardView addSubview:newTileView];
 				[self.boardView bringSubviewToFront:newTileView];
 				newTileView.layer.cornerRadius = self.theme.tileCornerRadius;
 				newTileView.layer.masksToBounds = YES;
-				newTileView.textColor = (val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor]);
 				newTileView.alpha = 0.0f;
 				[newTileView setNeedsDisplay];
 				
@@ -600,8 +710,8 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 				self.onBoardTileViews[row1][col] = newTileView;
 				colArr[row2] = @(0);
 				colArr[row3] = @(0);
-				row2 += 2;
-				row3 += 2;
+				row2++;
+				row3++;
 				
 			} else {
 				newVal = [colArr[row2] intValue];
@@ -616,7 +726,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 			}
 			colArr[row1++] = @(newVal);
 		}
-		if (row1 < 4 && row2 < 4) {
+		while (row1 < 4 && row2 < 4) {
 			int newVal = [colArr[row2] intValue];
 			if (newVal != 0 && [colArr[row1] intValue] == 0) {
 				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
@@ -625,9 +735,10 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 				}];
 				self.onBoardTileViews[row1][col] = self.onBoardTileViews[row2][col];
 				self.onBoardTileViews[row2][col] = [[UIView alloc] init];
-				colArr[row1] = @(newVal);
+				colArr[row1++] = @(newVal);
 				colArr[row2] = @(0);
 			}
+			row2++;
 		}
 	}
 }
@@ -665,19 +776,20 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 					((UIView *)self.onBoardTileViews[row3][col]).center = CGPointMake(center.x, center.y + 68 * (row1 - row3));
 				}];
 				
-				TileView *newTileView = [[TileView alloc] init];
 				CGRect frame = CGRectMake(col * 68 + 8, row1 * 68 + 8, 60, 60);
 				int32_t val = newVal;
-				newTileView = [[TileView alloc] initWithFrame:frame];
 				Tile *tile = [Tile tileWithValue:newVal];
+				TileView *newTileView = [[TileView alloc] initWithFrame:frame
+																  value:val
+																   text:tile.text
+															  textColor:(val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+																   type:self.tileViewType];
 				newTileView.image = tile.image;
-				newTileView.text = tile.text;
 				newTileView.backgroundColor = self.theme.tileColors[@(val)];
 				[self.boardView addSubview:newTileView];
 				[self.boardView bringSubviewToFront:newTileView];
 				newTileView.layer.cornerRadius = self.theme.tileCornerRadius;
 				newTileView.layer.masksToBounds = YES;
-				newTileView.textColor = (val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor]);
 				newTileView.alpha = 0.0f;
 				[newTileView setNeedsDisplay];
 				
@@ -708,8 +820,8 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 				self.onBoardTileViews[row1][col] = newTileView;
 				colArr[row2] = @(0);
 				colArr[row3] = @(0);
-				row2 -= 2;
-				row3 -= 2;
+				row2--;
+				row3--;
 				
 			} else {
 				newVal = [colArr[row2] intValue];
@@ -724,7 +836,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 			}
 			colArr[row1--] = @(newVal);
 		}
-		if (row1 >= 0 && row2 >= 0) {
+		while (row1 >= 0 && row2 >= 0) {
 			int newVal = [colArr[row2] intValue];
 			if (newVal != 0 && [colArr[row1] intValue] == 0) {
 				[UIView animateWithDuration:kAnimationDuration_Default animations:^{
@@ -733,9 +845,10 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 				}];
 				self.onBoardTileViews[row1][col] = self.onBoardTileViews[row2][col];
 				self.onBoardTileViews[row2][col] = [[UIView alloc] init];
-				colArr[row1] = @(newVal);
+				colArr[row1--] = @(newVal);
 				colArr[row2] = @(0);
 			}
+			row2--;
 		}
 	}
 }
@@ -766,7 +879,6 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 		}
 	}
 	[self.boardView setNeedsDisplay];
-	board = [Board latestBoard];
 	NSArray *gameData = [board getBoardDataArray];
 	for (size_t i = 0; i < 4; ++i) {
 		for (size_t j = 0; j < 4; ++j) {
@@ -774,17 +886,18 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 			if (val) { // If there is a tile
 				CGRect frame = CGRectMake(j * 68 + 8, i * 68 + 8, 60, 60);
 				Tile *tile = [Tile tileWithValue:val];
-				TileView *tView = [[TileView alloc] initWithFrame:frame];
-				tView.val = val;
+				TileView *tView = [[TileView alloc] initWithFrame:frame
+															value:val
+															 text:tile.text
+														textColor:(val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+															 type:self.tileViewType];
 				tView.image = tile.image;
-				tView.text = tile.text;
 				tView.backgroundColor = self.theme.tileColors[@(val)];
 				self.onBoardTileViews[i][j] = tView;
 				[self.boardView addSubview:tView];
 				[self.boardView bringSubviewToFront:tView];
 				tView.layer.cornerRadius = self.theme.tileCornerRadius;
 				tView.layer.masksToBounds = YES;
-				tView.textColor = (val <= 4 ? self.theme.tileTextColor:[UIColor whiteColor]);
 				[tView setNeedsDisplay];
 			}
 		}
@@ -793,7 +906,10 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	self.bestScoreLabel.text = [NSString stringWithFormat:@"%d", [GameManager sharedGameManager].bestScore];
 	self.scoreLabel.text = [NSString stringWithFormat:@"%d", board.score];
 	if (board.gameplaying == NO && self.mode == BoardViewControllerModePlaying) {
+		// Disable some user interactions.
+		self.profilePictureButton.enabled = NO;
 		[self enableGestureRecognizers:NO];
+		
 		self.pauseView.alpha = 0.0f;
 		[self.boardView bringSubviewToFront:self.pauseView];
 		[self.pauseView bringSubviewToFront:self.pauseImageView];
@@ -866,6 +982,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 }
 
 -(void)enableGestureRecognizers: (BOOL) enable {
+	self.longPressGestureRecognizer.enabled = enable;
 	for (UIGestureRecognizer *gRecognizer in self.swipeGestureRecognizers) {
 		gRecognizer.enabled = enable;
 	}
@@ -876,6 +993,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	return [appDelegate saveContext];
 }
 
+/// Animation stuff (deprecated)
 //-(void) animateTileView: (TileView *) tView intoPosition: (CGPoint) posEnd {
 //	
 //	CGRect frameEnd = [self frameOfTileContainerAtPosition:posEnd];
@@ -937,6 +1055,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 //					 }];
 //}
 
+/// iAd stuff (deprecated)
 //-(void)bannerViewWillLoadAd:(ADBannerView *)banner {
 //	// Taking snapshot:
 //	UIGraphicsBeginImageContextWithOptions(self.originalContentView.bounds.size, YES, 0.0f);

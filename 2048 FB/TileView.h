@@ -8,15 +8,28 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum TileViewType {
+	TileViewTypeImage = 0,
+	TileViewTypeNumber
+} TileViewType;
+
 @interface TileView : UIView
+
+-(id)initWithFrame:(CGRect)frame
+			 value: (int32_t)val
+			  text: (NSString *)text
+		 textColor: (UIColor *)textColor
+			  type: (TileViewType) type;
+
+@property (nonatomic) TileViewType type;
 
 @property (nonatomic) int32_t val;
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) NSString *text;
-@property (strong, nonatomic) UILabel *label;
-
 @property (strong, nonatomic) UIColor *textColor;
+@property (nonatomic) BOOL imageTransparent;
 
-@property (strong, nonatomic) TileView *nextTileView;
+-(void)showImageLayerAnimated: (BOOL) animated;
+-(void)hideImageLayerAnimated: (BOOL) animated;
 
 @end

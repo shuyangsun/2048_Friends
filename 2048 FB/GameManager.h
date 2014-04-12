@@ -11,6 +11,7 @@
 
 @interface GameManager : NSManagedObject
 
+@property (nonatomic) int16_t tileViewType;
 @property (nonatomic) int32_t bestScore;
 @property (nonatomic, retain) NSString * currentThemeID;
 @property (nonatomic, retain) NSData * maxOccuredTimesOnBoardForEachTile;
