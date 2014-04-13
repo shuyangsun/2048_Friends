@@ -158,7 +158,7 @@
 			if ([self.gravityBehavior.items containsObject:self.imageView]) {[self.gravityBehavior removeItem:self.imageView];}
 			if ([self.collisionBehavior.items containsObject:self.imageView]) {[self.collisionBehavior removeItem:self.imageView];}
 			if ([self.dynamicItemBehavior.items containsObject:self.imageView]) {[self.dynamicItemBehavior removeItem:self.imageView];}
-			[UIView animateWithDuration:0.2f
+			[UIView animateWithDuration:0.13f
 								  delay:0.0f
 								options:UIViewAnimationOptionCurveEaseOut
 							 animations:^{
