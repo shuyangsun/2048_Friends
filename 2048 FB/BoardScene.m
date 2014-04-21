@@ -10,8 +10,6 @@
 #import "Theme.h"
 #import "TileSKShapeNode.h"
 
-#define TILE_WIDTH self.theme.tileWidth
-
 const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.035f;
 
 @interface BoardScene()
@@ -45,7 +43,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.035f;
 	res.theme = theme;
 	[self initializePropertyLists];
 	[self initializeTileContainers:size];
-	[self popupTileContainers];
+	[self popupTileContainersAnimated:YES];
 	return res;
 }
 
@@ -96,45 +94,48 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.035f;
 	}
 }
 
--(void)popupTileContainers {
-	int arr1[] = {0, 1, 2, 3};
-	int arr2[] = {3, 1, 0, 2};
-	// Shuffle the index array:
-	for (size_t i = 0; i < 4; ++i) {
-		int tempInd1 = arc4random()%4;
-		int tempInd2 = arc4random()%4;
-		int temp = arr1[tempInd1];
-		arr1[tempInd1] = arr1[tempInd2];
-		arr1[tempInd2] = temp;
-		temp = arr2[tempInd1];
-		arr2[tempInd1] = arr2[tempInd2];
-		arr2[tempInd2] = temp;
-	}
-	// Doing this because CANNOT reference an array inside block!
-	int a1 = arr1[0];
-	int a2 = arr1[1];
-	int a3 = arr1[2];
-	int a4 = arr1[3];
-	int b1 = arr2[0];
-	int b2 = arr2[1];
-	int b3 = arr2[2];
-	int b4 = arr2[3];
-	[self.tileContainers[a1][b2] runAction:self.scaleToFullSize completion:^{
-		[self.tileContainers[a2][b3] runAction:self.scaleToFullSize completion:^{
-			[self.tileContainers[a1][b1] runAction:self.scaleToFullSize completion:^{
-				[self.tileContainers[a4][b3] runAction:self.scaleToFullSize completion:^{
-					[self.tileContainers[a2][b2] runAction:self.scaleToFullSize completion:^{
-						[self.tileContainers[a3][b3] runAction:self.scaleToFullSize completion:^{
-							[self.tileContainers[a3][b4] runAction:self.scaleToFullSize completion:^{
-								[self.tileContainers[a2][b1] runAction:self.scaleToFullSize completion:^{
-									[self.tileContainers[a3][b1] runAction:self.scaleToFullSize completion:^{
-										[self.tileContainers[a2][b4] runAction:self.scaleToFullSize completion:^{
-											[self.tileContainers[a4][b2] runAction:self.scaleToFullSize completion:^{
-												[self.tileContainers[a3][b2] runAction:self.scaleToFullSize completion:^{
-													[self.tileContainers[a4][b1] runAction:self.scaleToFullSize completion:^{
-														[self.tileContainers[a4][b4] runAction:self.scaleToFullSize completion:^{
-															[self.tileContainers[a1][b3] runAction:self.scaleToFullSize completion:^{
-																[self.tileContainers[a1][b4] runAction:self.scaleToFullSize completion:nil];
+// This method pops the tile containers
+-(void)popupTileContainersAnimated:(BOOL) animated {
+	if (animated) {
+		int arr1[] = {0, 1, 2, 3};
+		int arr2[] = {3, 1, 0, 2};
+		// Shuffle the index array:
+		for (size_t i = 0; i < 4; ++i) {
+			int tempInd1 = arc4random()%4;
+			int tempInd2 = arc4random()%4;
+			int temp = arr1[tempInd1];
+			arr1[tempInd1] = arr1[tempInd2];
+			arr1[tempInd2] = temp;
+			temp = arr2[tempInd1];
+			arr2[tempInd1] = arr2[tempInd2];
+			arr2[tempInd2] = temp;
+		}
+		// Doing this because CANNOT reference an array inside block!
+		int a1 = arr1[0];
+		int a2 = arr1[1];
+		int a3 = arr1[2];
+		int a4 = arr1[3];
+		int b1 = arr2[0];
+		int b2 = arr2[1];
+		int b3 = arr2[2];
+		int b4 = arr2[3];
+		[self.tileContainers[a1][b2] runAction:self.scaleToFullSize completion:^{
+			[self.tileContainers[a2][b3] runAction:self.scaleToFullSize completion:^{
+				[self.tileContainers[a1][b1] runAction:self.scaleToFullSize completion:^{
+					[self.tileContainers[a4][b3] runAction:self.scaleToFullSize completion:^{
+						[self.tileContainers[a2][b2] runAction:self.scaleToFullSize completion:^{
+							[self.tileContainers[a3][b3] runAction:self.scaleToFullSize completion:^{
+								[self.tileContainers[a3][b4] runAction:self.scaleToFullSize completion:^{
+									[self.tileContainers[a2][b1] runAction:self.scaleToFullSize completion:^{
+										[self.tileContainers[a3][b1] runAction:self.scaleToFullSize completion:^{
+											[self.tileContainers[a2][b4] runAction:self.scaleToFullSize completion:^{
+												[self.tileContainers[a4][b2] runAction:self.scaleToFullSize completion:^{
+													[self.tileContainers[a3][b2] runAction:self.scaleToFullSize completion:^{
+														[self.tileContainers[a4][b1] runAction:self.scaleToFullSize completion:^{
+															[self.tileContainers[a4][b4] runAction:self.scaleToFullSize completion:^{
+																[self.tileContainers[a1][b3] runAction:self.scaleToFullSize completion:^{
+																	[self.tileContainers[a1][b4] runAction:self.scaleToFullSize completion:nil];
+																}];
 															}];
 														}];
 													}];
@@ -149,7 +150,16 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.035f;
 				}];
 			}];
 		}];
-	}];
+	} else {
+		for (size_t i = 0; i < 4; ++i) {
+			for (size_t j = 0; j < 4; ++j) {
+				SKShapeNode *container = self.tileContainers[i][j];
+				container.xScale = container.yScale = 1.0f;
+				CGPoint point = container.position;
+				container.position = CGPointMake(point.x - self.theme.tileWidth/2.0f, point.y - self.theme.tileWidth/2.0f);
+			}
+		}
+	}
 }
 
 @end

@@ -207,6 +207,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0402B95B1904B2F800A27D57 /* SpriteKit */ = {
+			isa = PBXGroup;
+			children = (
+				0442150619035B4000E8B202 /* BoardScene.h */,
+				0442150719035B4000E8B202 /* BoardScene.m */,
+				0459A2FF19048E170040FC33 /* TileSKShapeNode.h */,
+				0459A30019048E170040FC33 /* TileSKShapeNode.m */,
+			);
+			name = SpriteKit;
+			sourceTree = "<group>";
+		};
 		040F6E2218F21E87006D237B /* History_01 */ = {
 			isa = PBXGroup;
 			children = (
@@ -437,8 +448,7 @@
 				048FD06418EA5DFB0068C6CE /* ViewController.m */,
 				045D2020190358A00001701F /* GameViewController.h */,
 				045D2021190358A00001701F /* GameViewController.m */,
-				0442150619035B4000E8B202 /* BoardScene.h */,
-				0442150719035B4000E8B202 /* BoardScene.m */,
+				0402B95B1904B2F800A27D57 /* SpriteKit */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -477,7 +487,6 @@
 			children = (
 				043786C618ECFF970034651C /* Theme */,
 				048FD06218EA5A020068C6CE /* View Controller */,
-				04DA479F18F4F78400693AED /* View */,
 				0459A30219048E260040FC33 /* Depricated */,
 				04E3FD2118F4BC6C004A0DB8 /* Delegate */,
 			);
@@ -547,15 +556,6 @@
 				04601F0E18EB9C32007BAC8E /* Board+ModelLayer01.m */,
 			);
 			name = Board_01;
-			sourceTree = "<group>";
-		};
-		04DA479F18F4F78400693AED /* View */ = {
-			isa = PBXGroup;
-			children = (
-				0459A2FF19048E170040FC33 /* TileSKShapeNode.h */,
-				0459A30019048E170040FC33 /* TileSKShapeNode.m */,
-			);
-			name = View;
 			sourceTree = "<group>";
 		};
 		04E3FD2118F4BC6C004A0DB8 /* Delegate */ = {
