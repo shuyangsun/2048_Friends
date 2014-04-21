@@ -351,10 +351,9 @@
 		int32_t newTileVal;
 		CGPoint newTilePos;
 		Board *lastestBoard = nil;
-		lastestBoard = [self.latestBoard swipedToDirection:direction newTileValue:&newTileVal newTilePos:&newTilePos];
 		// Update UI according to board in main thread.
 		
-		if (lastestBoard) {
+		if ((lastestBoard = [self.latestBoard swipedToDirection:direction newTileValue:&newTileVal newTilePos:&newTilePos])) {
 			self.latestBoard = lastestBoard;
 			CGRect frame = CGRectMake(newTilePos.x * 68 + 8, newTilePos.y * 68 + 8, 60, 60);
 			int32_t val = newTileVal;
