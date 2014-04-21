@@ -20,6 +20,7 @@ extern const CGFloat kAnimationSpring_Velocity;
 extern const CGFloat kTextShowDuration;
 extern const CGFloat kBoardPanMinDistance;
 extern const CGFloat kLineWidthDefault_iPhone;
+extern const NSUInteger kDefaultContextSavingSwipeNumber;
 
 typedef enum BoardViewControllerMode {
 	BoardViewControllerModePlaying = 0, // When user is playing with this board

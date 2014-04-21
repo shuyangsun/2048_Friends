@@ -22,6 +22,9 @@ const CGFloat kTileCornerRadiusDefault_iPad = 3.0f;
 const CGFloat kButtonCornerRadiusDefault_iPhone = 5.0f;
 const CGFloat kButtonCornerRadiusDefault_iPad = 7.0f;
 
+const CGFloat kTileWidthDefault_iPhone = 60.0f;
+const CGFloat kTileWidthDefault_iPad = 100.0f;
+
 //const CGFloat kBoardWidthFractionDefault_iPhone = 0.9f; // Comparing with screen width
 //const CGFloat kBoardWidthFractionDefault_iPad = 0.9f;
 //
@@ -85,6 +88,7 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 	theme.boardCornerRadius = kBoardCornerRadiusDefault_iPhone;
 	theme.tileCornerRadius = kTileCornerRadiusDefault_iPhone;
 	theme.buttonCornerRadius = kButtonCornerRadiusDefault_iPhone;
+	theme.tileWidth = kTileWidthDefault_iPhone;
 	
 	// Variables varies in different themes.
 	if ([iD compare:kThemeID_Default] == 0) {

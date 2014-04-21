@@ -20,6 +20,8 @@ extern const CGFloat kBoardCornerRadiusDefault_iPhone;
 extern const CGFloat kBoardCornerRadiusDefault_iPad;
 extern const CGFloat kTileCornerRadiusDefault_iPhone;
 extern const CGFloat kTileCornerRadiusDefault_iPad;
+extern const CGFloat kTileWidthDefault_iPhone;
+extern const CGFloat kTileWidthDefault_iPad;
 extern const CGFloat kButtonCornerRadiusDefault_iPhone;
 extern const CGFloat kButtonCornerRadiusDefault_iPad;
 
@@ -60,6 +62,7 @@ extern NSString *const kThemeID_LightBlue;
 // Corner radius.
 @property (nonatomic) CGFloat boardCornerRadius;
 @property (nonatomic) CGFloat tileCornerRadius;
+@property (nonatomic) CGFloat tileWidth;
 @property (nonatomic) CGFloat buttonCornerRadius;
 
 +(Theme *)sharedThemeWithID: (NSString *)uuid;

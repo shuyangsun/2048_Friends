@@ -16,6 +16,7 @@
 		042039CF18F34D9800D5AB19 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 042039CE18F34D9800D5AB19 /* Tile.m */; };
 		0428C73A18F37FCE00A1D7A4 /* GameManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0428C73918F37FCE00A1D7A4 /* GameManagerTest.m */; };
 		0428C73C18F3813600A1D7A4 /* HistoryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0428C73B18F3813600A1D7A4 /* HistoryTest.m */; };
+		0442150819035B4000E8B202 /* BoardScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 0442150719035B4000E8B202 /* BoardScene.m */; };
 		0444F6E418EE3F75005A0490 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444F6E318EE3F75005A0490 /* GameKit.framework */; };
 		0444F6E718EE3F7E005A0490 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444F6E618EE3F7E005A0490 /* StoreKit.framework */; };
 		0448478918EA1BA100D35B0F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478818EA1BA100D35B0F /* Foundation.framework */; };
@@ -32,6 +33,9 @@
 		044847AD18EA1BA100D35B0F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478C18EA1BA100D35B0F /* UIKit.framework */; };
 		044847B518EA1BA100D35B0F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 044847B318EA1BA100D35B0F /* InfoPlist.strings */; };
 		044847B718EA1BA100D35B0F /* _048_FBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 044847B618EA1BA100D35B0F /* _048_FBTests.m */; };
+		0459A30119048E170040FC33 /* TileSKShapeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0459A30019048E170040FC33 /* TileSKShapeNode.m */; };
+		045D2022190358A00001701F /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D2021190358A00001701F /* GameViewController.m */; };
+		045D202419035A5E0001701F /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 045D202319035A5E0001701F /* SpriteKit.framework */; };
 		04601EE718EB8C33007BAC8E /* GameDataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04601EE518EB8C33007BAC8E /* GameDataBase.xcdatamodeld */; };
 		04601F0F18EB9C32007BAC8E /* Board+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F0E18EB9C32007BAC8E /* Board+ModelLayer01.m */; };
 		04601F1518EB9C5B007BAC8E /* Tile+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 04601F1418EB9C5B007BAC8E /* Tile+ModelLayer01.m */; };
@@ -90,6 +94,8 @@
 		042039CE18F34D9800D5AB19 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		0428C73918F37FCE00A1D7A4 /* GameManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManagerTest.m; sourceTree = "<group>"; };
 		0428C73B18F3813600A1D7A4 /* HistoryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTest.m; sourceTree = "<group>"; };
+		0442150619035B4000E8B202 /* BoardScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardScene.h; sourceTree = "<group>"; };
+		0442150719035B4000E8B202 /* BoardScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardScene.m; sourceTree = "<group>"; };
 		0444F6E318EE3F75005A0490 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		0444F6E518EE3F7B005A0490 /* 2048 FB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "2048 FB.entitlements"; sourceTree = "<group>"; };
 		0444F6E618EE3F7E005A0490 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -111,6 +117,11 @@
 		044847B218EA1BA100D35B0F /* 2048 FBTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "2048 FBTests-Info.plist"; sourceTree = "<group>"; };
 		044847B418EA1BA100D35B0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		044847B618EA1BA100D35B0F /* _048_FBTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _048_FBTests.m; sourceTree = "<group>"; };
+		0459A2FF19048E170040FC33 /* TileSKShapeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileSKShapeNode.h; sourceTree = "<group>"; };
+		0459A30019048E170040FC33 /* TileSKShapeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileSKShapeNode.m; sourceTree = "<group>"; };
+		045D2020190358A00001701F /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		045D2021190358A00001701F /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		045D202319035A5E0001701F /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		04601EE618EB8C33007BAC8E /* GameDataBase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GameDataBase.xcdatamodel; sourceTree = "<group>"; };
 		04601F0D18EB9C32007BAC8E /* Board+ModelLayer01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Board+ModelLayer01.h"; sourceTree = "<group>"; };
 		04601F0E18EB9C32007BAC8E /* Board+ModelLayer01.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Board+ModelLayer01.m"; sourceTree = "<group>"; };
@@ -171,6 +182,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045D202419035A5E0001701F /* SpriteKit.framework in Frameworks */,
 				04DA479E18F4DD4C00693AED /* iAd.framework in Frameworks */,
 				04983CCB18EE5FB90022FB63 /* CoreData.framework in Frameworks */,
 				0448478B18EA1BA100D35B0F /* CoreGraphics.framework in Frameworks */,
@@ -321,6 +333,7 @@
 		0448478718EA1BA100D35B0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				045D202319035A5E0001701F /* SpriteKit.framework */,
 				04DA479D18F4DD4C00693AED /* iAd.framework */,
 				04983CCA18EE5FB90022FB63 /* CoreData.framework */,
 				0444F6E618EE3F7E005A0490 /* StoreKit.framework */,
@@ -383,6 +396,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0459A30219048E260040FC33 /* Depricated */ = {
+			isa = PBXGroup;
+			children = (
+				046C5EF218F48B1E00DC96A3 /* BoardViewController.h */,
+				046C5EF318F48B1E00DC96A3 /* BoardViewController.m */,
+				04DA47A018F4F79900693AED /* TileView.h */,
+				04DA47A118F4F79900693AED /* TileView.m */,
+			);
+			name = Depricated;
+			sourceTree = "<group>";
+		};
 		04601EE818EB8C39007BAC8E /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -411,8 +435,10 @@
 			children = (
 				048FD06318EA5DFB0068C6CE /* ViewController.h */,
 				048FD06418EA5DFB0068C6CE /* ViewController.m */,
-				046C5EF218F48B1E00DC96A3 /* BoardViewController.h */,
-				046C5EF318F48B1E00DC96A3 /* BoardViewController.m */,
+				045D2020190358A00001701F /* GameViewController.h */,
+				045D2021190358A00001701F /* GameViewController.m */,
+				0442150619035B4000E8B202 /* BoardScene.h */,
+				0442150719035B4000E8B202 /* BoardScene.m */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -452,6 +478,7 @@
 				043786C618ECFF970034651C /* Theme */,
 				048FD06218EA5A020068C6CE /* View Controller */,
 				04DA479F18F4F78400693AED /* View */,
+				0459A30219048E260040FC33 /* Depricated */,
 				04E3FD2118F4BC6C004A0DB8 /* Delegate */,
 			);
 			name = GUI/UX;
@@ -525,8 +552,8 @@
 		04DA479F18F4F78400693AED /* View */ = {
 			isa = PBXGroup;
 			children = (
-				04DA47A018F4F79900693AED /* TileView.h */,
-				04DA47A118F4F79900693AED /* TileView.m */,
+				0459A2FF19048E170040FC33 /* TileSKShapeNode.h */,
+				0459A30019048E170040FC33 /* TileSKShapeNode.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -698,6 +725,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				040F6E3318F21FA4006D237B /* History+ModelLayer01.m in Sources */,
+				045D2022190358A00001701F /* GameViewController.m in Sources */,
 				040F6E3B18F22230006D237B /* History+ModelLayer03.m in Sources */,
 				040F6E2118F20CE6006D237B /* GameManager.m in Sources */,
 				04E3FD5818F4C064004A0DB8 /* MultiFoldView.m in Sources */,
@@ -719,6 +747,7 @@
 				04911A9818ED964000013B8E /* GameManager+ModelLayer01.m in Sources */,
 				04C7042518ED0903001DBD60 /* Theme.m in Sources */,
 				04886C0E18F895BB008D7BDC /* FXBlurView.m in Sources */,
+				0459A30119048E170040FC33 /* TileSKShapeNode.m in Sources */,
 				04E3FD2A18F4BFFC004A0DB8 /* UIImage+ImageEffects.m in Sources */,
 				04DA47A218F4F79900693AED /* TileView.m in Sources */,
 				04E3FD5918F4C064004A0DB8 /* PaperFoldView.m in Sources */,
@@ -727,6 +756,7 @@
 				04601EE718EB8C33007BAC8E /* GameDataBase.xcdatamodeld in Sources */,
 				04983CE218EFAA990022FB63 /* Tile+ModelLayer03.m in Sources */,
 				04983CD818EF70B50022FB63 /* GameManager+ModelLayer02.m in Sources */,
+				0442150819035B4000E8B202 /* BoardScene.m in Sources */,
 				042039CF18F34D9800D5AB19 /* Tile.m in Sources */,
 				04911A9F18EE053A00013B8E /* Tile+ModelLayer02.m in Sources */,
 			);
