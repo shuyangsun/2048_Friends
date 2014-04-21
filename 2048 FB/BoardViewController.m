@@ -350,11 +350,12 @@
 		// Everything down here is to deal with new tile animation
 		int32_t newTileVal;
 		CGPoint newTilePos;
-		Board *board = [self.latestBoard swipedToDirection:direction newTileValue:&newTileVal newTilePos:&newTilePos];
+		Board *lastestBoard = nil;
+		lastestBoard = [self.latestBoard swipedToDirection:direction newTileValue:&newTileVal newTilePos:&newTilePos];
 		// Update UI according to board in main thread.
 		
-		if (board) {
-			self.latestBoard = board;
+		if (lastestBoard) {
+			self.latestBoard = lastestBoard;
 			CGRect frame = CGRectMake(newTilePos.x * 68 + 8, newTilePos.y * 68 + 8, 60, 60);
 			int32_t val = newTileVal;
 			Tile *tile = [Tile tileWithValue:val];
