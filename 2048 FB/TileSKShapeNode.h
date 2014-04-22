@@ -8,10 +8,22 @@
 
 #import <SpriteKit/SpriteKit.h>
 
+typedef enum TileType {
+	TileTypeImage = 0,
+	TileTypeNumber
+} TileType;
+
 @interface TileSKShapeNode : SKShapeNode
 
 @property (nonatomic) int32_t value;
 @property (strong, nonatomic) NSString *displayText;
+@property (strong, nonatomic) SKColor *textColor;
+@property (nonatomic) TileType type;
 @property (strong, nonatomic) UIImage *image;
+
+-(void)setValue: (int32_t)val
+		   text: (NSString *)text
+	  textColor: (UIColor *)textColor
+		   type: (TileType) type;
 
 @end

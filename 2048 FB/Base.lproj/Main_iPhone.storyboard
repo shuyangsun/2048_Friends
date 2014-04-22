@@ -184,22 +184,22 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qxV-Ab-dwJ" userLabel="boardViewInteractionLayer">
-                                        <rect key="frame" x="0.0" y="0.0" width="279" height="280"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="280"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="280" id="Kbe-4l-3CA"/>
-                                            <constraint firstAttribute="width" constant="279" id="WvM-96-jPR"/>
+                                            <constraint firstAttribute="width" constant="280" id="Yi5-nc-Ctu"/>
                                         </constraints>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.73333334920000004" green="0.6784313917" blue="0.62745100259999997" alpha="1" colorSpace="deviceRGB"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="qxV-Ab-dwJ" secondAttribute="trailing" constant="1" id="5i3-J4-San"/>
                                     <constraint firstAttribute="bottom" secondItem="qxV-Ab-dwJ" secondAttribute="bottom" id="7Yk-4E-1vz"/>
                                     <constraint firstAttribute="height" constant="280" id="EMi-ay-gYH"/>
+                                    <constraint firstAttribute="width" constant="280" id="KYD-cy-lHQ"/>
                                     <constraint firstItem="qxV-Ab-dwJ" firstAttribute="leading" secondItem="5qC-Id-XCw" secondAttribute="leading" id="iRs-1o-eeX"/>
                                     <constraint firstItem="qxV-Ab-dwJ" firstAttribute="top" secondItem="5qC-Id-XCw" secondAttribute="top" id="qKq-tK-shg"/>
                                 </constraints>

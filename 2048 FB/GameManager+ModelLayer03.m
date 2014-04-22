@@ -38,35 +38,29 @@
 	return gManager;
 }
 
-+(NSDictionary *) getMaxOccuredDictionary {
-	GameManager *gManager = [GameManager allGameManagers][0];
-	return [NSKeyedUnarchiver unarchiveObjectWithData:gManager.maxOccuredTimesOnBoardForEachTile];
+-(NSDictionary *) getMaxOccuredDictionary {
+	return [NSKeyedUnarchiver unarchiveObjectWithData:self.maxOccuredTimesOnBoardForEachTile];
 }
 
-+(BOOL) setMaxOccuredDictionary:(NSDictionary *)dictionary {
-	GameManager *gManager = [GameManager allGameManagers][0];
-	
+-(BOOL) setMaxOccuredDictionary:(NSDictionary *)dictionary {
 	NSData *dictionaryData = [NSKeyedArchiver archivedDataWithRootObject:dictionary];
-	gManager.maxOccuredTimesOnBoardForEachTile = dictionaryData;
+	self.maxOccuredTimesOnBoardForEachTile = dictionaryData;
 	return YES;
 }
 
-+(NSUInteger) getMaxOccuredTimeForTileWithValue: (NSInteger) value {
-	GameManager *gManager = [GameManager allGameManagers][0];
-	NSData *dictionaryData = gManager.maxOccuredTimesOnBoardForEachTile;
+-(NSUInteger) getMaxOccuredTimeForTileWithValue: (NSInteger) value {
+	NSData *dictionaryData = self.maxOccuredTimesOnBoardForEachTile;
 	NSDictionary *dictionary = [NSKeyedUnarchiver unarchiveObjectWithData:dictionaryData];
 	return [(NSNumber *)dictionary[@(value)] unsignedIntegerValue];
 }
 
-+(BOOL) setMaxOccuredTime: (NSUInteger) count ForTileWithValue: (NSInteger) value {
-	GameManager *gManager = [GameManager allGameManagers][0];
-	
-	NSData *dictionaryData = gManager.maxOccuredTimesOnBoardForEachTile;
+-(BOOL) setMaxOccuredTime: (NSUInteger) count ForTileWithValue: (NSInteger) value {
+	NSData *dictionaryData = self.maxOccuredTimesOnBoardForEachTile;
 	NSDictionary *dictionary = [NSKeyedUnarchiver unarchiveObjectWithData:dictionaryData];
 	NSMutableDictionary *mutableDictionary = [dictionary mutableCopy];
 	mutableDictionary[@(value)] = @(count);
 	NSData *resultDictionaryData = [NSKeyedArchiver archivedDataWithRootObject:[mutableDictionary copy]];
-	gManager.maxOccuredTimesOnBoardForEachTile = resultDictionaryData;
+	self.maxOccuredTimesOnBoardForEachTile = resultDictionaryData;
 	
 	AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 	return [appDelegate saveContext];

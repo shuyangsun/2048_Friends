@@ -41,6 +41,7 @@ typedef enum BoardSwipeGestureDirection {
 
 // Determine if the game is end.
 +(BOOL) gameEndFrom2DArray: (NSArray *)arr;
++(CGPoint) generateRandomAvailableCellPointFromCells2DArray: (NSArray *) arr;
 
 #ifdef DEBUG_BOARD
 -(void)printBoard;

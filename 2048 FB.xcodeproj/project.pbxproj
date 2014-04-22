@@ -13,6 +13,7 @@
 		040F6E3318F21FA4006D237B /* History+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E3218F21FA4006D237B /* History+ModelLayer01.m */; };
 		040F6E3818F22225006D237B /* History+ModelLayer02.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E3718F22225006D237B /* History+ModelLayer02.m */; };
 		040F6E3B18F22230006D237B /* History+ModelLayer03.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E3A18F22230006D237B /* History+ModelLayer03.m */; };
+		0415CCED1905F94500843BA0 /* BoardSceneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415CCEC1905F94500843BA0 /* BoardSceneTests.m */; };
 		042039CF18F34D9800D5AB19 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 042039CE18F34D9800D5AB19 /* Tile.m */; };
 		0428C73A18F37FCE00A1D7A4 /* GameManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0428C73918F37FCE00A1D7A4 /* GameManagerTest.m */; };
 		0428C73C18F3813600A1D7A4 /* HistoryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0428C73B18F3813600A1D7A4 /* HistoryTest.m */; };
@@ -90,6 +91,7 @@
 		040F6E3718F22225006D237B /* History+ModelLayer02.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "History+ModelLayer02.m"; sourceTree = "<group>"; };
 		040F6E3918F22230006D237B /* History+ModelLayer03.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "History+ModelLayer03.h"; sourceTree = "<group>"; };
 		040F6E3A18F22230006D237B /* History+ModelLayer03.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "History+ModelLayer03.m"; sourceTree = "<group>"; };
+		0415CCEC1905F94500843BA0 /* BoardSceneTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardSceneTests.m; sourceTree = "<group>"; };
 		042039CD18F34D9800D5AB19 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
 		042039CE18F34D9800D5AB19 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		0428C73918F37FCE00A1D7A4 /* GameManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManagerTest.m; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 				049118AC18F07DE60021657D /* BoardTest.m */,
 				0428C73B18F3813600A1D7A4 /* HistoryTest.m */,
 				0428C73918F37FCE00A1D7A4 /* GameManagerTest.m */,
+				0415CCEC1905F94500843BA0 /* BoardSceneTests.m */,
 				044847B118EA1BA100D35B0F /* Supporting Files */,
 			);
 			path = "2048 FBTests";
@@ -771,6 +774,7 @@
 				0428C73A18F37FCE00A1D7A4 /* GameManagerTest.m in Sources */,
 				049118AD18F07DE60021657D /* BoardTest.m in Sources */,
 				044847B718EA1BA100D35B0F /* _048_FBTests.m in Sources */,
+				0415CCED1905F94500843BA0 /* BoardSceneTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -912,7 +916,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -937,7 +941,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

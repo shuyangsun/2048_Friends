@@ -248,7 +248,7 @@
 			gManager.bestScore = score;
 		}
 		
-		NSMutableDictionary *maxOccuredDictionary = [[GameManager getMaxOccuredDictionary] mutableCopy];
+		NSMutableDictionary *maxOccuredDictionary = [[[GameManager sharedGameManager]getMaxOccuredDictionary] mutableCopy];
 		NSMutableDictionary *occurTimeDictionary = [NSMutableDictionary dictionary];
 		for (int i = 0; i < maxTilePower; ++i) {
 			occurTimeDictionary[@((NSInteger)pow(2.0f, i + 1))] = @(0);
@@ -268,7 +268,7 @@
 			}
 		}
 		
-		[GameManager setMaxOccuredDictionary:[maxOccuredDictionary copy]];
+		[[GameManager sharedGameManager] setMaxOccuredDictionary:[maxOccuredDictionary copy]];
 	}
 	return nextBoard;
 

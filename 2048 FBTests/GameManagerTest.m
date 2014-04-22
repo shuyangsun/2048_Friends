@@ -74,7 +74,7 @@
 
 -(void)testMaxOccuredTimeForEachTileZero
 {
-	NSDictionary *maxOccuredTimeDictionary = [GameManager getMaxOccuredDictionary];
+	NSDictionary *maxOccuredTimeDictionary = [self.gManager getMaxOccuredDictionary];
 	for (int i = 0; i < maxTilePower; ++i) {
 		XCTAssertEqualObjects(maxOccuredTimeDictionary[@((NSInteger)pow(2.0f, i + 1))], @(0));
 	}
@@ -92,7 +92,7 @@
 								  swipeDirection:BoardSwipeGestureDirectionNone];
 	[board swipedToDirection:BoardSwipeGestureDirectionDown];
 	
-	NSDictionary *maxOccuredTimeDictionary = [GameManager getMaxOccuredDictionary];
+	NSDictionary *maxOccuredTimeDictionary = [self.gManager getMaxOccuredDictionary];
 	XCTAssertTrue([maxOccuredTimeDictionary[@(2)] intValue] == 3 || [maxOccuredTimeDictionary[@(2)] intValue] == 4);
 	XCTAssertTrue([maxOccuredTimeDictionary[@(4)] intValue] == 3 || [maxOccuredTimeDictionary[@(4)] intValue] == 4);
 	XCTAssertEqualObjects(maxOccuredTimeDictionary[@(8)], @(3));
