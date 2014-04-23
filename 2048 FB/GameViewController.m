@@ -117,10 +117,6 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	self.originalContentView.backgroundColor = self.theme.backgroundColor;
 	self.boardSKView.layer.cornerRadius = self.theme.boardCornerRadius;
 	self.boardSKView.layer.masksToBounds = YES;
-//	self.pauseView.layer.cornerRadius = self.theme.boardCornerRadius;
-//	self.pauseView.layer.masksToBounds = YES;
-//	self.pauseImageView.layer.cornerRadius = self.theme.boardCornerRadius;
-//	self.pauseImageView.layer.masksToBounds = YES;
 	self.profilePictureView.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.profilePictureView.layer.masksToBounds = YES;
 	self.profilePictureButton.layer.cornerRadius = self.theme.buttonCornerRadius;
@@ -128,10 +124,6 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	self.menuButton.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.bestScoreLabel.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.scoreLabel.layer.cornerRadius = self.theme.buttonCornerRadius;
-//	for (UIView *v in self.tileContainerViews) {
-//		v.layer.cornerRadius = self.theme.tileCornerRadius;
-//		v.layer.masksToBounds = YES;
-//	}
 	
 	// Change the color of views
 	self.boardSKView.backgroundColor = self.theme.boardColor;
@@ -139,24 +131,6 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	self.menuButton.backgroundColor = self.theme.tileColors[@(8)];
 	self.boardSKView.backgroundColor = self.theme.tileColors[@(2048)];
 	self.scoreLabel.backgroundColor = self.theme.tileColors[@(4)];
-//	self.retryOrKeepPlayingButton.titleLabel.textColor = [UIColor whiteColor];
-//	self.retryOrKeepPlayingButton.backgroundColor = self.theme.tileColors[@(8)];
-//	self.retryOrKeepPlayingButton.layer.cornerRadius = self.theme.buttonCornerRadius;
-//	self.retryOrKeepPlayingButton.layer.masksToBounds = YES;
-//	self.shareButton.titleLabel.textColor = [UIColor whiteColor];
-//	self.shareButton.backgroundColor = self.theme.tileColors[@(8)];
-//	self.shareButton.layer.cornerRadius = self.theme.buttonCornerRadius;
-//	self.shareButton.layer.masksToBounds = YES;
-//	for (UIView *v in self.tileContainerViews) {
-//		v.backgroundColor = self.theme.tileContainerColor;
-//	}
-//	for (UIView *tView in self.onBoardTileViews) {
-//		if ([tView isKindOfClass:[TileView class]]) {
-//			tView.backgroundColor = self.theme.tileColors[@(((TileView *)tView).val)];
-//			tView.layer.cornerRadius = self.theme.tileCornerRadius;
-//			tView.layer.masksToBounds = YES;
-//		}
-//	}
 }
 
 -(BOOL)prefersStatusBarHidden {

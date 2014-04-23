@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-typedef enum TileViewType {
+typedef NS_ENUM(NSUInteger, TileViewType) {
 	TileViewTypeImage = 0,
 	TileViewTypeNumber
-} TileViewType;
+};
 
 @interface TileView : UIView
 

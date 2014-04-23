@@ -22,11 +22,11 @@ extern const CGFloat kBoardPanMinDistance;
 extern const CGFloat kLineWidthDefault_iPhone;
 extern const NSUInteger kDefaultContextSavingSwipeNumber;
 
-typedef enum BoardViewControllerMode {
+typedef NS_ENUM(NSUInteger, BoardViewControllerMode) {
 	BoardViewControllerModePlaying = 0, // When user is playing with this board
 	BoardViewControllerModeHisory,      // When user is using this board reviewing history
 	BoardViewControllerModeShow         // When this is just a non interactive showing of the board
-} BoardViewControllerMode;
+};
 
 @interface BoardViewController : UIViewController <ADBannerViewDelegate>
 

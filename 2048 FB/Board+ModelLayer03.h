@@ -12,13 +12,13 @@
 #define DEBUG_BOARD
 #endif
 
-typedef enum BoardSwipeGestureDirection {
-	BoardSwipeGestureDirectionNone = 0,
-	BoardSwipeGestureDirectionLeft,
-	BoardSwipeGestureDirectionRight,
-	BoardSwipeGestureDirectionUp,
-	BoardSwipeGestureDirectionDown
-} BoardSwipeGestureDirection;
+typedef NS_OPTIONS(NSUInteger, BoardSwipeGestureDirection) {
+	BoardSwipeGestureDirectionNone = 0x0,
+	BoardSwipeGestureDirectionLeft = 0x1 << 0,
+	BoardSwipeGestureDirectionRight = 0x1 << 1,
+	BoardSwipeGestureDirectionUp = 0x1 << 2,
+	BoardSwipeGestureDirectionDown = 0x1 << 3
+};
 
 @interface Board (ModelLayer03)
 

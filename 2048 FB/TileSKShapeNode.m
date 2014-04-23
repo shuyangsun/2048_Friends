@@ -16,6 +16,15 @@
 
 @implementation TileSKShapeNode
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.uuid = [NSUUID UUID];
+    }
+    return self;
+}
+
 -(void)setValue:(int32_t)val
 		 text:(NSString *)text
 	textColor:(UIColor *)textColor
@@ -35,6 +44,26 @@
 	self.labelNode.text = displayText;
 	self.labelNode.position = CGPointMake(self.frame.size.width/2.0f, self.frame.size.height/2.0f - 10);
 	[self addChild:self.labelNode];
+}
+
+-(id)copy {
+	TileSKShapeNode *res = [super copy];
+	[res setValue:self.value
+					text:self.displayText
+			   textColor:self.textColor
+					type:self.type];
+	res.image = self.image;
+	res.uuid = self.uuid;
+	return res;
+}
+
+-(BOOL)isEqual:(id)object {
+	if ([object isKindOfClass:[self class]]) {
+		TileSKShapeNode *node = object;
+		return [node.uuid isEqual:self.uuid];
+	} else {
+		return NO;
+	}
 }
 
 @end

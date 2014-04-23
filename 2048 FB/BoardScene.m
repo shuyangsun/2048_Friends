@@ -61,10 +61,12 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 
 -(void)initializePropertyLists{
 	self.positionsForNodes = [NSMutableDictionary dictionary];
-	self.nextPositionsForNodes = [NSMutableDictionary dictionary];
-	self.theNewNodes = [NSMutableDictionary dictionary];
+	self.positionForNewRandomTile = [NSMutableDictionary dictionary];
+	self.positionForNewNodes = [NSMutableDictionary dictionary];
 	self.nodeForIndexes = [NSMutableDictionary dictionary];
-	self.theNewNodeForIndexes = [NSMutableDictionary dictionary];
+	self.nextNodeForIndexes = [NSMutableDictionary dictionary];
+	self.nextPositionsForNodes = [NSMutableDictionary dictionary];
+	self.indexForNewRandomTile = [NSMutableDictionary dictionary];
 	self.movingNodes = [NSMutableSet set];
 	self.removingNodes = [NSMutableSet set];
 	self.tileContainers = [NSMutableArray array];
@@ -76,8 +78,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 -(void)initializeTileContainers:(CGSize) size {
 	CGFloat tileWidth = self.theme.tileWidth;
 	CGFloat edgeWidth = (size.width - 4 * (tileWidth))/5.0f;
-	for (size_t i = 0; i < 4; ++i) {
-		for (size_t j = 0; j < 4; j++) {
+	for (size_t row = 0; row < 4; ++row) {
+		for (size_t col = 0; col < 4; col++) {
 			SKShapeNode* tileContainer = [SKShapeNode node];
 			[tileContainer setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
 																		  0,
@@ -86,11 +88,11 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 															   self.theme.tileCornerRadius,
 															   self.theme.tileCornerRadius, nil)];
 			tileContainer.strokeColor = tileContainer.fillColor = self.theme.tileContainerColor;
-			CGPoint pos = CGPointMake((i + 1) * edgeWidth + (i + 0.5) * tileWidth, (j + 1) * edgeWidth + (j + 0.5) * tileWidth);
+			CGPoint pos = CGPointMake((col + 1) * edgeWidth + (col + 0.5) * tileWidth, (row + 1) * edgeWidth + (row + 0.5) * tileWidth);
 			tileContainer.position = pos;
 			tileContainer.xScale = tileContainer.yScale = 0.0f;
 			[self addChild:tileContainer];
-			self.tileContainers[i][j] = tileContainer;
+			self.tileContainers[row][col] = tileContainer;
 		}
 	}
 }
@@ -173,10 +175,10 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 		self.gamePlaying = board.gameplaying;
 		self.data = [board getBoardDataArray];
 		CGFloat tileWidth = self.theme.tileWidth;
-		for (size_t i = 0; i < 4; ++i) {
-			for (size_t j = 0; j < 4; j++) {
-				if ([self.data[i][j] intValue] != 0) { // If it's not zero
-					NSNumber *value = self.data[i][j];
+		for (size_t row = 0; row < 4; ++row) {
+			for (size_t col = 0; col < 4; col++) {
+				if ([self.data[row][col] intValue] != 0) { // If it's not zero
+					NSNumber *value = self.data[row][col];
 					TileSKShapeNode *tile = [TileSKShapeNode node];
 					[tile setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
 																		 0,
@@ -189,9 +191,9 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 							  text:[NSString stringWithFormat:@"%d", [value intValue]]
 						 textColor:([value intValue] <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
 							  type:TileTypeNumber];
-					CGPoint pos = [self getPositionFromX:i andY:j];
-					self.positionsForNodes[tile] = [NSValue valueWithCGPoint:pos];
-					self.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(i, j)]] = tile;
+					CGPoint pos = [self getPositionFromRow:row andCol:col];
+					self.positionsForNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:pos];
+					self.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]] = tile;
 					pos = CGPointMake(pos.x+tileWidth/2.0f, pos.y+tileWidth/2.0f);
 					tile.position = pos;
 					tile.xScale = tile.yScale = 0.0f;
@@ -204,12 +206,12 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 }
 
 // Some helper methods:
--(CGPoint)getPositionFromX:(size_t)x andY: (size_t) y {
-	SKShapeNode *container = self.tileContainers[(int)y][(int)(3-x)];
+-(CGPoint)getPositionFromRow:(size_t)row andCol: (size_t)col {
+	SKShapeNode *container = self.tileContainers[(int)(3 - row)][(int)col];
 	return container.position;
 }
 
--(void)analyzeTilesForSwipeDirection:(BoardSwipeGestureDirection) direction {
+-(void)analyzeTilesForSwipeDirection:(BoardSwipeGestureDirection) direction generateNewTile:(BOOL) generateNewTile completion:(void (^)(void))completion {
 	/* Reminder - What to change:
 	 
 	 NSMutableDictionary *positionsForNodes;
@@ -221,16 +223,23 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	 
 	 */
 	if (self.gamePlaying && [self dataCanBeSwippedToDirection:direction]) {
-		self.theNewDirection = direction; // Set the direction for current last board
+		self.nextDirection = direction; // Set the direction for current last board
 		self.gamePlaying = NO;
 		int32_t score = self.score;
-		self.theNewData = [self.data mutableCopy];
-		self.theNewNodeForIndexes = [self.nodeForIndexes mutableCopy];
+		self.nextData = [self.data mutableCopy];
+//		for (NSValue *key in [self.nextNodeForIndexes allKeys]) {
+//			self.nextNodeForIndexes[key] = self.nodeForIndexes[key];
+//		}
+		self.nextNodeForIndexes = [self.nodeForIndexes mutableCopy];
+//		for (TileSKShapeNode *key in [self.positionsForNodes allKeys]) {
+//			NSValue *val = self.positionsForNodes[key];
+//			self.nextPositionsForNodes[key] = [val copy];
+//		}
 		self.nextPositionsForNodes = [self.positionsForNodes mutableCopy];
 		
 		if (direction == BoardSwipeGestureDirectionLeft) {
 			for (int row = 0; row < 4; ++row) {
-				NSMutableArray *rowArr = self.theNewData[row];
+				NSMutableArray *rowArr = self.nextData[row];
 				int col1 = 0;
 				int col2 = 0;
 				int col3 = 1;
@@ -253,25 +262,54 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 						rowArr[col2] = @(0);
 						rowArr[col3] = @(0);
 						/*_____________________________*/
-						TileSKShapeNode *node1 = self.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
-						TileSKShapeNode *node2 = self.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col3)]];
-						[self.movingNodes addObject:node2];
+						TileSKShapeNode *node1 = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
+						TileSKShapeNode *node2 = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col3)]];
+						
+						[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
+						[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col3)]];
+						// Handle nextNodeForIndexes for merged tile later
+						
+						self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node1]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row andCol:col1]];
+						self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node2]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row andCol:col1]];
+						
 						if (col2 != col1) {[self.movingNodes addObject: node1];}
+						[self.movingNodes addObject:node2];
+						
 						[self.removingNodes addObject:node1];
 						[self.removingNodes addObject:node2];
+						
+						// Handle positionForNewNodes for merged tile later
 						/*_____________________________*/
 						col2++;
 						col3++;
 					} else {
 						newVal = [rowArr[col2] intValue];
 						rowArr[col2] = @(0);
+						/*_____________________________*/
+						if (col2 != col1) {
+							TileSKShapeNode *node = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
+							[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
+							self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col1)]] = node;
+							self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row andCol:col1]];
+							[self.movingNodes addObject:node];
+						}
+						/*_____________________________*/
 						col2 = col3++;
 					}
 					rowArr[col1++] = @(newVal);
 				}
 				while (col1 < 4 && col2 < 4) {
 					int newVal = [rowArr[col2] intValue];
-					if (newVal != 0 && [self.theNewData[row][col1] intValue] == 0) {
+					if (newVal != 0 && [self.nextData[row][col1] intValue] == 0) {
+						/*_____________________________*/
+						if (col1 != col2) {
+							TileSKShapeNode *node = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
+							[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
+							self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col1)]] = node;
+							self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row andCol:col1]];
+							[self.movingNodes addObject:node];
+						}
+						/*_____________________________*/
 						rowArr[col1++] = @(newVal);
 						rowArr[col2] = @(0);
 					}
@@ -280,7 +318,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 			}
 		} else if (direction == BoardSwipeGestureDirectionRight) {
 			for (int row = 0; row < 4; ++row) {
-				NSMutableArray *rowArr = self.theNewData[row];
+				NSMutableArray *rowArr = self.nextData[row];
 				int col1 = 3;
 				int col2 = 3;
 				int col3 = 2;
@@ -313,7 +351,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 				}
 				while (col1 >= 0 && col2 >= 0) {
 					int newVal = [rowArr[col2] intValue];
-					if (newVal != 0 && [self.theNewData[row][col1] intValue] == 0) {
+					if (newVal != 0 && [self.nextData[row][col1] intValue] == 0) {
 						rowArr[col1--] = @(newVal);
 						rowArr[col2] = @(0);
 					}
@@ -326,36 +364,36 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 				int row2 = 0;
 				int row3 = 1;
 				while (row1 < 4 && row2 < 4 && row3 < 4) {
-					if ([self.theNewData[row2][col] intValue] == 0) {
+					if ([self.nextData[row2][col] intValue] == 0) {
 						++row2;
 						++row3;
 						continue;
 					}
-					if ([self.theNewData[row3][col] intValue] == 0) {
+					if ([self.nextData[row3][col] intValue] == 0) {
 						++row3;
 						continue;
 					}
 					// If both formerTileInd and nextTileInd are not zero, the following code get executed.
 					int newVal = 0;
-					if ([self.theNewData[row2][col] intValue] == [self.theNewData[row3][col] intValue] && row2 != row3) {
-						newVal = 2 * [self.theNewData[row2][col] intValue];
+					if ([self.nextData[row2][col] intValue] == [self.nextData[row3][col] intValue] && row2 != row3) {
+						newVal = 2 * [self.nextData[row2][col] intValue];
 						score += newVal;
-						self.theNewData[row2][col] = @(0);
-						self.theNewData[row3][col] = @(0);
+						self.nextData[row2][col] = @(0);
+						self.nextData[row3][col] = @(0);
 						row2++;
 						row3++;
 					} else {
-						newVal = [self.theNewData[row2][col] intValue];
-						self.theNewData[row2][col] = @(0);
+						newVal = [self.nextData[row2][col] intValue];
+						self.nextData[row2][col] = @(0);
 						row2 = row3++;
 					}
-					self.theNewData[row1++][col] = @(newVal);
+					self.nextData[row1++][col] = @(newVal);
 				}
 				while (row1 < 4 && row2 < 4) {
-					int newVal = [self.theNewData[row2][col] intValue];
-					if (newVal != 0 && [self.theNewData[row1][col] intValue] == 0) {
-						self.theNewData[row1++][col] = @(newVal);
-						self.theNewData[row2][col] = @(0);
+					int newVal = [self.nextData[row2][col] intValue];
+					if (newVal != 0 && [self.nextData[row1][col] intValue] == 0) {
+						self.nextData[row1++][col] = @(newVal);
+						self.nextData[row2][col] = @(0);
 					}
 					row2++;
 				}
@@ -366,52 +404,54 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 				int row2 = 3;
 				int row3 = 2;
 				while (row1 >= 0 && row2 >= 0 && row3 >= 0) {
-					if ([self.theNewData[row2][col] intValue] == 0) {
+					if ([self.nextData[row2][col] intValue] == 0) {
 						--row2;
 						--row3;
 						continue;
 					}
-					if ([self.theNewData[row3][col] intValue] == 0) {
+					if ([self.nextData[row3][col] intValue] == 0) {
 						--row3;
 						continue;
 					}
 					// If both formerTileInd and nextTileInd are not zero, the following code get executed.
 					int newVal = 0;
-					if ([self.theNewData[row2][col] intValue] == [self.theNewData[row3][col] intValue] && row2 != row3) {
-						newVal = 2 * [self.theNewData[row2][col] intValue];
+					if ([self.nextData[row2][col] intValue] == [self.nextData[row3][col] intValue] && row2 != row3) {
+						newVal = 2 * [self.nextData[row2][col] intValue];
 						score += newVal;
-						self.theNewData[row2][col] = @(0);
-						self.theNewData[row3][col] = @(0);
+						self.nextData[row2][col] = @(0);
+						self.nextData[row3][col] = @(0);
 						row2--;
 						row3--;
 					} else {
-						newVal = [self.theNewData[row2][col] intValue];
-						self.theNewData[row2][col] = @(0);
+						newVal = [self.nextData[row2][col] intValue];
+						self.nextData[row2][col] = @(0);
 						row2 = row3--;
 					}
-					self.theNewData[row1--][col] = @(newVal);
+					self.nextData[row1--][col] = @(newVal);
 				}
 				while (row1 >= 0 && row2 >= 0) {
-					int newVal = [self.theNewData[row2][col] intValue];
-					if (newVal != 0 && [self.theNewData[row1][col] intValue] == 0) {
-						self.theNewData[row1--][col] = @(newVal);
-						self.theNewData[row2][col] = @(0);
+					int newVal = [self.nextData[row2][col] intValue];
+					if (newVal != 0 && [self.nextData[row1][col] intValue] == 0) {
+						self.nextData[row1--][col] = @(newVal);
+						self.nextData[row2][col] = @(0);
 					}
 					row2--;
 				}
 			}
 		}
 		
-		// Generate a new random tile
-		CGPoint p = [Board generateRandomAvailableCellPointFromCells2DArray: self.theNewData];
-		NSNumber *val = @([Tile generateRandomInitTileValue]);
-		self.theNewData[(int)p.y][(int)p.x] = val;
+		if (generateNewTile) {
+			// Generate a new random tile
+			CGPoint p = [Board generateRandomAvailableCellPointFromCells2DArray: self.nextData];
+			NSNumber *val = @([Tile generateRandomInitTileValue]);
+			self.nextData[(int)p.y][(int)p.x] = val;
+		}
 		
 		// Check to see if the game is still playing and update onboard tiles.
-		self.gamePlaying = [Board gameEndFrom2DArray:self.theNewData];
+		self.gamePlaying = [Board gameEndFrom2DArray:self.nextData];
 		self.board.swipeDirection = direction;
 		// Update info for new board:
-		self.board = [Board createBoardWithBoardData:self.theNewData
+		self.board = [Board createBoardWithBoardData:self.nextData
 							gamePlaying:self.gamePlaying
 								  score:score
 						 swipeDirection:BoardSwipeGestureDirectionNone];
@@ -433,8 +473,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 		
 		for (size_t i = 0; i < 4; ++i) {
 			for (size_t j = 0; j < 4; ++j) {
-				if ([self.theNewData[i][j] intValue] != 0) {
-					occurTimeDictionary[self.theNewData[i][j]] = @([occurTimeDictionary[self.theNewData[i][j]] intValue] + 1);
+				if ([self.nextData[i][j] intValue] != 0) {
+					occurTimeDictionary[self.nextData[i][j]] = @([occurTimeDictionary[self.nextData[i][j]] intValue] + 1);
 				}
 			}
 		}
@@ -447,6 +487,15 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 		
 		[self.gManager setMaxOccuredDictionary:[maxOccuredDictionary copy]];
 	}
+	// Run the completion block passed in
+	if (completion) {
+		completion();
+	}
+}
+
+-(void)analyzeTilesForSwipeDirection:(BoardSwipeGestureDirection) direction
+						  completion:(void (^)(void))completion {
+	[self analyzeTilesForSwipeDirection:direction generateNewTile:YES completion:completion];
 }
 
 -(BOOL)dataCanBeSwippedToDirection:(BoardSwipeGestureDirection) direction {

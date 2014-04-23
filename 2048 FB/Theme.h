@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 
 // Change the order of this enum to change the order of themes in settings table.
-typedef enum ThemeType {
+typedef NS_ENUM(NSUInteger, ThemeType) {
 	ThemeTypeDefault = 0,
 	ThemeTypeNight,
 	ThemeTypeLightBlue
-} ThemeType;
+};
 
 extern const NSUInteger kglowingStartPowValueDefault;
 extern const CGFloat kBoardCornerRadiusDefault_iPhone;
