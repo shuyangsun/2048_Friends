@@ -47,6 +47,7 @@ extern const NSTimeInterval kAnimationDuration_TileContainerPopup;
 
 /// Animation phase 2
 @property (strong, nonatomic) NSMutableDictionary *positionForNewNodes; // Position for merged new tiles
+@property (strong, nonatomic) NSMutableDictionary *indexesForNewNodes; // Position for merged new tiles
 
 /// Animation phase 3
 @property (strong, nonatomic) NSMutableDictionary *positionForNewRandomTile; // Postion on board for the new random tile
@@ -62,7 +63,8 @@ extern const NSTimeInterval kAnimationDuration_TileContainerPopup;
 @property (strong, nonatomic) Board *board;
 
 // Frequently used SKActions:
-@property (strong, nonatomic) SKAction *scaleToFullSize;
+@property (strong, nonatomic) SKAction *scaleToFullSizeAction;
+@property (strong, nonatomic) SKAction *popUpNewTileAction;
 
 -(CGPoint)getPositionFromRow:(size_t)row andCol: (size_t)col;
 -(BOOL)dataCanBeSwippedToDirection:(BoardSwipeGestureDirection) direction;

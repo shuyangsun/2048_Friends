@@ -8,7 +8,6 @@
 
 #import "TileView.h"
 #import "UIImage+ImageEffects.h"
-#import "FXBlurView.h"
 #import "GameManager+ModelLayer03.h"
 
 @interface TileView()

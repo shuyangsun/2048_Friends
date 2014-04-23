@@ -43,6 +43,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	[self initializePropertyLists];
 	[self initializeTileContainers:size];
 	[self popupTileContainersAnimated:YES];
+	
 	return res;
 }
 
@@ -55,14 +56,18 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	_theme = theme;
 	self.backgroundColor = theme.boardColor;
 	// Setup SKActions:
-	self.scaleToFullSize = [SKAction group:@[[SKAction scaleTo:1.0f duration:kAnimationDuration_TileContainerPopup],
-											 [SKAction moveBy:CGVectorMake(-self.theme.tileWidth/2.0f, -self.theme.tileWidth/2.0f) duration:kAnimationDuration_TileContainerPopup]]];
+	self.scaleToFullSizeAction = [SKAction group:@[[SKAction scaleTo:1.0f duration:kAnimationDuration_TileContainerPopup],
+												   [SKAction moveBy:CGVectorMake(-self.theme.tileWidth/2.0f, -self.theme.tileWidth/2.0f) duration:kAnimationDuration_TileContainerPopup]]];
+	CGFloat scaleFactor = 1+((self.size.width - 4 * self.theme.tileWidth)/5.0f)/self.theme.tileWidth;
+	self.popUpNewTileAction = [SKAction sequence:@[[SKAction group:@[[SKAction scaleTo:scaleFactor duration:kAnimationDuration_TileContainerPopup], [SKAction moveBy:CGVectorMake(-self.theme.tileWidth*((scaleFactor - 1)/2), -self.theme.tileWidth*((scaleFactor - 1)/2)) duration:kAnimationDuration_TileContainerPopup/2.0f], [SKAction fadeInWithDuration:kAnimationDuration_TileContainerPopup]]],
+												   [SKAction group:@[[SKAction scaleTo:1.0f duration:kAnimationDuration_TileContainerPopup], [SKAction moveBy:CGVectorMake(self.theme.tileWidth*((scaleFactor - 1)/2), self.theme.tileWidth*((scaleFactor - 1)/2)) duration:kAnimationDuration_TileContainerPopup]]]]];
 }
 
 -(void)initializePropertyLists{
 	self.positionsForNodes = [NSMutableDictionary dictionary];
 	self.positionForNewRandomTile = [NSMutableDictionary dictionary];
 	self.positionForNewNodes = [NSMutableDictionary dictionary];
+	self.indexesForNewNodes = [NSMutableDictionary dictionary];
 	self.nodeForIndexes = [NSMutableDictionary dictionary];
 	self.nextNodeForIndexes = [NSMutableDictionary dictionary];
 	self.nextPositionsForNodes = [NSMutableDictionary dictionary];
@@ -114,6 +119,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 			arr2[tempInd2] = temp;
 		}
 		// Doing this because we CANNOT reference an array inside block!
+		// Maybe we can use recursion to make it prettier (recursive call completion block in another function), but I like this art.
 		int a1 = arr1[0];
 		int a2 = arr1[1];
 		int a3 = arr1[2];
@@ -123,22 +129,22 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 		int b3 = arr2[2];
 		int b4 = arr2[3];
 		// Please don't remove any awesome comment in this method, that will probably result a compile error. ;)
-		[self.tileContainers[a1][b2] runAction:self.scaleToFullSize completion:^{/*                    Painting while Coding                        */
-			[self.tileContainers[a2][b3] runAction:self.scaleToFullSize completion:^{/* (The man will probably hit this line of comment.)           */
-				[self.tileContainers[a1][b1] runAction:self.scaleToFullSize completion:^{/*                                                         */
-					[self.tileContainers[a4][b3] runAction:self.scaleToFullSize completion:^{/*                                                     */
-						[self.tileContainers[a2][b2] runAction:self.scaleToFullSize completion:^{/*                                                 */
-							[self.tileContainers[a3][b3] runAction:self.scaleToFullSize completion:^{/*                                             */
-								[self.tileContainers[a3][b4] runAction:self.scaleToFullSize completion:^{/*                                         */
-									[self.tileContainers[a2][b1] runAction:self.scaleToFullSize completion:^{/*                                     */
-										[self.tileContainers[a3][b1] runAction:self.scaleToFullSize completion:^{/*                                 */
-											[self.tileContainers[a2][b4] runAction:self.scaleToFullSize completion:^{/*                             */
-												[self.tileContainers[a4][b2] runAction:self.scaleToFullSize completion:^{/*                         */
-													[self.tileContainers[a3][b2] runAction:self.scaleToFullSize completion:^{/*         O           */
-														[self.tileContainers[a4][b1] runAction:self.scaleToFullSize completion:^{/*    -|-          */
-															[self.tileContainers[a4][b4] runAction:self.scaleToFullSize completion:^{/* /\          */
-																[self.tileContainers[a1][b3] runAction:self.scaleToFullSize completion:^{/*         */
-																	[self.tileContainers[a1][b4] runAction:self.scaleToFullSize completion:^{/*     */
+		[self.tileContainers[a1][b2] runAction:self.scaleToFullSizeAction completion:^{/*                    Painting while Coding                        */
+			[self.tileContainers[a2][b3] runAction:self.scaleToFullSizeAction completion:^{/* (The man will probably hit this line of comment.)           */
+				[self.tileContainers[a1][b1] runAction:self.scaleToFullSizeAction completion:^{/*                                                         */
+					[self.tileContainers[a4][b3] runAction:self.scaleToFullSizeAction completion:^{/*                                                     */
+						[self.tileContainers[a2][b2] runAction:self.scaleToFullSizeAction completion:^{/*                                                 */
+							[self.tileContainers[a3][b3] runAction:self.scaleToFullSizeAction completion:^{/*                                             */
+								[self.tileContainers[a3][b4] runAction:self.scaleToFullSizeAction completion:^{/*                                         */
+									[self.tileContainers[a2][b1] runAction:self.scaleToFullSizeAction completion:^{/*                                     */
+										[self.tileContainers[a3][b1] runAction:self.scaleToFullSizeAction completion:^{/*                                 */
+											[self.tileContainers[a2][b4] runAction:self.scaleToFullSizeAction completion:^{/*                             */
+												[self.tileContainers[a4][b2] runAction:self.scaleToFullSizeAction completion:^{/*                         */
+													[self.tileContainers[a3][b2] runAction:self.scaleToFullSizeAction completion:^{/*         O           */
+														[self.tileContainers[a4][b1] runAction:self.scaleToFullSizeAction completion:^{/*    -|-          */
+															[self.tileContainers[a4][b4] runAction:self.scaleToFullSizeAction completion:^{/* /\          */
+																[self.tileContainers[a1][b3] runAction:self.scaleToFullSizeAction completion:^{/*         */
+																	[self.tileContainers[a1][b4] runAction:self.scaleToFullSizeAction completion:^{/*     */
 																		[self startGameFromBoard:self.board animated:animated];
 																	}];
 																}];
@@ -198,7 +204,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 					tile.position = pos;
 					tile.xScale = tile.yScale = 0.0f;
 					[self addChild:tile];
-					[tile runAction:self.scaleToFullSize];
+					[tile runAction:self.scaleToFullSizeAction];
 				}
 			}
 		}
@@ -212,29 +218,12 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 }
 
 -(void)analyzeTilesForSwipeDirection:(BoardSwipeGestureDirection) direction generateNewTile:(BOOL) generateNewTile completion:(void (^)(void))completion {
-	/* Reminder - What to change:
-	 
-	 NSMutableDictionary *positionsForNodes;
-	 NSMutableDictionary *nextPositionsForNodes;
-	 NSMutableDictionary *theNewNodes;
-	 NSMutableDictionary *theNewNodeForIndexes;
-	 NSMutableSet *movingNodes;
-	 NSMutableSet *removingNodes;
-	 
-	 */
+	
 	if (self.gamePlaying && [self dataCanBeSwippedToDirection:direction]) {
 		self.nextDirection = direction; // Set the direction for current last board
 		self.gamePlaying = NO;
-		int32_t score = self.score;
 		self.nextData = [self.data mutableCopy];
-//		for (NSValue *key in [self.nextNodeForIndexes allKeys]) {
-//			self.nextNodeForIndexes[key] = self.nodeForIndexes[key];
-//		}
 		self.nextNodeForIndexes = [self.nodeForIndexes mutableCopy];
-//		for (TileSKShapeNode *key in [self.positionsForNodes allKeys]) {
-//			NSValue *val = self.positionsForNodes[key];
-//			self.nextPositionsForNodes[key] = [val copy];
-//		}
 		self.nextPositionsForNodes = [self.positionsForNodes mutableCopy];
 		
 		if (direction == BoardSwipeGestureDirectionLeft) {
@@ -258,7 +247,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 					int newVal = 0;
 					if ([rowArr[col2] intValue] == [rowArr[col3] intValue] && col2 != col3) {
 						newVal = 2 * [rowArr[col2] intValue];
-						score += newVal;
+						self.score += newVal;
 						rowArr[col2] = @(0);
 						rowArr[col3] = @(0);
 						/*_____________________________*/
@@ -267,7 +256,28 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 						
 						[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
 						[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col3)]];
-						// Handle nextNodeForIndexes for merged tile later
+#warning TODO - Handle nextNodeForIndexes for merged tiles
+						/* Create new tile */
+						CGFloat tileWidth = self.theme.tileWidth;
+						TileSKShapeNode *tile = [TileSKShapeNode node];
+						[tile setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
+																			 0,
+																			 tileWidth,
+																			 tileWidth),
+																  self.theme.tileCornerRadius,
+																  self.theme.tileCornerRadius, nil)];
+						tile.strokeColor = tile.fillColor = self.theme.tileColors[@(newVal)];
+						[tile setValue:newVal
+								  text:[NSString stringWithFormat:@"%d", newVal]
+							 textColor:(newVal <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+								  type:TileTypeNumber];
+						CGPoint pos = [self getPositionFromRow:row andCol:col1];
+						self.indexesForNewNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:CGPointMake(row, col1)];
+						self.positionForNewNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:pos];
+						self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col1)]] = tile;
+						tile.alpha = 0.0f; // Not visible for now
+						[self addChild:tile];
+						/* Done creating new tile */
 						
 						self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node1]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row andCol:col1]];
 						self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node2]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row andCol:col1]];
@@ -278,7 +288,6 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 						[self.removingNodes addObject:node1];
 						[self.removingNodes addObject:node2];
 						
-						// Handle positionForNewNodes for merged tile later
 						/*_____________________________*/
 						col2++;
 						col3++;
@@ -337,7 +346,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 					int newVal = 0;
 					if ([rowArr[col2] intValue] == [rowArr[col3] intValue] && col2 != col3) {
 						newVal = 2 * [rowArr[col2] intValue];
-						score += newVal;
+						self.score += newVal;
 						rowArr[col2] = @(0);
 						rowArr[col3] = @(0);
 						col2--;
@@ -377,7 +386,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 					int newVal = 0;
 					if ([self.nextData[row2][col] intValue] == [self.nextData[row3][col] intValue] && row2 != row3) {
 						newVal = 2 * [self.nextData[row2][col] intValue];
-						score += newVal;
+						self.score += newVal;
 						self.nextData[row2][col] = @(0);
 						self.nextData[row3][col] = @(0);
 						row2++;
@@ -417,7 +426,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 					int newVal = 0;
 					if ([self.nextData[row2][col] intValue] == [self.nextData[row3][col] intValue] && row2 != row3) {
 						newVal = 2 * [self.nextData[row2][col] intValue];
-						score += newVal;
+						self.score += newVal;
 						self.nextData[row2][col] = @(0);
 						self.nextData[row3][col] = @(0);
 						row2--;
@@ -453,7 +462,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 		// Update info for new board:
 		self.board = [Board createBoardWithBoardData:self.nextData
 							gamePlaying:self.gamePlaying
-								  score:score
+								  score:self.score
 						 swipeDirection:BoardSwipeGestureDirectionNone];
 		
 		// Add this board to history
@@ -461,8 +470,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 		
 		// Update Best score
 		GameManager *gManager = [GameManager sharedGameManager];
-		if (score > gManager.bestScore) {
-			gManager.bestScore = score;
+		if (self.score > gManager.bestScore) {
+			gManager.bestScore = self.score;
 		}
 		
 		NSMutableDictionary *maxOccuredDictionary = [[self.gManager getMaxOccuredDictionary] mutableCopy];

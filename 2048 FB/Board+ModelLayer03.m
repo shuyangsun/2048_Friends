@@ -455,8 +455,7 @@
 	return [Board generateRandomAvailableCellPointFromCells2DArray:arr];
 }
 
-#ifdef DEBUG_BOARD
--(void)printBoard {
+-(NSString *)description {
 	NSMutableString *str = [NSMutableString stringWithString:@"\n"];
 	NSMutableArray *mutableArr = [self getBoardDataArray];
 	for (int row = 0; row < 4; ++row) {
@@ -490,7 +489,12 @@
 	[str appendFormat:@"Direction: %@\n", directionString];
 	[str appendFormat:@"Score: %d\n", self.score];
 	[str appendFormat:@"Game Playing: %@", (self.gameplaying ? @"YES":@"NO")];
-	NSLog(@"%@", str);
+	return str;
+}
+
+#ifdef DEBUG_BOARD
+-(void)printBoard {
+	NSLog(@"%@", [self description]);
 }
 
 #endif
