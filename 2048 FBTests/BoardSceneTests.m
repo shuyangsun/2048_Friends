@@ -245,7 +245,12 @@
 	XCTAssertEqual([[self.scene.positionsForNodes allKeys] count], 4, @"positionsForNodes should have %d keys, instead it has %lu keys.", 4, (unsigned long)[[self.scene.positionsForNodes allKeys] count]);
 	XCTAssertEqual([[self.scene.nodeForIndexes allKeys] count], 4, @"nodeForIndexes should have %d keys, instead it has %lu keys.", 4, (unsigned long)[[self.scene.nodeForIndexes allKeys] count]);
 	
+	// Analyze the swipe, also print out the time used to analyze
+	NSDate *start = [NSDate date];
 	[self.scene analyzeTilesForSwipeDirection:BoardSwipeGestureDirectionLeft generateNewTile:NO completion:nil];
+	NSDate *end = [NSDate date];
+	NSLog(@"testAnalyzeSwiping_01_Left: analyzing took %f seconds", [end timeIntervalSinceDate:start]);
+	
 	// After analyzing swipe
 	XCTAssertEqual([[self.scene.nextPositionsForNodes allKeys] count], 4, @"nextPositionsForNodes should have %d keys, instead it has %lu keys.", 4, (unsigned long)[[self.scene.nextPositionsForNodes allKeys] count]);
 	XCTAssertEqual([[self.scene.positionForNewNodes allKeys] count], 0, @"positionForNewNodes should have %d keys, instead it has %lu keys.", 0, (unsigned long)[[self.scene.positionForNewNodes allKeys] count]);
@@ -268,6 +273,193 @@
 				XCTAssertEqual(node.value, val);
 				XCTAssertEqualObjects(self.scene.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:row andCol:col]]);
 				XCTAssertTrue([self.scene.movingNodes containsObject:node]);
+			}
+		}
+	}
+	
+}
+
+-(void)testAnalyzeSwiping_02_Left {
+	self.board = [Board createBoardWithBoardData:[NSMutableArray arrayWithArray:@[@[@(0), @(0), @(2), @(0)],
+																				  @[@(0), @(2), @(0), @(0)],
+																				  @[@(2), @(0), @(0), @(0)],
+																				  @[@(0), @(0), @(0), @(2)]]]
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:0];
+	[self.scene startGameFromBoard:self.board animated:YES];
+	
+	// Before analyzing swipe
+	XCTAssertEqual([[self.scene.positionsForNodes allKeys] count], 4, @"positionsForNodes should have %d keys, instead it has %lu keys.", 4, (unsigned long)[[self.scene.positionsForNodes allKeys] count]);
+	XCTAssertEqual([[self.scene.nodeForIndexes allKeys] count], 4, @"nodeForIndexes should have %d keys, instead it has %lu keys.", 4, (unsigned long)[[self.scene.nodeForIndexes allKeys] count]);
+	
+	// Analyze the swipe, also print out the time used to analyze
+	NSDate *start = [NSDate date];
+	[self.scene analyzeTilesForSwipeDirection:BoardSwipeGestureDirectionLeft generateNewTile:NO completion:nil];
+	NSDate *end = [NSDate date];
+	NSLog(@"testAnalyzeSwiping_02_Left: analyzing took %f seconds", [end timeIntervalSinceDate:start]);
+	
+	// After analyzing swipe
+	XCTAssertEqual([[self.scene.nextPositionsForNodes allKeys] count], 4, @"nextPositionsForNodes should have %d keys, instead it has %lu keys.", 4, (unsigned long)[[self.scene.nextPositionsForNodes allKeys] count]);
+	XCTAssertEqual([[self.scene.positionForNewNodes allKeys] count], 0, @"positionForNewNodes should have %d keys, instead it has %lu keys.", 0, (unsigned long)[[self.scene.positionForNewNodes allKeys] count]);
+	XCTAssertEqual([[self.scene.nextNodeForIndexes allKeys] count], 4, @"nextNodeForIndexes should have %d keys, instead it has %lu keys.", 4, (unsigned long)[[self.scene.nextNodeForIndexes allKeys] count]);
+	XCTAssertEqual([self.scene.movingNodes count], 3, @"movingNodes should have %d elements, instead it has %lu elements.", 3, (unsigned long)[self.scene.movingNodes count]);
+	XCTAssertEqual([self.scene.removingNodes count], 0, @"removingNodes should have %d elements, instead it has %lu elements.", 0, (unsigned long)[self.scene.removingNodes count]);
+	
+	NSMutableArray *theNewData = [NSMutableArray arrayWithArray:@[@[@(2), @(0), @(0), @(0)],
+																  @[@(2), @(0), @(0), @(0)],
+																  @[@(2), @(0), @(0), @(0)],
+																  @[@(2), @(0), @(0), @(0)]]];
+	XCTAssertEqualObjects(self.scene.nextData, theNewData);
+	for (size_t row = 0; row < 4; ++row) {
+		for (size_t col = 0; col < 4; ++col) {
+			int val = [self.scene.nextData[row][col] intValue];
+			if (val == 0) {
+				XCTAssertNil(self.scene.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]]);
+			} else if (row != 2 && col != 0) {
+				TileSKShapeNode *node = self.scene.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]];
+				XCTAssertEqual(node.value, val);
+				XCTAssertEqualObjects(self.scene.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:row andCol:col]]);
+				XCTAssertTrue([self.scene.movingNodes containsObject:node]);
+			}
+		}
+	}
+	
+}
+
+-(void)testAnalyzeSwiping_03_Left {
+	self.board = [Board createBoardWithBoardData:[NSMutableArray arrayWithArray:@[@[@(0), @(0), @(0), @(0)],
+																				  @[@(0), @(0), @(0), @(0)],
+																				  @[@(0), @(0), @(0), @(0)],
+																				  @[@(0), @(0), @(2), @(2)]]]
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:0];
+	[self.scene startGameFromBoard:self.board animated:YES];
+	
+	// Before analyzing swipe
+	XCTAssertEqual([[self.scene.positionsForNodes allKeys] count], 2, @"positionsForNodes should have %d keys, instead it has %lu keys.", 2, (unsigned long)[[self.scene.positionsForNodes allKeys] count]);
+	XCTAssertEqual([[self.scene.nodeForIndexes allKeys] count], 2, @"nodeForIndexes should have %d keys, instead it has %lu keys.", 2, (unsigned long)[[self.scene.nodeForIndexes allKeys] count]);
+	TileSKShapeNode *node1 = self.scene.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(3, 2)]];
+	TileSKShapeNode *node2 = self.scene.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(3, 3)]];
+	
+	// Test positionsForNodes is correct (not including the new tiles)
+	XCTAssertEqualObjects(self.scene.positionsForNodes[[NSValue valueWithNonretainedObject:node1]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:3 andCol:2]]);
+	XCTAssertEqualObjects(self.scene.positionsForNodes[[NSValue valueWithNonretainedObject:node2]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:3 andCol:3]]);
+	
+	// Analyze the swipe, also print out the time used to analyze
+	NSDate *start = [NSDate date];
+	[self.scene analyzeTilesForSwipeDirection:BoardSwipeGestureDirectionLeft generateNewTile:NO completion:nil];
+	NSDate *end = [NSDate date];
+	NSLog(@"testAnalyzeSwiping_03_Left: analyzing took %f seconds", [end timeIntervalSinceDate:start]);
+	
+	// After analyzing swipe
+	XCTAssertEqual([[self.scene.nextPositionsForNodes allKeys] count], 2, @"nextPositionsForNodes should have %d keys, instead it has %lu keys.", 2, (unsigned long)[[self.scene.nextPositionsForNodes allKeys] count]);
+	XCTAssertEqual([[self.scene.positionForNewNodes allKeys] count], 1, @"positionForNewNodes should have %d keys, instead it has %lu keys.", 1, (unsigned long)[[self.scene.positionForNewNodes allKeys] count]);
+	XCTAssertEqual([[self.scene.nextNodeForIndexes allKeys] count], 1, @"nextNodeForIndexes should have %d keys, instead it has %lu keys.", 1, (unsigned long)[[self.scene.nextNodeForIndexes allKeys] count]);
+	XCTAssertEqual([self.scene.movingNodes count], 2, @"movingNodes should have %d elements, instead it has %lu elements.", 2, (unsigned long)[self.scene.movingNodes count]);
+	XCTAssertEqual([self.scene.removingNodes count], 2, @"removingNodes should have %d elements, instead it has %lu elements.", 2, (unsigned long)[self.scene.removingNodes count]);
+	
+	// Test the array is calculated correctly
+	NSMutableArray *theNewData = [NSMutableArray arrayWithArray:@[@[@(0), @(0), @(0), @(0)],
+																  @[@(0), @(0), @(0), @(0)],
+																  @[@(0), @(0), @(0), @(0)],
+																  @[@(4), @(0), @(0), @(0)]]];
+	XCTAssertEqualObjects(self.scene.nextData, theNewData);
+	
+	// Test nextPositionForNodes is correct (not including the new tiles)
+	XCTAssertEqualObjects(self.scene.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node1]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:3 andCol:0]]);
+	XCTAssertEqualObjects(self.scene.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node2]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:3 andCol:0]]);
+	
+	// Test positionForNewNodes is correct
+	for (size_t row = 0; row < 4; ++row) {
+		for (size_t col = 0; col < 4; ++col) {
+			int val = [self.scene.nextData[row][col] intValue];
+			if (val == 0) {
+				XCTAssertNil(self.scene.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]]);
+			} else {
+				TileSKShapeNode *node = self.scene.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]];
+				XCTAssertEqual(node.value, val);
+				XCTAssertNotNil(self.scene.positionForNewNodes[[NSValue valueWithNonretainedObject:node]]);
+				XCTAssertEqualObjects(self.scene.positionForNewNodes[[NSValue valueWithNonretainedObject:node]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:row andCol:col]],
+									  @"position in nextPositionsForNodes should be (%.0f, %.0f) instead of (%.0f, %.0f)",
+									  [self.scene getPositionFromRow:row andCol:col].x,[self.scene getPositionFromRow:row andCol:col].y,
+									  [self.scene.positionForNewNodes[[NSValue valueWithNonretainedObject:node]] CGPointValue].x, [self.scene.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] CGPointValue].y);
+			}
+		}
+	}
+	
+}
+
+-(void)testAnalyzeSwiping_04_Left {
+	self.board = [Board createBoardWithBoardData:[NSMutableArray arrayWithArray:@[@[@(0), @(0), @(0), @(0)],
+																				  @[@(0), @(0), @(0), @(0)],
+																				  @[@(4), @(2), @(0), @(0)],
+																				  @[@(0), @(2), @(2), @(2)]]]
+									 gamePlaying:YES
+										   score:0
+								  swipeDirection:0];
+	[self.scene startGameFromBoard:self.board animated:YES];
+	
+	// Before analyzing swipe
+	XCTAssertEqual([[self.scene.positionsForNodes allKeys] count], 5, @"positionsForNodes should have %d keys, instead it has %lu keys.", 5, (unsigned long)[[self.scene.positionsForNodes allKeys] count]);
+	XCTAssertEqual([[self.scene.nodeForIndexes allKeys] count], 5, @"nodeForIndexes should have %d keys, instead it has %lu keys.", 5, (unsigned long)[[self.scene.nodeForIndexes allKeys] count]);
+	TileSKShapeNode *node1 = self.scene.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(3, 3)]];
+	TileSKShapeNode *node2 = self.scene.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(3, 2)]];
+	TileSKShapeNode *node3 = self.scene.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(3, 1)]];
+	TileSKShapeNode *node4 = self.scene.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(2, 1)]];
+	TileSKShapeNode *node5 = self.scene.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(2, 0)]];
+	
+	// Test positionsForNodes is correct (not including the new tiles)
+	XCTAssertEqualObjects(self.scene.positionsForNodes[[NSValue valueWithNonretainedObject:node1]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:3 andCol:3]]);
+	XCTAssertEqualObjects(self.scene.positionsForNodes[[NSValue valueWithNonretainedObject:node2]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:3 andCol:2]]);
+	XCTAssertEqualObjects(self.scene.positionsForNodes[[NSValue valueWithNonretainedObject:node3]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:3 andCol:1]]);
+	XCTAssertEqualObjects(self.scene.positionsForNodes[[NSValue valueWithNonretainedObject:node4]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:2 andCol:1]]);
+	XCTAssertEqualObjects(self.scene.positionsForNodes[[NSValue valueWithNonretainedObject:node5]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:2 andCol:0]]);
+	
+	// Analyze the swipe, also print out the time used to analyze
+	NSDate *start = [NSDate date];
+	[self.scene analyzeTilesForSwipeDirection:BoardSwipeGestureDirectionLeft generateNewTile:NO completion:nil];
+	NSDate *end = [NSDate date];
+	NSLog(@"testAnalyzeSwiping_04_Left: analyzing took %f seconds", [end timeIntervalSinceDate:start]);
+	
+	// After analyzing swipe
+	XCTAssertEqual([[self.scene.nextPositionsForNodes allKeys] count], 5, @"nextPositionsForNodes should have %d keys, instead it has %lu keys.", 5, (unsigned long)[[self.scene.nextPositionsForNodes allKeys] count]);
+	XCTAssertEqual([[self.scene.positionForNewNodes allKeys] count], 1, @"positionForNewNodes should have %d keys, instead it has %lu keys.", 1, (unsigned long)[[self.scene.positionForNewNodes allKeys] count]);
+	XCTAssertEqual([[self.scene.nextNodeForIndexes allKeys] count], 4, @"nextNodeForIndexes should have %d keys, instead it has %lu keys.", 4, (unsigned long)[[self.scene.nextNodeForIndexes allKeys] count]);
+	XCTAssertEqual([self.scene.movingNodes count], 3, @"movingNodes should have %d elements, instead it has %lu elements.", 3, (unsigned long)[self.scene.movingNodes count]);
+	XCTAssertEqual([self.scene.removingNodes count], 2, @"removingNodes should have %d elements, instead it has %lu elements.", 2, (unsigned long)[self.scene.removingNodes count]);
+	
+	// Test the array is calculated correctly
+	NSMutableArray *theNewData = [NSMutableArray arrayWithArray:@[@[@(0), @(0), @(0), @(0)],
+																  @[@(0), @(0), @(0), @(0)],
+																  @[@(4), @(2), @(0), @(0)],
+																  @[@(4), @(2), @(0), @(0)]]];
+	XCTAssertEqualObjects(self.scene.nextData, theNewData);
+	
+	// Test nextPositionForNodes is correct (not including the new tiles)
+	XCTAssertEqualObjects(self.scene.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node1]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:3 andCol:1]]);
+	XCTAssertEqualObjects(self.scene.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node2]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:3 andCol:0]]);
+	XCTAssertEqualObjects(self.scene.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node3]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:3 andCol:0]]);
+	XCTAssertEqualObjects(self.scene.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node4]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:2 andCol:1]]);
+	XCTAssertEqualObjects(self.scene.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node5]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:2 andCol:0]]);
+	
+	// Test positionForNewNodes is correct
+	for (size_t row = 0; row < 4; ++row) {
+		for (size_t col = 0; col < 4; ++col) {
+			int val = [self.scene.nextData[row][col] intValue];
+			if (val != 0) {
+				if (row == 3 && col == 3) {
+					TileSKShapeNode *node = self.scene.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]];
+					XCTAssertEqual(node.value, val);
+					XCTAssertNotNil(self.scene.positionForNewNodes[[NSValue valueWithNonretainedObject:node]]);
+					XCTAssertEqualObjects(self.scene.positionForNewNodes[[NSValue valueWithNonretainedObject:node]], [NSValue valueWithCGPoint:[self.scene getPositionFromRow:row andCol:col]],
+										  @"position in nextPositionsForNodes should be (%.0f, %.0f) instead of (%.0f, %.0f)",
+										  [self.scene getPositionFromRow:row andCol:col].x,[self.scene getPositionFromRow:row andCol:col].y,
+										  [self.scene.positionForNewNodes[[NSValue valueWithNonretainedObject:node]] CGPointValue].x, [self.scene.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] CGPointValue].y);
+				}
+			} else {
+				XCTAssertNil(self.scene.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]]);
 			}
 		}
 	}

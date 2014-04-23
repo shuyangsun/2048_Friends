@@ -256,7 +256,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 						
 						[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
 						[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col3)]];
-#warning TODO - Handle nextNodeForIndexes for merged tiles
+
 						/* Create new tile */
 						CGFloat tileWidth = self.theme.tileWidth;
 						TileSKShapeNode *tile = [TileSKShapeNode node];
