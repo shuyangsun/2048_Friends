@@ -350,7 +350,7 @@
 		// Everything down here is to deal with new tile animation
 		int32_t newTileVal;
 		CGPoint newTilePos;
-		Board *lastestBoard = [self.latestBoard swipedToDirection:direction newTileValue:&newTileVal newTilePos:&newTilePos];
+		/* Board *lastestBoard = [self.latestBoard swipedToDirection:direction newTileValue:&newTileVal newTilePos:&newTilePos];
 		// Update UI according to board in main thread.
 		
 		if (lastestBoard) {
@@ -389,7 +389,7 @@
 								 [self updateBoardFromBoard:self.latestBoard];
 							 }];
 				
-		}
+		} */
 		
 	} else if (sender.state == UIGestureRecognizerStateFailed || sender.state == UIGestureRecognizerStateCancelled) {
 		

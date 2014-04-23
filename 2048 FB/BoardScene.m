@@ -259,24 +259,24 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 
 						/* Create new tile */
 						CGFloat tileWidth = self.theme.tileWidth;
-						TileSKShapeNode *tile = [TileSKShapeNode node];
-						[tile setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
+						TileSKShapeNode *node = [TileSKShapeNode node];
+						[node setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
 																			 0,
 																			 tileWidth,
 																			 tileWidth),
 																  self.theme.tileCornerRadius,
 																  self.theme.tileCornerRadius, nil)];
-						tile.strokeColor = tile.fillColor = self.theme.tileColors[@(newVal)];
-						[tile setValue:newVal
+						node.strokeColor = node.fillColor = self.theme.tileColors[@(newVal)];
+						[node setValue:newVal
 								  text:[NSString stringWithFormat:@"%d", newVal]
 							 textColor:(newVal <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
 								  type:TileTypeNumber];
 						CGPoint pos = [self getPositionFromRow:row andCol:col1];
-						self.indexesForNewNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:CGPointMake(row, col1)];
-						self.positionForNewNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:pos];
-						self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col1)]] = tile;
-						tile.alpha = 0.0f; // Not visible for now
-						[self addChild:tile];
+						self.indexesForNewNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:CGPointMake(row, col1)];
+						self.positionForNewNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:pos];
+						self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col1)]] = node;
+						node.alpha = 0.0f; // Not visible for now
+						[self addChild:node];
 						/* Done creating new tile */
 						
 						self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node1]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row andCol:col1]];
