@@ -18,11 +18,11 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 
 @interface BoardScene()
 
-
-
 @end
 
 @implementation BoardScene
+
+#pragma mark - Class Initialization Methods
 
 -(id)initWithSize:(CGSize)size {
 	if (self = [super initWithSize:size]) {
@@ -62,6 +62,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	self.popUpNewTileAction = [SKAction sequence:@[[SKAction group:@[[SKAction scaleTo:scaleFactor duration:kAnimationDuration_TileContainerPopup], [SKAction moveBy:CGVectorMake(-self.theme.tileWidth*((scaleFactor - 1)/2), -self.theme.tileWidth*((scaleFactor - 1)/2)) duration:kAnimationDuration_TileContainerPopup/2.0f], [SKAction fadeInWithDuration:kAnimationDuration_TileContainerPopup]]],
 												   [SKAction group:@[[SKAction scaleTo:1.0f duration:kAnimationDuration_TileContainerPopup], [SKAction moveBy:CGVectorMake(self.theme.tileWidth*((scaleFactor - 1)/2), self.theme.tileWidth*((scaleFactor - 1)/2)) duration:kAnimationDuration_TileContainerPopup]]]]];
 }
+
+#pragma mark - Game Initialization Methods
 
 -(void)initializePropertyLists{
 	self.positionsForNodes = [NSMutableDictionary dictionary];
@@ -211,11 +213,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	}
 }
 
-// Some helper methods:
--(CGPoint)getPositionFromRow:(size_t)row andCol: (size_t)col {
-	SKShapeNode *container = self.tileContainers[(int)(3 - row)][(int)col];
-	return container.position;
-}
+#pragma mark - Analysis Algorithms
 
 -(void)analyzeTilesForSwipeDirection:(BoardSwipeGestureDirection) direction generateNewTile:(BOOL) generateNewTile completion:(void (^)(void))completion {
 	
@@ -502,11 +500,6 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	}
 }
 
--(void)analyzeTilesForSwipeDirection:(BoardSwipeGestureDirection) direction
-						  completion:(void (^)(void))completion {
-	[self analyzeTilesForSwipeDirection:direction generateNewTile:YES completion:completion];
-}
-
 -(BOOL)dataCanBeSwippedToDirection:(BoardSwipeGestureDirection) direction {
 	BOOL res = NO;
 	if (direction == BoardSwipeGestureDirectionLeft) {
@@ -620,6 +613,20 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	}
 	return res;
 }
+
+-(void)analyzeTilesForSwipeDirection:(BoardSwipeGestureDirection) direction
+						  completion:(void (^)(void))completion {
+	[self analyzeTilesForSwipeDirection:direction generateNewTile:YES completion:completion];
+}
+
+#pragma mark - Helper Methods
+
+-(CGPoint)getPositionFromRow:(size_t)row andCol: (size_t)col {
+	SKShapeNode *container = self.tileContainers[(int)(3 - row)][(int)col];
+	return container.position;
+}
+
+
 
 @end
 

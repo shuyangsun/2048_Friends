@@ -25,16 +25,6 @@
     return self;
 }
 
--(void)setValue:(int32_t)val
-		 text:(NSString *)text
-	textColor:(UIColor *)textColor
-		 type:(TileType)type {
-	self.value = val;
-	self.textColor = textColor;
-	self.displayText = text;
-	self.type = type;
-}
-
 -(void)setDisplayText:(NSString *)displayText {
 	_displayText = displayText;
 	if (self.labelNode) { [self.labelNode removeFromParent]; }
@@ -45,6 +35,20 @@
 	self.labelNode.position = CGPointMake(self.frame.size.width/2.0f, self.frame.size.height/2.0f - 10);
 	[self addChild:self.labelNode];
 }
+
+#pragma mark - Overridden Accessors
+
+-(void)setValue:(int32_t)val
+		   text:(NSString *)text
+	  textColor:(UIColor *)textColor
+		   type:(TileType)type {
+	self.value = val;
+	self.textColor = textColor;
+	self.displayText = text;
+	self.type = type;
+}
+
+#pragma mark - Overridden NSObject Methods
 
 -(id)copy {
 	TileSKShapeNode *res = [super copy];
