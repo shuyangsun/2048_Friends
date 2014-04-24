@@ -248,59 +248,15 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 						self.score += newVal;
 						rowArr[col2] = @(0);
 						rowArr[col3] = @(0);
-						/*_____________________________*/
-						TileSKShapeNode *node1 = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
-						TileSKShapeNode *node2 = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col3)]];
-						
-						[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
-						[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col3)]];
-
-						/* Create new tile */
-						CGFloat tileWidth = self.theme.tileWidth;
-						TileSKShapeNode *node = [TileSKShapeNode node];
-						[node setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
-																			 0,
-																			 tileWidth,
-																			 tileWidth),
-																  self.theme.tileCornerRadius,
-																  self.theme.tileCornerRadius, nil)];
-						node.strokeColor = node.fillColor = self.theme.tileColors[@(newVal)];
-						[node setValue:newVal
-								  text:[NSString stringWithFormat:@"%d", newVal]
-							 textColor:(newVal <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
-								  type:TileTypeNumber];
-						CGPoint pos = [self getPositionFromRow:row andCol:col1];
-						self.indexesForNewNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:CGPointMake(row, col1)];
-						self.positionForNewNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:pos];
-						self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col1)]] = node;
-						node.alpha = 0.0f; // Not visible for now
-						[self addChild:node];
-						/* Done creating new tile */
-						
-						self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node1]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row andCol:col1]];
-						self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node2]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row andCol:col1]];
-						
-						if (col2 != col1) {[self.movingNodes addObject: node1];}
-						[self.movingNodes addObject:node2];
-						
-						[self.removingNodes addObject:node1];
-						[self.removingNodes addObject:node2];
-						
-						/*_____________________________*/
+						// Deals merging tile:
+						[self processNewMergedTilesWithNewVal:newVal Row1:row Row2:row Row3:row Col1:col1 Col2:col2 Col3:col3];
 						col2++;
 						col3++;
 					} else {
 						newVal = [rowArr[col2] intValue];
 						rowArr[col2] = @(0);
-						/*_____________________________*/
-						if (col2 != col1) {
-							TileSKShapeNode *node = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
-							[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
-							self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col1)]] = node;
-							self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row andCol:col1]];
-							[self.movingNodes addObject:node];
-						}
-						/*_____________________________*/
+						// Deals moving tile:
+						[self processMoveOneTileWithRow1:row Row2:row Col1:col1 Col2:col2];
 						col2 = col3++;
 					}
 					rowArr[col1++] = @(newVal);
@@ -308,15 +264,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 				while (col1 < 4 && col2 < 4) {
 					int newVal = [rowArr[col2] intValue];
 					if (newVal != 0 && [self.nextData[row][col1] intValue] == 0) {
-						/*_____________________________*/
-						if (col1 != col2) {
-							TileSKShapeNode *node = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
-							[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row, col2)]];
-							self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col1)]] = node;
-							self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row andCol:col1]];
-							[self.movingNodes addObject:node];
-						}
-						/*_____________________________*/
+						// Deals moving tile:
+						[self processMoveOneTileWithRow1:row Row2:row Col1:col1 Col2:col2];
 						rowArr[col1++] = @(newVal);
 						rowArr[col2] = @(0);
 					}
@@ -347,11 +296,15 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 						self.score += newVal;
 						rowArr[col2] = @(0);
 						rowArr[col3] = @(0);
+						// Deals merging tile:
+						[self processNewMergedTilesWithNewVal:newVal Row1:row Row2:row Row3:row Col1:col1 Col2:col2 Col3:col3];
 						col2--;
 						col3--;
 					} else {
 						newVal = [rowArr[col2] intValue];
 						rowArr[col2] = @(0);
+						// Deals moving tile:
+						[self processMoveOneTileWithRow1:row Row2:row Col1:col1 Col2:col2];
 						col2 = col3--;
 					}
 					rowArr[col1--] = @(newVal);
@@ -359,6 +312,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 				while (col1 >= 0 && col2 >= 0) {
 					int newVal = [rowArr[col2] intValue];
 					if (newVal != 0 && [self.nextData[row][col1] intValue] == 0) {
+						// Deals moving tile:
+						[self processMoveOneTileWithRow1:row Row2:row Col1:col1 Col2:col2];
 						rowArr[col1--] = @(newVal);
 						rowArr[col2] = @(0);
 					}
@@ -387,11 +342,15 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 						self.score += newVal;
 						self.nextData[row2][col] = @(0);
 						self.nextData[row3][col] = @(0);
+						// Deals merging tile:
+						[self processNewMergedTilesWithNewVal:newVal Row1:row1 Row2:row2 Row3:row3 Col1:col Col2:col Col3:col];
 						row2++;
 						row3++;
 					} else {
 						newVal = [self.nextData[row2][col] intValue];
 						self.nextData[row2][col] = @(0);
+						// Deals moving tile:
+						[self processMoveOneTileWithRow1:row1 Row2:row2 Col1:col Col2:col];
 						row2 = row3++;
 					}
 					self.nextData[row1++][col] = @(newVal);
@@ -399,6 +358,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 				while (row1 < 4 && row2 < 4) {
 					int newVal = [self.nextData[row2][col] intValue];
 					if (newVal != 0 && [self.nextData[row1][col] intValue] == 0) {
+						// Deals moving tile:
+						[self processMoveOneTileWithRow1:row1 Row2:row2 Col1:col Col2:col];
 						self.nextData[row1++][col] = @(newVal);
 						self.nextData[row2][col] = @(0);
 					}
@@ -427,11 +388,15 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 						self.score += newVal;
 						self.nextData[row2][col] = @(0);
 						self.nextData[row3][col] = @(0);
+						// Deals merging tile:
+						[self processNewMergedTilesWithNewVal:newVal Row1:row1 Row2:row2 Row3:row3 Col1:col Col2:col Col3:col];
 						row2--;
 						row3--;
 					} else {
 						newVal = [self.nextData[row2][col] intValue];
 						self.nextData[row2][col] = @(0);
+						// Deals moving tile:
+						[self processMoveOneTileWithRow1:row1 Row2:row2 Col1:col Col2:col];
 						row2 = row3--;
 					}
 					self.nextData[row1--][col] = @(newVal);
@@ -439,6 +404,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 				while (row1 >= 0 && row2 >= 0) {
 					int newVal = [self.nextData[row2][col] intValue];
 					if (newVal != 0 && [self.nextData[row1][col] intValue] == 0) {
+						// Deals moving tile:
+						[self processMoveOneTileWithRow1:row1 Row2:row2 Col1:col Col2:col];
 						self.nextData[row1--][col] = @(newVal);
 						self.nextData[row2][col] = @(0);
 					}
@@ -626,7 +593,54 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	return container.position;
 }
 
+-(void)processMoveOneTileWithRow1:(int)row1 Row2:(int)row2 Col1:(int)col1 Col2:(int)col2 {
+	if (col2 != col1) {
+		TileSKShapeNode *node = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row2, col2)]];
+		[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row2, col2)]];
+		self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row1, col1)]] = node;
+		self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row1 andCol:col1]];
+		[self.movingNodes addObject:node];
+	}
+}
 
+-(void)processNewMergedTilesWithNewVal:(int32_t)newVal Row1:(int)row1 Row2:(int)row2 Row3:(int)row3 Col1:(int)col1 Col2:(int)col2 Col3:(int)col3 {
+	CGFloat tileWidth = self.theme.tileWidth;
+	TileSKShapeNode *node1 = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row2, col2)]];
+	TileSKShapeNode *node2 = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row3, col3)]];
+	
+	[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row2, col2)]];
+	[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row3, col3)]];
+	
+	/* Create new tile */
+	TileSKShapeNode *node = [TileSKShapeNode node];
+	[node setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
+														 0,
+														 tileWidth,
+														 tileWidth),
+											  self.theme.tileCornerRadius,
+											  self.theme.tileCornerRadius, nil)];
+	node.strokeColor = node.fillColor = self.theme.tileColors[@(newVal)];
+	[node setValue:newVal
+			  text:[NSString stringWithFormat:@"%d", newVal]
+		 textColor:(newVal <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+			  type:TileTypeNumber];
+	CGPoint pos = [self getPositionFromRow:row1 andCol:col1];
+	self.indexesForNewNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:CGPointMake(row1, col1)];
+	self.positionForNewNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:pos];
+	self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row1, col1)]] = node;
+	node.alpha = 0.0f; // Not visible for now
+	[self addChild:node];
+	/* Done creating new tile */
+	
+	self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node1]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row1 andCol:col1]];
+	self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node2]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row1 andCol:col1]];
+	
+	if (col2 != col1) {[self.movingNodes addObject: node1];}
+	[self.movingNodes addObject:node2];
+	
+	[self.removingNodes addObject:node1];
+	[self.removingNodes addObject:node2];
+}
 
 @end
 
