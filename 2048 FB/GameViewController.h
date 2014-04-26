@@ -15,11 +15,12 @@ extern const NSTimeInterval kAnimationDelay_GameOver;
 extern const NSTimeInterval kAnimationDuration_ScaleTile;
 extern const NSTimeInterval kAnimationDuration_TextFade;
 extern const NSTimeInterval kTextShowDuration;
-extern const CGFloat kTileMoveAnimationDurationFraction;
 extern const CGFloat kAnimationSpring_Damping;
 extern const CGFloat kAnimationSpring_Velocity;
 extern const CGFloat kBoardPanMinDistance;
 extern const CGFloat kLineWidthDefault_iPhone;
+// This fraction tells us how long should the animating tile takes comparing with default animation duration.
+extern const CGFloat kTileMoveAnimationDurationFraction;
 extern const NSUInteger kDefaultContextSavingSwipeNumber;
 
 

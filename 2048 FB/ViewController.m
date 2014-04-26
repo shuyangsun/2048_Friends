@@ -11,10 +11,12 @@
 #import "GameManager+ModelLayer03.h"
 #import "Tile+ModelLayer03.h"
 
-const NSTimeInterval kViewControllerDuration_Animation = 0.1f;
-const NSTimeInterval kViewControllerDuration_Delay = 0.0f;
-const NSTimeInterval kViewControllerDuration_SpringDamping = 0.4f;
-const NSTimeInterval kViewControllerDuration_SpringVelocity = 0.6f;
+#import "macro.h"
+
+const NSTimeInterval kViewControllerDuration_Animation = SCALED_ANIMATION_DURATION(0.1f);
+const NSTimeInterval kViewControllerDuration_Delay = SCALED_ANIMATION_DURATION(0.0f);
+const NSTimeInterval kViewControllerDuration_SpringDamping = SCALED_ANIMATION_DURATION(0.4f);
+const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_DURATION(0.6f);
 
 @interface ViewController ()
 

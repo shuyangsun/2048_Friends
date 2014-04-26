@@ -14,23 +14,24 @@
 #import "Board+ModelLayer03.h"
 #import "Tile+ModelLayer03.h"
 #import "Theme.h"
+#import "macro.h"
 
 #import "BoardScene.h"
 #import "TileSKShapeNode.h"
 #import "UIImage+ImageEffects.h"
 
 // Constants
-const NSTimeInterval kAnimationDuration_Default = 0.1f;
-const NSTimeInterval kAnimationDuration_ScreenBlur = 1.0f;
-const NSTimeInterval kAnimationDuration_ScaleTile = 1.0f;
-const NSTimeInterval kAnimationDuration_MoveTile = 0.25f;
-const NSTimeInterval kAnimationDelay_GameOver = 0.0f;
-const NSTimeInterval kAnimationDuration_TextFade = 0.5f;
-const NSTimeInterval kTextShowDuration = 5.0f;
-const CGFloat kAnimationSpring_Damping = 0.5f;
-const CGFloat kAnimationSpring_Velocity = 0.4f;
+const NSTimeInterval kAnimationDuration_Default = SCALED_ANIMATION_DURATION(0.1f);
+const NSTimeInterval kAnimationDuration_ScreenBlur = SCALED_ANIMATION_DURATION(1.5f);
+const NSTimeInterval kAnimationDuration_ScaleTile = SCALED_ANIMATION_DURATION(1.0f);
+const NSTimeInterval kAnimationDuration_MoveTile = SCALED_ANIMATION_DURATION(0.2f);
+const NSTimeInterval kAnimationDelay_GameOver = SCALED_ANIMATION_DURATION(0.0f);
+const NSTimeInterval kAnimationDuration_TextFade = SCALED_ANIMATION_DURATION(0.5f);
+const NSTimeInterval kTextShowDuration = SCALED_ANIMATION_DURATION(5.0f);
+const CGFloat kAnimationSpring_Damping = SCALED_ANIMATION_DURATION(0.5f);
+const CGFloat kAnimationSpring_Velocity = SCALED_ANIMATION_DURATION(0.4f);
 
-const NSTimeInterval kTileMoveAnimationDurationFraction = 1.5f;
+const CGFloat kTileMoveAnimationDurationFraction = 1.5f;
 
 const CGFloat kBoardPanMinDistance = 5.0f;
 const CGFloat kLineWidthDefault_iPhone = 8.0f;
@@ -379,7 +380,12 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 		self.resumeGameButton.tag = 0; // 0 Represents "play again"
 		self.resumeGameButton.titleLabel.text = @"Try Again";
 		__block UIImage *snapshot;
-		NSArray *allTileViews = [self.scene.positionsForNodes allKeys];
+		NSArray *allTileViewsWithoutNewTile = [self.scene.positionsForNodes allKeys];
+		NSMutableArray *allTileViews = [NSMutableArray arrayWithArray:allTileViewsWithoutNewTile];
+		NSValue *newNSValueTile = [[self.scene.positionForNewRandomTile allKeys] lastObject];
+		if (newNSValueTile) {
+			[allTileViews addObject:newNSValueTile];
+		}
 		// Disable gesture recognizers for now
 		[self enableGestureRecognizers:NO];
 		NSUInteger count = 0;

@@ -14,8 +14,9 @@
 #import "Tile+ModelLayer03.h"
 #import "TileSKShapeNode.h"
 #import "GameViewController.h"
+#import "macro.h"
 
-const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
+const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DURATION(0.03f);
 
 @interface BoardScene()
 
@@ -248,11 +249,10 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 -(void)finishSwipeAnimationWithDuration:(NSTimeInterval) duration {
 	// Disable gesture recognizers while finishing up animation
 	[self enableGestureRecognizers:NO];
-	CGFloat tileWidth = self.theme.tileWidth;
 	NSUInteger count1 = 0;
 	NSUInteger size1 = [self.movingNodes count];
-	for (TileSKShapeNode *node in self.movingNodes) {
-		CGPoint targetPos = [self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] CGPointValue];
+	for (TileSKShapeNode *movedNode in self.movingNodes) {
+		CGPoint targetPos = [self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:movedNode]] CGPointValue];
 		SKAction *action = [SKAction moveTo:targetPos duration:duration];
 		count1++;
 		// completion1: block executed after moving all the tiles.
@@ -261,69 +261,85 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 			completion1 = ^void() {
 				NSUInteger count2 = 0;
 				NSUInteger size2 = [[self.positionForNewNodes allKeys] count];
-				for (NSValue *value in [self.positionForNewNodes allKeys]) {
-					TileSKShapeNode *node = [value nonretainedObjectValue];
-					self.score += node.value;
-					count2++;
-					// completion1: block executed at after popped up merged tiles.
-					void (^completion2)() = nil;
-					if (count2 >= size2) {
-						completion2 = ^void() {
-							for (TileSKShapeNode *node in self.removingNodes) {
-								[self.nextPositionsForNodes removeObjectForKey:[NSValue valueWithNonretainedObject:node]];
-								[node removeFromParent];
-							}
-							for (NSValue *value in [self.positionForNewNodes allKeys]) {
-								TileSKShapeNode *node = [value nonretainedObjectValue];
-								self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:node.position];
-							}
-						};
+				NSArray *mergedTileNSValues = [self.positionForNewNodes allKeys];
+				// If there are new merged tiles:
+				if ([mergedTileNSValues count]) {
+					for (NSValue *value in mergedTileNSValues) {
+						TileSKShapeNode *mergedNode = [value nonretainedObjectValue];
+						self.score += mergedNode.value;
+						count2++;
+						// completion2: block executed at after popped up merged tiles.
+						void (^completion2)() = nil;
+						if (count2 >= size2) {
+							completion2 = ^void() {
+								for (TileSKShapeNode *node in self.removingNodes) {
+									[self.nextPositionsForNodes removeObjectForKey:[NSValue valueWithNonretainedObject:node]];
+									[node removeFromParent];
+								}
+								for (NSValue *value in [self.positionForNewNodes allKeys]) {
+									TileSKShapeNode *node = [value nonretainedObjectValue];
+									self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:node.position];
+								}
+								[self runActionsAfterShownMergedTiles];
+							};
+						}
+						[mergedNode runAction:self.popUpNewTileAction completion:completion2];
 					}
-					[node runAction:self.popUpNewTileAction completion:completion2];
+				} else {
+					[self runActionsAfterShownMergedTiles];
 				}
-				CGPoint p = [Board generateRandomAvailableCellPoint_Col_Row_FromCells2DArray: self.nextData];
-				int row = (int)p.y;
-				int col = (int)p.x;
-				NSNumber *value = @([Tile generateRandomInitTileValue]);
-				self.nextData[row][col] = value;
-				
-				TileSKShapeNode *tile = [TileSKShapeNode node];
-				[tile setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
-																	 0,
-																	 tileWidth,
-																	 tileWidth),
-														  self.theme.tileCornerRadius,
-														  self.theme.tileCornerRadius, nil)];
-				tile.strokeColor = tile.fillColor = self.theme.tileColors[value];
-				[tile setValue:[value intValue]
-						  text:[NSString stringWithFormat:@"%d", [value intValue]]
-					 textColor:([value intValue] <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
-						  type:TileTypeNumber];
-				CGPoint pos = [self getPositionFromRow:row andCol:col];
-				self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:pos];
-				pos = CGPointMake(pos.x+tileWidth/2.0f, pos.y+tileWidth/2.0f);
-				tile.position = pos;
-				tile.xScale = tile.yScale = 0.0f;
-				[self addChild:tile];
-				// Done for new tile.
-				[tile runAction:self.scaleToFullSizeAction_NewTile completion:^{
-					self.data = self.nextData;
-					self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]] = tile;
-					self.positionsForNodes = self.nextPositionsForNodes;
-					self.nodeForIndexes = self.nextNodeForIndexes;
-					[self updateGamePlaying_MaxOccuredDictionary];
-					[self enableGestureRecognizers:YES];
-					if (self.gamePlaying == NO) {
-						[self.gameViewController showGameEndView];
-					}
-#ifdef DEBUG
-					[self.board printBoard];
-#endif
-				}];
 			};
 		}
-		[node runAction:action completion:completion1];
+		[movedNode runAction:action completion:completion1];
 	}
+}
+
+/* Using this method because:
+ * If there are new merged tiles, we want to run this inside the completion block.
+ * If there is not, we want to run it after tiles get moved.
+ * Putting those code into a method reduce duplicated code.
+ */
+-(void)runActionsAfterShownMergedTiles {
+	CGFloat tileWidth = self.theme.tileWidth;
+	CGPoint p = [Board generateRandomAvailableCellPoint_Col_Row_FromCells2DArray: self.nextData];
+	int row = (int)p.y;
+	int col = (int)p.x;
+	NSNumber *value = @([Tile generateRandomInitTileValue]);
+	self.nextData[row][col] = value;
+	
+	TileSKShapeNode *tile = [TileSKShapeNode node];
+	[tile setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
+														 0,
+														 tileWidth,
+														 tileWidth),
+											  self.theme.tileCornerRadius,
+											  self.theme.tileCornerRadius, nil)];
+	tile.strokeColor = tile.fillColor = self.theme.tileColors[value];
+	[tile setValue:[value intValue]
+			  text:[NSString stringWithFormat:@"%d", [value intValue]]
+		 textColor:([value intValue] <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+			  type:TileTypeNumber];
+	CGPoint pos = [self getPositionFromRow:row andCol:col];
+	self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:pos];
+	pos = CGPointMake(pos.x+tileWidth/2.0f, pos.y+tileWidth/2.0f);
+	tile.position = pos;
+	tile.xScale = tile.yScale = 0.0f;
+	[self addChild:tile];
+	// Done for new tile.
+	[tile runAction:self.scaleToFullSizeAction_NewTile completion:^{
+		self.data = self.nextData;
+		self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]] = tile;
+		self.positionsForNodes = self.nextPositionsForNodes;
+		self.nodeForIndexes = self.nextNodeForIndexes;
+		[self updateGamePlaying_MaxOccuredDictionary];
+		[self enableGestureRecognizers:YES];
+		if (self.gamePlaying == NO) {
+			[self.gameViewController showGameEndView];
+		}
+#ifdef DEBUG
+		[self.board printBoard];
+#endif
+	}];
 }
 
 -(void)reverseSwipeAnimationWithDuration:(NSTimeInterval)duration {

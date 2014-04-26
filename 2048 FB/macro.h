@@ -10,5 +10,7 @@
 #define _048_FB_macro_h
 
 #define ASSIGN_IN_DATABASE(x, y) ((x) = ((y) ? (y):(x)))
+// Use scaled duration to debug UI
+#define SCALED_ANIMATION_DURATION(x) ((x) * 1.0f)
 
 #endif

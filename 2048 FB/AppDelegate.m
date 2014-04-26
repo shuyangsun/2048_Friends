@@ -76,7 +76,7 @@ NSString *const kCurrentThemeIDKey = @"UserDefault_CurrentThemeUUIDKey";
 	// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
 	// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 	NSError *error = nil;
-	[self.managedObjectContext save:&error];
+	[self saveContext];
 	if (error) {
 		NSLog(@"%@", error);
 	}
@@ -97,11 +97,7 @@ NSString *const kCurrentThemeIDKey = @"UserDefault_CurrentThemeUUIDKey";
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 	// After the app gets terminate once, set the "First time launching app" to NO.
 	// This is a local userDefault, we do NOT want it to be synced to iCloud
-	NSError *error = nil;
-	[self.managedObjectContext save:&error];
-	if (error) {
-		NSLog(@"%@", error);
-	}
+	[self saveContext];
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	[userDefaults setObject:@(NO) forKey:kUserDefaultKeyAppFirstTimeLaunch];
 	[userDefaults synchronize];
