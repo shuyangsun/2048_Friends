@@ -119,6 +119,9 @@ NSString *const kCurrentThemeIDKey = @"UserDefault_CurrentThemeUUIDKey";
             abort();
 			return NO;
         }
+#ifdef DEBUG
+		NSLog(@"Saving context succeed.");
+#endif
     }
 	return YES;
 }

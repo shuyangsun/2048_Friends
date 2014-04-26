@@ -13,10 +13,13 @@
 #import "Board+ModelLayer03.h"
 #import "Tile+ModelLayer03.h"
 #import "TileSKShapeNode.h"
+#import "GameViewController.h"
 
 const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 
 @interface BoardScene()
+
+@property (nonatomic, assign) CGFloat scaleFactor;
 
 @end
 
@@ -40,6 +43,10 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 -(id)initWithSize:(CGSize)size andTheme:(Theme *)theme {
 	BoardScene *res = [self initWithSize:size];
 	res.theme = theme;
+	self.tileContainers = [NSMutableArray array];
+	for (size_t i = 0; i < 4; ++i) {
+		self.tileContainers[i] = [NSMutableArray array];
+	}
 	[self initializePropertyLists];
 	[self initializeTileContainers:size];
 	[self popupTileContainersAnimated:YES];
@@ -58,9 +65,11 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	// Setup SKActions:
 	self.scaleToFullSizeAction = [SKAction group:@[[SKAction scaleTo:1.0f duration:kAnimationDuration_TileContainerPopup],
 												   [SKAction moveBy:CGVectorMake(-self.theme.tileWidth/2.0f, -self.theme.tileWidth/2.0f) duration:kAnimationDuration_TileContainerPopup]]];
-	CGFloat scaleFactor = 1+((self.size.width - 4 * self.theme.tileWidth)/5.0f)/self.theme.tileWidth;
-	self.popUpNewTileAction = [SKAction sequence:@[[SKAction group:@[[SKAction scaleTo:scaleFactor duration:kAnimationDuration_TileContainerPopup], [SKAction moveBy:CGVectorMake(-self.theme.tileWidth*((scaleFactor - 1)/2), -self.theme.tileWidth*((scaleFactor - 1)/2)) duration:kAnimationDuration_TileContainerPopup/2.0f], [SKAction fadeInWithDuration:kAnimationDuration_TileContainerPopup]]],
-												   [SKAction group:@[[SKAction scaleTo:1.0f duration:kAnimationDuration_TileContainerPopup], [SKAction moveBy:CGVectorMake(self.theme.tileWidth*((scaleFactor - 1)/2), self.theme.tileWidth*((scaleFactor - 1)/2)) duration:kAnimationDuration_TileContainerPopup]]]]];
+	self.scaleToFullSizeAction_NewTile = [SKAction group:@[[SKAction scaleTo:1.0f duration:kAnimationDuration_TileContainerPopup * 2.0f],
+												   [SKAction moveBy:CGVectorMake(-self.theme.tileWidth/2.0f, -self.theme.tileWidth/2.0f) duration:kAnimationDuration_TileContainerPopup * 2.0f]]];
+	self.scaleFactor = 1+((self.size.width - 4 * self.theme.tileWidth)/5.0f)/self.theme.tileWidth;
+	self.popUpNewTileAction = [SKAction sequence:@[[SKAction group:@[[SKAction scaleTo:self.scaleFactor duration:kAnimationDuration_TileContainerPopup], [SKAction moveBy:CGVectorMake(-self.theme.tileWidth*((self.scaleFactor - 1)/2.0f), -self.theme.tileWidth*((self.scaleFactor - 1)/2)) duration:kAnimationDuration_TileContainerPopup/2.0f], [SKAction fadeInWithDuration:kAnimationDuration_TileContainerPopup]]],
+												   [SKAction group:@[[SKAction scaleTo:1.0f duration:kAnimationDuration_TileContainerPopup], [SKAction moveBy:CGVectorMake(self.theme.tileWidth*((self.scaleFactor - 1)/2.0f), self.theme.tileWidth*((self.scaleFactor - 1)/2)) duration:kAnimationDuration_TileContainerPopup]]]]];
 }
 
 #pragma mark - Game Initialization Methods
@@ -76,10 +85,6 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	self.indexForNewRandomTile = [NSMutableDictionary dictionary];
 	self.movingNodes = [NSMutableSet set];
 	self.removingNodes = [NSMutableSet set];
-	self.tileContainers = [NSMutableArray array];
-	for (size_t i = 0; i < 4; ++i) {
-		self.tileContainers[i] = [NSMutableArray array];
-	}
 }
 
 -(void)initializeTileContainers:(CGSize) size {
@@ -179,10 +184,17 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 
 -(void)startGameFromBoard:(Board *)board animated:(BOOL)animated {
 	if (board) {
-		self.score = board.score;
-		self.gamePlaying = board.gameplaying;
-		self.data = [board getBoardDataArray];
+		[self enableButtonAndGestureInteractions:NO];
+		self.board = board;
+		self.score = self.board.score;
+		self.gamePlaying = self.board.gameplaying;
+		self.data = [self.board getBoardDataArray];
+//		self.data = [NSMutableArray arrayWithArray:@[@[@(2), @(2), @(2), @(2)],
+//													 @[@(4), @(0), @(4), @(0)],
+//													 @[@(16), @(4), @(4), @(16)],
+//													 @[@(0), @(4), @(4), @(8)]]];
 		CGFloat tileWidth = self.theme.tileWidth;
+		void (^completion)() = nil;
 		for (size_t row = 0; row < 4; ++row) {
 			for (size_t col = 0; col < 4; col++) {
 				if ([self.data[row][col] intValue] != 0) { // If it's not zero
@@ -206,24 +218,186 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 					tile.position = pos;
 					tile.xScale = tile.yScale = 0.0f;
 					[self addChild:tile];
-					[tile runAction:self.scaleToFullSizeAction];
+					if (self.gamePlaying == NO && row * col == 9) {
+						completion = ^void() {
+							[self.gameViewController showGameEndView];
+						};
+					}
+					[tile runAction:self.scaleToFullSizeAction completion:completion];
 				}
 			}
+		}
+		[self enableButtonAndGestureInteractions:YES];
+	}
+}
+
+#pragma mark - Swiping Animation
+
+-(void)swipeToDirection:(BoardSwipeGestureDirection)direction withFraction:(CGFloat)fraction{
+	fraction = MAX(0.0f, fraction);
+	fraction = MIN(1.0f, fraction);
+	for (TileSKShapeNode *node in self.movingNodes) {
+		CGPoint originPos = [self.positionsForNodes[[NSValue valueWithNonretainedObject:node]] CGPointValue];
+		CGPoint targetPos = [self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] CGPointValue];
+		targetPos.x = originPos.x + (targetPos.x - originPos.x)*fraction;
+		targetPos.y = originPos.y + (targetPos.y - originPos.y)*fraction;
+		node.position = targetPos;
+	}
+}
+
+-(void)finishSwipeAnimationWithDuration:(NSTimeInterval) duration {
+	// Disable gesture recognizers while finishing up animation
+	[self enableGestureRecognizers:NO];
+	CGFloat tileWidth = self.theme.tileWidth;
+	NSUInteger count1 = 0;
+	NSUInteger size1 = [self.movingNodes count];
+	for (TileSKShapeNode *node in self.movingNodes) {
+		CGPoint targetPos = [self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] CGPointValue];
+		SKAction *action = [SKAction moveTo:targetPos duration:duration];
+		count1++;
+		// completion1: block executed after moving all the tiles.
+		void (^completion1)() = nil;
+		if (count1 >= size1) {
+			completion1 = ^void() {
+				NSUInteger count2 = 0;
+				NSUInteger size2 = [[self.positionForNewNodes allKeys] count];
+				for (NSValue *value in [self.positionForNewNodes allKeys]) {
+					TileSKShapeNode *node = [value nonretainedObjectValue];
+					self.score += node.value;
+					count2++;
+					// completion1: block executed at after popped up merged tiles.
+					void (^completion2)() = nil;
+					if (count2 >= size2) {
+						completion2 = ^void() {
+							for (TileSKShapeNode *node in self.removingNodes) {
+								[self.nextPositionsForNodes removeObjectForKey:[NSValue valueWithNonretainedObject:node]];
+								[node removeFromParent];
+							}
+							for (NSValue *value in [self.positionForNewNodes allKeys]) {
+								TileSKShapeNode *node = [value nonretainedObjectValue];
+								self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:node.position];
+							}
+						};
+					}
+					[node runAction:self.popUpNewTileAction completion:completion2];
+				}
+				CGPoint p = [Board generateRandomAvailableCellPoint_Col_Row_FromCells2DArray: self.nextData];
+				int row = (int)p.y;
+				int col = (int)p.x;
+				NSNumber *value = @([Tile generateRandomInitTileValue]);
+				self.nextData[row][col] = value;
+				
+				TileSKShapeNode *tile = [TileSKShapeNode node];
+				[tile setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
+																	 0,
+																	 tileWidth,
+																	 tileWidth),
+														  self.theme.tileCornerRadius,
+														  self.theme.tileCornerRadius, nil)];
+				tile.strokeColor = tile.fillColor = self.theme.tileColors[value];
+				[tile setValue:[value intValue]
+						  text:[NSString stringWithFormat:@"%d", [value intValue]]
+					 textColor:([value intValue] <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+						  type:TileTypeNumber];
+				CGPoint pos = [self getPositionFromRow:row andCol:col];
+				self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:pos];
+				pos = CGPointMake(pos.x+tileWidth/2.0f, pos.y+tileWidth/2.0f);
+				tile.position = pos;
+				tile.xScale = tile.yScale = 0.0f;
+				[self addChild:tile];
+				// Done for new tile.
+				[tile runAction:self.scaleToFullSizeAction_NewTile completion:^{
+					self.data = self.nextData;
+					self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]] = tile;
+					self.positionsForNodes = self.nextPositionsForNodes;
+					self.nodeForIndexes = self.nextNodeForIndexes;
+					[self updateGamePlaying_MaxOccuredDictionary];
+					[self enableGestureRecognizers:YES];
+					if (self.gamePlaying == NO) {
+						[self.gameViewController showGameEndView];
+					}
+#ifdef DEBUG
+					[self.board printBoard];
+#endif
+				}];
+			};
+		}
+		[node runAction:action completion:completion1];
+	}
+}
+
+-(void)reverseSwipeAnimationWithDuration:(NSTimeInterval)duration {
+	for (TileSKShapeNode *node in self.movingNodes) {
+		CGPoint originPos = [self.positionsForNodes[[NSValue valueWithNonretainedObject:node]] CGPointValue];
+		SKAction *action = [SKAction moveTo:originPos duration:duration];
+		[node runAction:action];
+	}
+}
+
+#pragma mark - Scale Animation
+
+-(void)animateTileScaleToDirection:(BoardSwipeGestureDirection)direction withFraction: (CGFloat) fraction {
+	fraction = MAX(0.0f, fraction);
+	fraction = MIN(self.scaleFactor, fraction);
+	CGFloat width = self.theme.tileWidth;
+	CGFloat percentage = (self.scaleFactor - 1.0f) * fraction;
+	percentage /= 3.0f;
+	CGFloat scale = 1.0f + percentage;
+	CGFloat posDiff = percentage * width;
+	if (direction == BoardSwipeGestureDirectionLeft) {
+		for (NSValue *value in [self.positionsForNodes allKeys]) {
+			TileSKShapeNode *node = [value nonretainedObjectValue];
+			CGPoint pos = [self.positionsForNodes[value] CGPointValue];
+			node.position = CGPointMake(pos.x - posDiff, pos.y);
+			node.xScale = scale;
+		}
+	} else if (direction == BoardSwipeGestureDirectionRight) {
+		for (NSValue *value in [self.positionsForNodes allKeys]) {
+			TileSKShapeNode *node = [value nonretainedObjectValue];
+			node.xScale = scale;
+		}
+	} else if (direction == BoardSwipeGestureDirectionUp) {
+		for (NSValue *value in [self.positionsForNodes allKeys]) {
+			TileSKShapeNode *node = [value nonretainedObjectValue];
+			node.yScale = scale;
+		}
+	} else if (direction == BoardSwipeGestureDirectionDown) {
+		for (NSValue *value in [self.positionsForNodes allKeys]) {
+			TileSKShapeNode *node = [value nonretainedObjectValue];
+			CGPoint pos = [self.positionsForNodes[value] CGPointValue];
+			node.position = CGPointMake(pos.x, pos.y - posDiff);
+			node.yScale = scale;;
 		}
 	}
 }
 
-#pragma mark - Analysis Algorithms
+-(void)reverseTileScaleAnimationWithDuration:(NSTimeInterval)duration {
+	[self enableGestureRecognizers:NO];
+	NSUInteger size = [[self.positionsForNodes allKeys] count];
+	NSUInteger count = 0;
+	void(^completion)() = nil;
+	for (NSValue *value in [self.positionsForNodes allKeys]) {
+		count++;
+		TileSKShapeNode *node = [value nonretainedObjectValue];
+		CGPoint pos = [self.positionsForNodes[value] CGPointValue];
+		SKAction *restoreAction = [SKAction group:@[[SKAction moveTo:pos duration:duration],
+											  [SKAction scaleTo:1.0f duration:duration]]];
+		if (count >= size) {
+			completion = ^(void){
+				[self enableGestureRecognizers:YES];
+			};
+		}
+		[node runAction:restoreAction completion:completion];
+	}
+}
 
--(void)analyzeTilesForSwipeDirection:(BoardSwipeGestureDirection) direction generateNewTile:(BOOL) generateNewTile completion:(void (^)(void))completion {
-	
+#pragma mark - Analysis Algorithm
+
+-(BOOL)analyzeTilesForSwipeDirection:(BoardSwipeGestureDirection) direction completion:(void (^)(void))completion {
+	BOOL res = YES;
 	if (self.gamePlaying && [self dataCanBeSwippedToDirection:direction]) {
+		[self resetAnalyzedData];
 		self.nextDirection = direction; // Set the direction for current last board
-		self.gamePlaying = NO;
-		self.nextData = [self.data mutableCopy];
-		self.nextNodeForIndexes = [self.nodeForIndexes mutableCopy];
-		self.nextPositionsForNodes = [self.positionsForNodes mutableCopy];
-		
 		if (direction == BoardSwipeGestureDirectionLeft) {
 			for (int row = 0; row < 4; ++row) {
 				NSMutableArray *rowArr = self.nextData[row];
@@ -245,7 +419,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 					int newVal = 0;
 					if ([rowArr[col2] intValue] == [rowArr[col3] intValue] && col2 != col3) {
 						newVal = 2 * [rowArr[col2] intValue];
-						self.score += newVal;
+
 						rowArr[col2] = @(0);
 						rowArr[col3] = @(0);
 						// Deals merging tile:
@@ -293,7 +467,6 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 					int newVal = 0;
 					if ([rowArr[col2] intValue] == [rowArr[col3] intValue] && col2 != col3) {
 						newVal = 2 * [rowArr[col2] intValue];
-						self.score += newVal;
 						rowArr[col2] = @(0);
 						rowArr[col3] = @(0);
 						// Deals merging tile:
@@ -339,7 +512,6 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 					int newVal = 0;
 					if ([self.nextData[row2][col] intValue] == [self.nextData[row3][col] intValue] && row2 != row3) {
 						newVal = 2 * [self.nextData[row2][col] intValue];
-						self.score += newVal;
 						self.nextData[row2][col] = @(0);
 						self.nextData[row3][col] = @(0);
 						// Deals merging tile:
@@ -385,7 +557,6 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 					int newVal = 0;
 					if ([self.nextData[row2][col] intValue] == [self.nextData[row3][col] intValue] && row2 != row3) {
 						newVal = 2 * [self.nextData[row2][col] intValue];
-						self.score += newVal;
 						self.nextData[row2][col] = @(0);
 						self.nextData[row3][col] = @(0);
 						// Deals merging tile:
@@ -414,57 +585,14 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 			}
 		}
 		
-		if (generateNewTile) {
-			// Generate a new random tile
-			CGPoint p = [Board generateRandomAvailableCellPointFromCells2DArray: self.nextData];
-			NSNumber *val = @([Tile generateRandomInitTileValue]);
-			self.nextData[(int)p.y][(int)p.x] = val;
-		}
-		
-		// Check to see if the game is still playing and update onboard tiles.
-		self.gamePlaying = [Board gameEndFrom2DArray:self.nextData];
-		self.board.swipeDirection = direction;
-		// Update info for new board:
-		self.board = [Board createBoardWithBoardData:self.nextData
-							gamePlaying:self.gamePlaying
-								  score:self.score
-						 swipeDirection:BoardSwipeGestureDirectionNone];
-		
-		// Add this board to history
-		[self.history addBoardsObject:self.board];
-		
-		// Update Best score
-		GameManager *gManager = [GameManager sharedGameManager];
-		if (self.score > gManager.bestScore) {
-			gManager.bestScore = self.score;
-		}
-		
-		NSMutableDictionary *maxOccuredDictionary = [[self.gManager getMaxOccuredDictionary] mutableCopy];
-		NSMutableDictionary *occurTimeDictionary = [NSMutableDictionary dictionary];
-		for (int i = 0; i < maxTilePower; ++i) {
-			occurTimeDictionary[@((NSInteger)pow(2.0f, i + 1))] = @(0);
-		}
-		
-		for (size_t i = 0; i < 4; ++i) {
-			for (size_t j = 0; j < 4; ++j) {
-				if ([self.nextData[i][j] intValue] != 0) {
-					occurTimeDictionary[self.nextData[i][j]] = @([occurTimeDictionary[self.nextData[i][j]] intValue] + 1);
-				}
-			}
-		}
-		
-		for (int i = 0; i < maxTilePower; ++i) {
-			if ([occurTimeDictionary[@((NSInteger)pow(2.0f, i + 1))] intValue] > [maxOccuredDictionary[@((NSInteger)pow(2.0f, i + 1))] intValue]) {
-				maxOccuredDictionary[@((NSInteger)pow(2.0f, i + 1))] = occurTimeDictionary[@((NSInteger)pow(2.0f, i + 1))];
-			}
-		}
-		
-		[self.gManager setMaxOccuredDictionary:[maxOccuredDictionary copy]];
+	} else {
+		res = NO;
 	}
 	// Run the completion block passed in
 	if (completion) {
 		completion();
 	}
+	return res;
 }
 
 -(BOOL)dataCanBeSwippedToDirection:(BoardSwipeGestureDirection) direction {
@@ -581,11 +709,6 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	return res;
 }
 
--(void)analyzeTilesForSwipeDirection:(BoardSwipeGestureDirection) direction
-						  completion:(void (^)(void))completion {
-	[self analyzeTilesForSwipeDirection:direction generateNewTile:YES completion:completion];
-}
-
 #pragma mark - Helper Methods
 
 -(CGPoint)getPositionFromRow:(size_t)row andCol: (size_t)col {
@@ -594,8 +717,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 }
 
 -(void)processMoveOneTileWithRow1:(int)row1 Row2:(int)row2 Col1:(int)col1 Col2:(int)col2 {
-	if (col2 != col1) {
-		TileSKShapeNode *node = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row2, col2)]];
+	if (col2 != col1 || row2 != row1) {
+		NSValue *node = self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row2, col2)]];
 		[self.nextNodeForIndexes removeObjectForKey:[NSValue valueWithCGPoint:CGPointMake(row2, col2)]];
 		self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row1, col1)]] = node;
 		self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row1 andCol:col1]];
@@ -629,17 +752,88 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 	self.positionForNewNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:pos];
 	self.nextNodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row1, col1)]] = node;
 	node.alpha = 0.0f; // Not visible for now
+	node.position = pos;
 	[self addChild:node];
 	/* Done creating new tile */
 	
 	self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node1]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row1 andCol:col1]];
 	self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:node2]] = [NSValue valueWithCGPoint:[self getPositionFromRow:row1 andCol:col1]];
 	
-	if (col2 != col1) {[self.movingNodes addObject: node1];}
+	if (col2 != col1 || row1 != row2) {[self.movingNodes addObject: node1];}
 	[self.movingNodes addObject:node2];
 	
 	[self.removingNodes addObject:node1];
 	[self.removingNodes addObject:node2];
+}
+-(void)resetAnalyzedData {
+	self.nextDirection = BoardSwipeGestureDirectionNone; // Set the direction for current last board
+	self.gamePlaying = YES;
+	self.nextData = [NSMutableArray array];
+	for (size_t row = 0; row < 4; ++row) {
+		self.nextData[row] = [NSMutableArray array];
+		for (size_t col = 0; col < 4; ++col) {
+			self.nextData[row][col] = self.data[row][col];
+		}
+	}
+	self.nextNodeForIndexes = [self.nodeForIndexes mutableCopy];
+	self.nextPositionsForNodes = [self.positionsForNodes mutableCopy];
+	self.movingNodes = [NSMutableSet set];
+	self.removingNodes = [NSMutableSet set];
+	self.positionForNewNodes = [NSMutableDictionary dictionary];
+	self.indexesForNewNodes = [NSMutableDictionary dictionary];
+	self.positionForNewRandomTile = [NSMutableDictionary dictionary];
+	self.indexForNewRandomTile = [NSMutableDictionary dictionary];
+}
+
+-(void)updateGamePlaying_MaxOccuredDictionary {
+	// Check to see if the game is still playing and update onboard tiles.
+	self.gamePlaying = [Board gameEndFrom2DArray:self.data];
+	self.board = [Board createBoardWithBoardData:self.nextData
+									 gamePlaying:self.gamePlaying
+										   score:self.score
+								  swipeDirection:BoardSwipeGestureDirectionNone];
+	self.board.swipeDirection = self.nextDirection;
+	
+	// Add this board to history
+	[self.history addBoardsObject:self.board];
+	
+	// Update Best score
+	GameManager *gManager = [GameManager sharedGameManager];
+	if (self.score > gManager.bestScore) {
+		gManager.bestScore = self.score;
+	}
+	
+	NSMutableDictionary *maxOccuredDictionary = [[self.gManager getMaxOccuredDictionary] mutableCopy];
+	NSMutableDictionary *occurTimeDictionary = [NSMutableDictionary dictionary];
+	for (int i = 0; i < maxTilePower; ++i) {
+		occurTimeDictionary[@((NSInteger)pow(2.0f, i + 1))] = @(0);
+	}
+	
+	for (size_t i = 0; i < 4; ++i) { 
+		for (size_t j = 0; j < 4; ++j) {
+			if ([self.nextData[i][j] intValue] != 0) {
+				occurTimeDictionary[self.nextData[i][j]] = @([occurTimeDictionary[self.nextData[i][j]] intValue] + 1);
+			}
+		}
+	}
+	
+	for (int i = 0; i < maxTilePower; ++i) {
+		if ([occurTimeDictionary[@((NSInteger)pow(2.0f, i + 1))] intValue] > [maxOccuredDictionary[@((NSInteger)pow(2.0f, i + 1))] intValue]) {
+			maxOccuredDictionary[@((NSInteger)pow(2.0f, i + 1))] = occurTimeDictionary[@((NSInteger)pow(2.0f, i + 1))];
+		}
+	}
+	
+	[self.gManager setMaxOccuredDictionary:[maxOccuredDictionary copy]];
+	self.board = [Board createBoardWithBoardData:self.data gamePlaying:self.gamePlaying score:self.score swipeDirection:self.nextDirection];
+	[self.history addBoardsObject:self.board];
+}
+
+-(void)enableGestureRecognizers:(BOOL)enabled {
+	[self.gameViewController enableGestureRecognizers:enabled];
+}
+
+-(void)enableButtonAndGestureInteractions:(BOOL)enabled {
+	[self.gameViewController enableButtonAndGestureInteractions:enabled];
 }
 
 @end

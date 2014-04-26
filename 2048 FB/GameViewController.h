@@ -8,19 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
-extern const CGFloat kAnimationDuration_Default;
-extern const CGFloat kAnimationDuration_ScreenBlur;
-extern const CGFloat kAnimationDuration_MoveTile;
-extern const CGFloat kAnimationDelay_GameOver;
-extern const CGFloat kAnimationDuration_ScaleTile;
-extern const CGFloat kAnimationDuration_TextFade;
+extern const NSTimeInterval kAnimationDuration_Default;
+extern const NSTimeInterval kAnimationDuration_ScreenBlur;
+extern const NSTimeInterval kAnimationDuration_MoveTile;
+extern const NSTimeInterval kAnimationDelay_GameOver;
+extern const NSTimeInterval kAnimationDuration_ScaleTile;
+extern const NSTimeInterval kAnimationDuration_TextFade;
+extern const NSTimeInterval kTextShowDuration;
+extern const CGFloat kTileMoveAnimationDurationFraction;
 extern const CGFloat kAnimationSpring_Damping;
 extern const CGFloat kAnimationSpring_Velocity;
-extern const CGFloat kTextShowDuration;
 extern const CGFloat kBoardPanMinDistance;
 extern const CGFloat kLineWidthDefault_iPhone;
 extern const NSUInteger kDefaultContextSavingSwipeNumber;
 
+
 @interface GameViewController : UIViewController
+
+- (IBAction)menuButtonTapped:(UIButton *)sender;
+-(void)showGameEndView;
+-(void)enableGestureRecognizers:(BOOL)enabled;
+-(void)enableButtonAndGestureInteractions:(BOOL)enabled;
 
 @end

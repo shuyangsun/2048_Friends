@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		040F6E1E18F1EED9006D237B /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E1D18F1EED9006D237B /* Board.m */; };
 		040F6E2118F20CE6006D237B /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E2018F20CE6006D237B /* GameManager.m */; };
 		040F6E3018F21F79006D237B /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E2F18F21F79006D237B /* History.m */; };
 		040F6E3318F21FA4006D237B /* History+ModelLayer01.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F6E3218F21FA4006D237B /* History+ModelLayer01.m */; };
@@ -34,6 +33,7 @@
 		044847AD18EA1BA100D35B0F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0448478C18EA1BA100D35B0F /* UIKit.framework */; };
 		044847B518EA1BA100D35B0F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 044847B318EA1BA100D35B0F /* InfoPlist.strings */; };
 		044847B718EA1BA100D35B0F /* _048_FBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 044847B618EA1BA100D35B0F /* _048_FBTests.m */; };
+		044ECEB0190AFF5B00CBA41D /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 044ECEAF190AFF5B00CBA41D /* Board.m */; };
 		0459A30119048E170040FC33 /* TileSKShapeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0459A30019048E170040FC33 /* TileSKShapeNode.m */; };
 		045D2022190358A00001701F /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D2021190358A00001701F /* GameViewController.m */; };
 		045D202419035A5E0001701F /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 045D202319035A5E0001701F /* SpriteKit.framework */; };
@@ -78,8 +78,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		040F6E1C18F1EED9006D237B /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
-		040F6E1D18F1EED9006D237B /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
 		040F6E1F18F20CE6006D237B /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
 		040F6E2018F20CE6006D237B /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
 		040F6E2E18F21F79006D237B /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
@@ -118,6 +116,8 @@
 		044847B218EA1BA100D35B0F /* 2048 FBTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "2048 FBTests-Info.plist"; sourceTree = "<group>"; };
 		044847B418EA1BA100D35B0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		044847B618EA1BA100D35B0F /* _048_FBTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _048_FBTests.m; sourceTree = "<group>"; };
+		044ECEAE190AFF5B00CBA41D /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
+		044ECEAF190AFF5B00CBA41D /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
 		0459A2FF19048E170040FC33 /* TileSKShapeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileSKShapeNode.h; sourceTree = "<group>"; };
 		0459A30019048E170040FC33 /* TileSKShapeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileSKShapeNode.m; sourceTree = "<group>"; };
 		045D2020190358A00001701F /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
@@ -250,8 +250,8 @@
 		040F6E2518F21ED2006D237B /* Board_00 */ = {
 			isa = PBXGroup;
 			children = (
-				040F6E1C18F1EED9006D237B /* Board.h */,
-				040F6E1D18F1EED9006D237B /* Board.m */,
+				044ECEAE190AFF5B00CBA41D /* Board.h */,
+				044ECEAF190AFF5B00CBA41D /* Board.m */,
 			);
 			name = Board_00;
 			sourceTree = "<group>";
@@ -726,7 +726,6 @@
 				0448479918EA1BA100D35B0F /* AppDelegate.m in Sources */,
 				04E3FD5718F4C064004A0DB8 /* FoldView.m in Sources */,
 				046C5EF418F48B1E00DC96A3 /* BoardViewController.m in Sources */,
-				040F6E1E18F1EED9006D237B /* Board.m in Sources */,
 				04983CE818EFAACA0022FB63 /* GameManager+ModelLayer03.m in Sources */,
 				04E3FD5618F4C064004A0DB8 /* FacingView.m in Sources */,
 				04983CE518EFAAB10022FB63 /* Board+ModelLayer03.m in Sources */,
@@ -735,6 +734,7 @@
 				040F6E3018F21F79006D237B /* History.m in Sources */,
 				04E3FD5A18F4C064004A0DB8 /* ShadowView.m in Sources */,
 				04911A9818ED964000013B8E /* GameManager+ModelLayer01.m in Sources */,
+				044ECEB0190AFF5B00CBA41D /* Board.m in Sources */,
 				04C7042518ED0903001DBD60 /* Theme.m in Sources */,
 				0459A30119048E170040FC33 /* TileSKShapeNode.m in Sources */,
 				04E3FD2A18F4BFFC004A0DB8 /* UIImage+ImageEffects.m in Sources */,

@@ -41,7 +41,10 @@ typedef NS_OPTIONS(NSUInteger, BoardSwipeGestureDirection) {
 
 // Determine if the game is end.
 +(BOOL) gameEndFrom2DArray: (NSArray *)arr;
-+(CGPoint) generateRandomAvailableCellPointFromCells2DArray: (NSArray *) arr;
++(CGPoint) generateRandomAvailableCellPoint_Col_Row_FromCells2DArray: (NSArray *) arr;
+
+// Some helper method:
++(NSString *)directionStringFromDirection:(BoardSwipeGestureDirection)direction;
 
 #ifdef DEBUG_BOARD
 -(void)printBoard;

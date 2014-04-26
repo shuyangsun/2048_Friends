@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="aAP-QA-6gO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="aAP-QA-6gO">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -192,6 +192,51 @@
                                             <constraint firstAttribute="height" constant="280" id="Kbe-4l-3CA"/>
                                             <constraint firstAttribute="width" constant="280" id="Yi5-nc-Ctu"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="H6W-bU-xu1" appends="YES" id="25E-aF-QWe"/>
+                                        </connections>
+                                    </view>
+                                    <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5SM-Qc-ApN" userLabel="pauseView">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="280"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QbB-zx-Ndp" userLabel="pauseImageView">
+                                                <rect key="frame" x="0.0" y="0.0" width="280" height="280"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You Win!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B6h-Kw-XoM">
+                                                <rect key="frame" x="20" y="51" width="240" height="44"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aov-Uh-1aE">
+                                                <rect key="frame" x="75" y="125" width="131" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.94117653369999998" green="0.69411766529999996" blue="0.49019610879999997" alpha="1" colorSpace="deviceRGB"/>
+                                                <state key="normal" title="Keep Going">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="resumeButtonTapped:" destination="aAP-QA-6gO" eventType="touchUpInside" id="PXJ-Nl-ko8"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UXU-bk-poh">
+                                                <rect key="frame" x="75" y="163" width="131" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.94117653369999998" green="0.69411766529999996" blue="0.49019610879999997" alpha="1" colorSpace="deviceRGB"/>
+                                                <state key="normal" title="Share">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="shareButtonTapped:" destination="aAP-QA-6gO" eventType="touchUpInside" id="Bao-l8-voe"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.73333334920000004" green="0.6784313917" blue="0.62745100259999997" alpha="1" colorSpace="deviceRGB"/>
@@ -255,6 +300,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="menuButtonTapped:" destination="aAP-QA-6gO" eventType="touchUpInside" id="ZsB-K6-lwX"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bwZ-ph-Ie7" userLabel="bestScoreLabel">
                                 <rect key="frame" x="200" y="20" width="100" height="46"/>
@@ -295,14 +343,25 @@
                         <outlet property="boardSKView" destination="5qC-Id-XCw" id="VlP-Rs-Vnd"/>
                         <outlet property="menuButton" destination="gph-wq-Grt" id="iMf-T2-aAE"/>
                         <outlet property="messageLabel" destination="lkj-1g-70d" id="Alk-5R-gqj"/>
+                        <outlet property="panGestureRecognizer" destination="H6W-bU-xu1" id="QWb-Ed-FYK"/>
+                        <outlet property="pauseImageView" destination="QbB-zx-Ndp" id="L8J-Yl-pgr"/>
+                        <outlet property="pauseLabel" destination="B6h-Kw-XoM" id="J2V-Ci-7r5"/>
+                        <outlet property="pauseView" destination="5SM-Qc-ApN" id="34f-dX-jyZ"/>
                         <outlet property="profilePictureButton" destination="yWg-TG-0DW" id="hsc-DW-kdF"/>
                         <outlet property="profilePictureView" destination="uLK-gS-p0B" id="oM4-E9-7pe"/>
+                        <outlet property="resumeGameButton" destination="aov-Uh-1aE" id="okq-r5-K6e"/>
                         <outlet property="scoreLabel" destination="I1P-Bq-tXO" id="KGU-Ck-n0T"/>
+                        <outlet property="shareButton" destination="UXU-bk-poh" id="jij-vu-cez"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eFf-Xc-FyX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="H6W-bU-xu1">
+                    <connections>
+                        <action selector="handlePan:" destination="aAP-QA-6gO" id="gku-1k-pcH"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-5232" y="436"/>
+            <point key="canvasLocation" x="-5230" y="371"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

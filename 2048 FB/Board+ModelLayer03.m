@@ -27,7 +27,7 @@
 	// Generate two random tiles with 2 or 4.
 	CGPoint p = CGPointMake(-1.0f, -1.0f);
 	for (int i = 0; i < 2; ++i) {
-		CGPoint temp = [Board generateRandomAvailableCellPointFromCells2DArray:boardData];
+		CGPoint temp = [Board generateRandomAvailableCellPoint_Col_Row_FromCells2DArray:boardData];
 		if (!CGPointEqualToPoint(p, temp)) {
 			p = temp;
 		} else {
@@ -224,7 +224,7 @@
 		}
 		
 		// Generate a new random tile
-		CGPoint p = [Board generateRandomAvailableCellPointFromCells2DArray: arr];
+		CGPoint p = [Board generateRandomAvailableCellPoint_Col_Row_FromCells2DArray: arr];
 		if (newPos) {*newPos = p;}
 		NSNumber *val = @([Tile generateRandomInitTileValue]);
 		arr[(int)p.y][(int)p.x] = val;
@@ -440,7 +440,7 @@
 /* Helper Methods:  */
 
 // Generate a random available cell from cell data array, take the 2D array as data source
-+(CGPoint) generateRandomAvailableCellPointFromCells2DArray: (NSArray *) arr {
++(CGPoint) generateRandomAvailableCellPoint_Col_Row_FromCells2DArray: (NSArray *) arr {
 	CGPoint res = CGPointMake(-1.0f, -1.0f);
 	NSArray *arr2 = [self availableCellPointsFromCells2DArray:arr];
 	if ([arr count]) {
@@ -452,17 +452,19 @@
 
 -(CGPoint) generateRandomAvailableCellPoint {
 	NSArray *arr = [self getBoardDataArray];
-	return [Board generateRandomAvailableCellPointFromCells2DArray:arr];
+	return [Board generateRandomAvailableCellPoint_Col_Row_FromCells2DArray:arr];
 }
 
 -(NSString *)description {
 	NSMutableString *str = [NSMutableString stringWithString:@"\n"];
 	NSMutableArray *mutableArr = [self getBoardDataArray];
+	[str appendString:@"--------------------\n"];
 	for (int row = 0; row < 4; ++row) {
+		[str appendString:@"|"];
 		for (int col = 0; col < 4; ++col) {
-			[str appendFormat:@"%@ ", mutableArr[row][col]];
+			[str appendFormat:@"%-4d|", [mutableArr[row][col] intValue]];
 		}
-		[str appendString:@"\n"];
+		[str appendString:@"\n--------------------\n"];
 	}
 	
 	NSString *directionString = nil;
@@ -490,6 +492,30 @@
 	[str appendFormat:@"Score: %d\n", self.score];
 	[str appendFormat:@"Game Playing: %@", (self.gameplaying ? @"YES":@"NO")];
 	return str;
+}
+
++(NSString *)directionStringFromDirection:(BoardSwipeGestureDirection)direction {
+	NSString *swipeDirectionString = @"";
+	switch (direction) {
+		case BoardSwipeGestureDirectionNone:
+			swipeDirectionString = @"NONE";
+			break;
+		case BoardSwipeGestureDirectionLeft:
+			swipeDirectionString = @"LEFT";
+			break;
+		case BoardSwipeGestureDirectionRight:
+			swipeDirectionString = @"RIGHT";
+			break;
+		case BoardSwipeGestureDirectionUp:
+			swipeDirectionString = @"UP";
+			break;
+		case BoardSwipeGestureDirectionDown:
+			swipeDirectionString = @"DOWN";
+			break;
+		default:
+			break;
+	}
+	return swipeDirectionString;
 }
 
 #ifdef DEBUG_BOARD
