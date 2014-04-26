@@ -734,7 +734,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 														 tileWidth),
 											  self.theme.tileCornerRadius,
 											  self.theme.tileCornerRadius, nil)];
-	node.strokeColor = node.fillColor = self.theme.tileColors[@(newVal)];
+	node.strokeColor = self.theme.tileColors[@(newVal)];
+	node.fillColor = self.theme.tileColors[@(newVal)];
 	[node setValue:newVal
 			  text:[NSString stringWithFormat:@"%d", newVal]
 		 textColor:(newVal <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
