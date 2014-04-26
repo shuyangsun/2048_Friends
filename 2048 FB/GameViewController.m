@@ -20,17 +20,17 @@
 #import "UIImage+ImageEffects.h"
 
 // Constants
-const CGFloat kAnimationDuration_Default = 0.1f;
-const CGFloat kAnimationDuration_ScreenBlur = 1.0f;
-const CGFloat kAnimationDuration_ScaleTile = 1.0f;
-const CGFloat kAnimationDuration_MoveTile = 0.25f;
-const CGFloat kAnimationDelay_GameOver = 0.0f;
-const CGFloat kAnimationDuration_TextFade = 0.5f;
+const NSTimeInterval kAnimationDuration_Default = 0.1f;
+const NSTimeInterval kAnimationDuration_ScreenBlur = 1.0f;
+const NSTimeInterval kAnimationDuration_ScaleTile = 1.0f;
+const NSTimeInterval kAnimationDuration_MoveTile = 0.25f;
+const NSTimeInterval kAnimationDelay_GameOver = 0.0f;
+const NSTimeInterval kAnimationDuration_TextFade = 0.5f;
+const NSTimeInterval kTextShowDuration = 5.0f;
 const CGFloat kAnimationSpring_Damping = 0.5f;
 const CGFloat kAnimationSpring_Velocity = 0.4f;
-const CGFloat kTextShowDuration = 5.0f;
 
-const CGFloat kTileMoveAnimationDurationFraction = 1.5f;
+const NSTimeInterval kTileMoveAnimationDurationFraction = 1.5f;
 
 const CGFloat kBoardPanMinDistance = 5.0f;
 const CGFloat kLineWidthDefault_iPhone = 8.0f;
