@@ -596,117 +596,92 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = 0.05f;
 }
 
 -(BOOL)dataCanBeSwippedToDirection:(BoardSwipeGestureDirection) direction {
-	BOOL res = NO;
 	if (direction == BoardSwipeGestureDirectionLeft) {
 		for (size_t i = 0; i < 4; ++i) {
-			if (res == NO) {
-				NSArray *rowArr = self.data[i];
-				int j = 3;
-				// Loop to the first none zero element
-				while (j >= 0 && [rowArr[j] intValue] == 0) {
-					--j;
-				}
-				if (j < 0) {
-					continue;
-				} else {
-					while (j >= 0) {
-						// If there is a 0 between two numbers (e.g. @[2, 0, 4, 0]) or there are repeated adjacent numbers: (e.g. @[2, 4, 4, 0])
-						if ([rowArr[j] intValue] == 0 || (j - 1 >= 0 && [rowArr[j] intValue] == [rowArr[j - 1] intValue])) {
-							res = YES;
-							break;
-						} else {
-							--j;
-						}
+			NSArray *rowArr = self.data[i];
+			int j = 3;
+			// Loop to the first none zero element
+			while (j >= 0 && [rowArr[j] intValue] == 0) {
+				--j;
+			}
+			if (j < 0) {
+				continue;
+			} else {
+				while (j >= 0) {
+					// If there is a 0 between two numbers (e.g. @[2, 0, 4, 0]) or there are repeated adjacent numbers: (e.g. @[2, 4, 4, 0])
+					if ([rowArr[j] intValue] == 0 || (j - 1 >= 0 && [rowArr[j] intValue] == [rowArr[j - 1] intValue])) {
+						return YES;
+					} else {
+						--j;
 					}
 				}
-				
-			} else {
-				break;
 			}
 		}
 	} else if (direction == BoardSwipeGestureDirectionRight) {
 		for (size_t i = 0; i < 4; ++i) {
-			if (res == NO) {
-				NSArray *rowArr = self.data[i];
-				int j = 0;
-				// Loop to the first none zero element
-				while (j < 4 && [rowArr[j] intValue] == 0) {
-					++j;
-				}
-				if (j > 3) {
-					continue;
-				} else {
-					while (j < 4) {
-						// If there is a 0 between two numbers (e.g. @[0, 4, 0, 2]) or there are repeated adjacent numbers: (e.g. @[0, 2, 4, 4])
-						if ([rowArr[j] intValue] == 0 || (j + 1 < 4 && [rowArr[j] intValue] == [rowArr[j + 1] intValue])) {
-							res = YES;
-							break;
-						} else {
-							++j;
-						}
+			NSArray *rowArr = self.data[i];
+			int j = 0;
+			// Loop to the first none zero element
+			while (j < 4 && [rowArr[j] intValue] == 0) {
+				++j;
+			}
+			if (j > 3) {
+				continue;
+			} else {
+				while (j < 4) {
+					// If there is a 0 between two numbers (e.g. @[0, 4, 0, 2]) or there are repeated adjacent numbers: (e.g. @[0, 2, 4, 4])
+					if ([rowArr[j] intValue] == 0 || (j + 1 < 4 && [rowArr[j] intValue] == [rowArr[j + 1] intValue])) {
+						return YES;
+					} else {
+						++j;
 					}
 				}
-				
-			} else {
-				break;
 			}
 		}
 	} else if (direction == BoardSwipeGestureDirectionUp) {
 		for (size_t j = 0; j < 4; ++j) {
-			if (res == NO) {
-				NSArray *colArr = @[self.data[0][j], self.data[1][j], self.data[2][j], self.data[3][j]];
-				int j = 3;
-				// Loop to the first none zero element
-				while (j >= 0 && [colArr[j] intValue] == 0) {
-					--j;
-				}
-				if (j < 0) {
-					continue;
-				} else {
-					while (j >= 0) {
-						// If there is a 0 between two numbers (e.g. @[2, 0, 4, 0]) or there are repeated adjacent numbers: (e.g. @[2, 4, 4, 0])
-						if ([colArr[j] intValue] == 0 || (j - 1 >= 0 && [colArr[j] intValue] == [colArr[j - 1] intValue])) {
-							res = YES;
-							break;
-						} else {
-							--j;
-						}
+			NSArray *colArr = @[self.data[0][j], self.data[1][j], self.data[2][j], self.data[3][j]];
+			int j = 3;
+			// Loop to the first none zero element
+			while (j >= 0 && [colArr[j] intValue] == 0) {
+				--j;
+			}
+			if (j < 0) {
+				continue;
+			} else {
+				while (j >= 0) {
+					// If there is a 0 between two numbers (e.g. @[2, 0, 4, 0]) or there are repeated adjacent numbers: (e.g. @[2, 4, 4, 0])
+					if ([colArr[j] intValue] == 0 || (j - 1 >= 0 && [colArr[j] intValue] == [colArr[j - 1] intValue])) {
+						return YES;
+					} else {
+						--j;
 					}
 				}
-				
-			} else {
-				break;
 			}
 		}
 	} else if (direction == BoardSwipeGestureDirectionDown) {
 		for (size_t j = 0; j < 4; ++j) {
-			if (res == NO) {
-				NSArray *colArr = @[self.data[0][j], self.data[1][j], self.data[2][j], self.data[3][j]];
-				int j = 0;
-				// Loop to the first none zero element
-				while (j < 4 && [colArr[j] intValue] == 0) {
-					++j;
-				}
-				if (j > 3) {
-					continue;
-				} else {
-					while (j < 4) {
-						// If there is a 0 between two numbers (e.g. @[0, 4, 0, 2]) or there are repeated adjacent numbers: (e.g. @[0, 2, 4, 4])
-						if ([colArr[j] intValue] == 0 || (j + 1 < 4 && [colArr[j] intValue] == [colArr[j + 1] intValue])) {
-							res = YES;
-							break;
-						} else {
-							++j;
-						}
+			NSArray *colArr = @[self.data[0][j], self.data[1][j], self.data[2][j], self.data[3][j]];
+			int j = 0;
+			// Loop to the first none zero element
+			while (j < 4 && [colArr[j] intValue] == 0) {
+				++j;
+			}
+			if (j > 3) {
+				continue;
+			} else {
+				while (j < 4) {
+					// If there is a 0 between two numbers (e.g. @[0, 4, 0, 2]) or there are repeated adjacent numbers: (e.g. @[0, 2, 4, 4])
+					if ([colArr[j] intValue] == 0 || (j + 1 < 4 && [colArr[j] intValue] == [colArr[j + 1] intValue])) {
+						return YES;
+					} else {
+						++j;
 					}
 				}
-				
-			} else {
-				break;
 			}
 		}
 	}
-	return res;
+	return NO;
 }
 
 #pragma mark - Helper Methods
