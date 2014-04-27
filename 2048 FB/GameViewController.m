@@ -20,6 +20,10 @@
 #import "TileSKShapeNode.h"
 #import "UIImage+ImageEffects.h"
 
+// Defines for localization
+#define STRING_GAME_OVER_LABEL NSLocalizedStringFromTable(@"STRING_GAME_OVER_LABEL", @"GameViewControllerTable", @"Text on Game Over label.")
+#define STRING_TRY_AGAIN NSLocalizedStringFromTable(@"STRING_TRY_AGAIN", @"GameViewControllerTable", @"Text on play again button.")
+
 // Constants
 const NSTimeInterval kAnimationDuration_Default = SCALED_ANIMATION_DURATION(0.1f);
 const NSTimeInterval kAnimationDuration_ScreenBlur = SCALED_ANIMATION_DURATION(1.5f);
@@ -42,10 +46,11 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 
 #pragma mark - IBOutlets
 @property (weak, nonatomic) IBOutlet UIView *profilePictureView;
-@property (weak, nonatomic) IBOutlet UIButton *profilePictureButton;
+@property (weak, nonatomic) IBOutlet UIImageView *profilePictureImageView;
+@property (weak, nonatomic) IBOutlet UIView *profilePictureInteractionLayer;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *profilePictureTapGestureRecognizer;
+@property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *profilePictureLongPressGestureRecognizer;
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
-@property (weak, nonatomic) IBOutlet UILabel *bestScoreLabel;
-@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet SKView *boardSKView;
 @property (weak, nonatomic) IBOutlet UIView *boardInteractionLayerVIew;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
@@ -64,26 +69,31 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 @property (nonatomic) BOOL analyzed;
 @property (nonatomic, assign) BOOL canSwipeToDesiredDirection;
 
+#pragma mark - SKAction for Animation
+@property (nonatomic, strong) SKAction *tileMagnifyAction;
+
 #pragma mark - Other Private Properties
 @property (strong, nonatomic) Theme *theme;
-@property (strong, nonatomic) BoardScene *scene;
+@property (strong, nonatomic) GameManager *gManager;
 @property (nonatomic, strong) AppDelegate *appDelegate;
 @property (nonatomic, strong) UIImage *lastFullScreenSnapshot;
 @property (nonatomic, assign) CGFloat scaledFraction;
-#pragma mark - SKAction for Animation
-@property (nonatomic, strong) SKAction *tileMagnifyAction;
 
 @end
 
 @implementation GameViewController
 
-
+#pragma mark - Setup Methods
 -(void)setup
 {
 	// Initialization code here...
 	
-	GameManager *gManager = [GameManager sharedGameManager];
-	self.theme = [Theme sharedThemeWithID:gManager.currentThemeID];
+	self.gManager = [GameManager sharedGameManager];
+	self.theme = [Theme sharedThemeWithID:self.gManager.currentThemeID];
+	self.messageLabel.textAlignment = NSTextAlignmentCenter;
+	self.menuButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+	self.bestScoreLabel.textAlignment = NSTextAlignmentCenter;
+	self.scoreLabel.textAlignment = NSTextAlignmentCenter;
 	self.appDelegate = [UIApplication sharedApplication].delegate;
 	self.canSwipeToDesiredDirection = YES;
 	self.canDisplayBannerAds = YES;
@@ -120,9 +130,8 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
     // SpriteKit stuff
     SKView * skView = (SKView *)self.boardSKView;
 	
-	// !!!: Change here for performance monitoring!
-    skView.showsFPS = NO;
-    skView.showsNodeCount = NO;
+    skView.showsFPS = YES;
+    skView.showsNodeCount = YES;
     
     // Create and configure the scene.
     self.scene = [BoardScene sceneWithSize:skView.bounds.size andTheme:self.theme];
@@ -133,6 +142,12 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	self.scene.theme = self.theme;
     self.scene.scaleMode = SKSceneScaleModeAspectFill;
 	self.scene.gameViewController = self;
+	
+	self.profilePictureImageView.contentMode = UIViewContentModeScaleAspectFill;
+	UIImage *profileImage = [Tile tileWithValue:2048].image;
+	if (profileImage) {
+		self.profilePictureImageView.image = profileImage;
+	}
 
     // Present the scene.
     [skView presentScene:self.scene];
@@ -141,6 +156,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 -(void)viewDidLayoutSubviews {
 	self.width = self.boardSKView.frame.size.width;
 	self.height  = self.boardSKView.frame.size.height;
+
 }
 
 -(void)updateThemeAnimated:(BOOL) animated {
@@ -163,17 +179,24 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	self.boardSKView.layer.masksToBounds = YES;
 	self.profilePictureView.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.profilePictureView.layer.masksToBounds = YES;
-	self.profilePictureButton.layer.cornerRadius = self.theme.buttonCornerRadius;
-	self.profilePictureButton.layer.masksToBounds = YES;
+	self.profilePictureImageView.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.profilePictureImageView.layer.masksToBounds = YES;
+	self.profilePictureInteractionLayer.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.profilePictureInteractionLayer.layer.masksToBounds = YES;
 	self.menuButton.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.bestScoreLabel.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.scoreLabel.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.resumeGameButton.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.resumeGameButton.layer.masksToBounds = YES;
+	self.shareButton.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.shareButton.layer.masksToBounds = YES;
 	
 	// Change the color of views
 	self.boardSKView.backgroundColor = self.theme.boardColor;
-	self.profilePictureView.backgroundColor = self.theme.tileContainerColor;
+	self.profilePictureView.backgroundColor = self.theme.tileColors[@(2048)];
+	self.resumeGameButton.backgroundColor = self.theme.boardColor;
+	self.shareButton.backgroundColor = self.theme.boardColor;
 	self.menuButton.backgroundColor = self.theme.tileColors[@(8)];
-	self.boardSKView.backgroundColor = self.theme.tileColors[@(2048)];
 	self.scoreLabel.backgroundColor = self.theme.tileColors[@(4)];
 }
 
@@ -207,6 +230,59 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	
 }
 
+- (IBAction)profilePictureTapped:(UITapGestureRecognizer *)sender {
+	
+	UIGestureRecognizerState state = sender.state;
+	if (state == UIGestureRecognizerStateRecognized) {
+		
+		self.gManager.tileViewType = (int16_t)self.scene.tileType;
+		NSArray *allNodes = [self.scene.nodeForIndexes allValues];
+		for (TileSKShapeNode *node in allNodes) {
+			if (self.scene.tileType == TileTypeImage) {
+				[node hideImageAnimated:YES];
+			} else if (self.scene.tileType == TileTypeNumber) {
+				[node showImageAnimated:YES];
+			}
+		}
+		
+		if (self.scene.tileType == TileTypeNumber) {
+			self.scene.tileType = TileTypeImage;
+		} else if (self.scene.tileType == TileTypeImage) {
+			self.scene.tileType = TileTypeNumber;
+		}
+		self.gManager.tileViewType = (int16_t)self.scene.tileType;
+		[self saveContext];
+	}
+}
+
+- (IBAction)profilePictureBeingHold:(UILongPressGestureRecognizer *)sender {
+	if (self.scene.tileType == TileTypeImage) {
+		if (sender.state == UIGestureRecognizerStateBegan) { // Animate show number layer
+			NSArray *allNodes = [self.scene.nodeForIndexes allValues];
+			for (TileSKShapeNode *node in allNodes) {
+				[node transparentImageAnimated:YES];
+			}
+//			self.profilePictureInteractionLayer.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
+			[UIView animateWithDuration:kAnimationDuration_ImageTransparent
+							 animations:^{
+								 self.profilePictureImageView.alpha = kAnimationImageTransparencyFraction;
+							 }];
+		} else if (sender.state == UIGestureRecognizerStateEnded ||
+				   sender.state == UIGestureRecognizerStateCancelled ||
+				   sender.state == UIGestureRecognizerStateFailed) { // Animate hide number layer
+			NSArray *allNodes = [self.scene.nodeForIndexes allValues];
+			for (TileSKShapeNode *node in allNodes) {
+				[node opaqueImageAnimated:YES];
+			}
+//			self.profilePictureInteractionLayer.backgroundColor = [UIColor clearColor];
+			[UIView animateWithDuration:kAnimationDuration_ImageTransparent
+							 animations:^{
+								 self.profilePictureImageView.alpha = 1.0f;
+							 }];
+		}
+	}
+}
+
 - (IBAction)resumeButtonTapped:(UIButton *)sender {
 	if (sender.tag == 0) { // If it's try again button
 		for (NSValue *value in [self.scene.positionsForNodes allKeys]) {
@@ -231,7 +307,8 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 }
 
 - (IBAction)shareButtonTapped:(UIButton *)sender {
-	
+	self.scene.paused = NO;
+	self.boardSKView.paused = NO;
 }
 
 - (IBAction)handlePan:(UIPanGestureRecognizer *)sender {
@@ -354,7 +431,8 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 
 -(void)enableButtonAndGestureInteractions:(BOOL)enabled {
 	[self enableGestureRecognizers:enabled];
-	self.profilePictureButton.enabled = NO;
+	self.profilePictureTapGestureRecognizer.enabled = enabled;
+	self.profilePictureLongPressGestureRecognizer.enabled = enabled;
 }
 
 -(void)showGameEndView {
@@ -376,9 +454,9 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 		[self.pauseView bringSubviewToFront:self.shareButton];
 		[self.pauseView bringSubviewToFront:self.resumeGameButton];
 		self.pauseLabel.tag = 0;
-		self.pauseLabel.text = @"Game Over";
+		self.pauseLabel.text = STRING_GAME_OVER_LABEL;
 		self.resumeGameButton.tag = 0; // 0 Represents "play again"
-		self.resumeGameButton.titleLabel.text = @"Try Again";
+		self.resumeGameButton.titleLabel.text = STRING_TRY_AGAIN;
 		__block UIImage *snapshot;
 		NSArray *allTileViewsWithoutNewTile = [self.scene.positionsForNodes allKeys];
 		NSMutableArray *allTileViews = [NSMutableArray arrayWithArray:allTileViewsWithoutNewTile];
@@ -402,10 +480,10 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 						snapshot = UIGraphicsGetImageFromCurrentImageContext();
 						UIGraphicsEndImageContext();
 						
-						UIColor *blurtTintColor = [self.theme backgroundColor];
+						UIColor *blurtTintColor = self.theme.tileColors[@(2048)];
 						CGFloat red, green, blue, alpha;
 						[blurtTintColor getRed:&red green:&green blue:&blue alpha:&alpha];
-						blurtTintColor = [UIColor colorWithRed:red green:green blue:blue alpha:0.5f];
+						blurtTintColor = [UIColor colorWithRed:red green:green blue:blue alpha:0.1f];
 						snapshot = [snapshot applyBlurEffectWithRadius:3.0f tintColor:blurtTintColor];
 						self.pauseImageView.image = snapshot;
 						

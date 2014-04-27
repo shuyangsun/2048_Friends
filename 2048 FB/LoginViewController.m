@@ -6,19 +6,28 @@
 //  Copyright (c) 2014 Shuyang Sun. All rights reserved.
 //
 
-#import "ViewController.h"
+#import <ImageIO/ImageIO.h>
+#import "LoginViewController.h"
 #import "Theme.h"
 #import "GameManager+ModelLayer03.h"
 #import "Tile+ModelLayer03.h"
-
+#import "AppDelegate.h"
 #import "macro.h"
+
+#import "GameViewController.h"
+#import "BoardScene.h"
+#import "TileSKShapeNode.h"
+
+// For localization
+#define STRING_OK NSLocalizedStringFromTable(@"STRING_OK", @"ViewControllerTable", @"OK button on alert view when fetching image unsuccessful.")
+#define STRING_ERROR NSLocalizedStringFromTable(@"STRING_ERROR", @"ViewControllerTable", @"Error button on alert view when fetching image unsuccessful.")
 
 const NSTimeInterval kViewControllerDuration_Animation = SCALED_ANIMATION_DURATION(0.1f);
 const NSTimeInterval kViewControllerDuration_Delay = SCALED_ANIMATION_DURATION(0.0f);
 const NSTimeInterval kViewControllerDuration_SpringDamping = SCALED_ANIMATION_DURATION(0.4f);
 const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_DURATION(0.6f);
 
-@interface ViewController ()
+@interface  LoginViewController()
 
 @property (strong, nonatomic) UIButton *fbLoginViewButton;
 
@@ -43,7 +52,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 
 @end
 
-@implementation ViewController
+@implementation LoginViewController
 
 -(void)setup
 {
@@ -168,7 +177,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 		// Get a random friend from the list:
 		NSString *name = user.name;
 		NSString *fbUserID = user.id;
-		NSURL *profilePictureURL = [ViewController profilePictureURLFromFBUserID:fbUserID];
+		NSURL *profilePictureURL = [LoginViewController profilePictureURLFromFBUserID:fbUserID];
 		// Get image:
 		NSData *imageData = [NSData dataWithContentsOfURL:profilePictureURL];
 		UIImage *profilePic = [UIImage imageWithData:imageData];
@@ -236,28 +245,95 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 										  NSLog(@"Not enough facebook friends.");
 										  return;
 									  }
-									  int ind = arc4random()%[friends count];
-									  ind = MAX(0, ind - 15);
+									  UIViewController *presentingViewController = self.presentingViewController;
+									  GameViewController *gViewController = nil;
+									  if ([presentingViewController isKindOfClass:[GameViewController class]]) {
+										  gViewController = (GameViewController *)presentingViewController;
+									  }
+									  NSMutableSet *indSet = [NSMutableSet set];
+									  NSUInteger count = 0;
+									  BOOL detectFacesAndDuplicates = YES;
 									  for (size_t i = 1; i <= maxTilePower; ++i) {
+										  count++;
+										  int ind = arc4random()%[friends count];
 										  if (i != 11) { // 2048 is user's own profile picture
-											  Tile *tile = [Tile tileWithValue:(int32_t)pow(2.0f, i)];
-											  // Get a random friend from the list:
-											  NSDictionary<FBGraphUser> *friend = friends[ind++];
-											  NSString *name = friend.name;
-											  NSString *fbUserID = friend.id;
-											  NSURL *profilePictureURL = [ViewController profilePictureURLFromFBUserID:fbUserID];
-											  // Get image:
-											  NSData *imageData = [NSData dataWithContentsOfURL:profilePictureURL];
-											  UIImage *profilePic = [UIImage imageWithData:imageData];
-											  tile.fbUserID = fbUserID;
-											  tile.fbUserName = name;
-											  tile.image = profilePic;
+											  if (![indSet containsObject:@(ind)]) {
+												  [indSet addObject:@(ind)];
+												  Tile *tile = [Tile tileWithValue:(int32_t)pow(2.0f, i)];
+												  // Get a random friend from the list:
+												  NSDictionary<FBGraphUser> *friend = friends[ind++];
+												  NSString *name = friend.name;
+												  NSString *fbUserID = friend.id;
+												  NSURL *profilePictureURL = [LoginViewController profilePictureURLFromFBUserID:fbUserID];
+												  // Get image:
+												  NSData *imageData = [NSData dataWithContentsOfURL:profilePictureURL];
+												  UIImage *profilePic = [UIImage imageWithData:imageData];
+												  // Detect if there's a face in it.
+												  if (detectFacesAndDuplicates) {
+													  // If the user ID already exists, use another one
+													  if ([gViewController.scene.userIDs containsObject:friend.id]) {
+														  i--;
+														  continue;
+													  }
+													  CGImageRef imageRef = [profilePic CGImage];
+													  CIImage *convertedCIImage = [CIImage imageWithCGImage:imageRef];
+													  CIContext *context = [CIContext contextWithOptions:nil];
+													  NSDictionary *opts = @{ CIDetectorAccuracy : CIDetectorAccuracyHigh };
+													  CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeFace
+																								context:context
+																								options:opts];
+													  if([[convertedCIImage properties] valueForKey:(NSString *)kCGImagePropertyOrientation]) {
+														  opts = @{CIDetectorImageOrientation : [[convertedCIImage properties] valueForKey:(NSString *)kCGImagePropertyOrientation]};
+													  } else {
+														  opts = @{CIDetectorImageOrientation :@(1)};
+													  }
+													  NSArray *features = [detector featuresInImage:convertedCIImage options:opts];
+													  if ([features count] > 0) { // If there is a face"
+														  tile.fbUserID = fbUserID;
+														  tile.fbUserName = name;
+														  tile.image = profilePic;
+													  } else {
+														  i--;
+														  continue;
+													  }
+												  } else {
+													  tile.fbUserID = fbUserID;
+													  tile.fbUserName = name;
+													  tile.image = profilePic;
+													  
+												  }
+												  
+												  if (count >= [friends count]) {
+													  detectFacesAndDuplicates = NO;
+												  }
+											  } else {
+												  i--;
+												  continue;
+											  }
+											  
 										  }
 									  }
-									  NSLog(@"Friends image fetching done.");
+									  AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+									  [appDelegate saveContext];
+									  NSLog(@"Fetching friends pictures done.");
+									  // Update profile images in main queue.
+									  dispatch_async(dispatch_get_main_queue(), ^{
+										  if ([presentingViewController isKindOfClass:[GameViewController class]]) {
+											  if (gViewController) {
+												  [gViewController.scene updateImagesAndUserIDs];
+												  for (TileSKShapeNode *node in [gViewController.scene.nodeForIndexes allValues]) {
+													  [node updateImage:gViewController.scene.imagesForValues[@(node.value)] completion:nil];
+												  }
+											  }
+										  }
+									  });
 								  });
 							  }
 						  }];
+}
+
+-(void)dealloc {
+	self.fbLoginView.delegate = nil;
 }
 
 /*

@@ -16,7 +16,7 @@
 #import "GameViewController.h"
 #import "macro.h"
 
-const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DURATION(0.03f);
+const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DURATION(0.05f);
 
 @interface BoardScene()
 
@@ -37,6 +37,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 		if (!self.board) {
 			self.board = [Board initializeNewBoard];
 		}
+		self.tileType = self.gManager.tileViewType;
+		[self updateImagesAndUserIDs];
     }
     return self;
 }
@@ -60,6 +62,8 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 	return res;
 }
 
+#pragma mark - Overriden Accessors
+
 -(void)setTheme:(Theme *)theme {
 	_theme = theme;
 	self.backgroundColor = theme.boardColor;
@@ -71,6 +75,27 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 	self.scaleFactor = 1+((self.size.width - 4 * self.theme.tileWidth)/5.0f)/self.theme.tileWidth;
 	self.popUpNewTileAction = [SKAction sequence:@[[SKAction group:@[[SKAction scaleTo:self.scaleFactor duration:kAnimationDuration_TileContainerPopup], [SKAction moveBy:CGVectorMake(-self.theme.tileWidth*((self.scaleFactor - 1)/2.0f), -self.theme.tileWidth*((self.scaleFactor - 1)/2)) duration:kAnimationDuration_TileContainerPopup/2.0f], [SKAction fadeInWithDuration:kAnimationDuration_TileContainerPopup]]],
 												   [SKAction group:@[[SKAction scaleTo:1.0f duration:kAnimationDuration_TileContainerPopup], [SKAction moveBy:CGVectorMake(self.theme.tileWidth*((self.scaleFactor - 1)/2.0f), self.theme.tileWidth*((self.scaleFactor - 1)/2)) duration:kAnimationDuration_TileContainerPopup]]]]];
+	[self updateImagesAndUserIDs];
+}
+
+-(void)updateImagesAndUserIDs {
+	// Get images and user ids:
+	NSMutableDictionary *imagesDictionary = [NSMutableDictionary dictionary];
+	NSMutableSet *userIDs = [NSMutableSet set];
+	NSArray *tiles = [Tile allTiles];
+	for (Tile *tile in tiles) {
+		UIImage *image = tile.image;
+		if (image) {
+			image = [self cropImageToRoundedRect:image];
+			imagesDictionary[@(tile.value)] = image;
+		}
+		NSString *ID = tile.fbUserID;
+		if (ID) {
+			[userIDs addObject:ID];
+		}
+	}
+	self.imagesForValues = imagesDictionary;
+	self.userIDs = userIDs;
 }
 
 #pragma mark - Game Initialization Methods
@@ -94,12 +119,13 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 	for (size_t row = 0; row < 4; ++row) {
 		for (size_t col = 0; col < 4; col++) {
 			SKShapeNode* tileContainer = [SKShapeNode node];
-			[tileContainer setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
-																		  0,
-																		  tileWidth,
-																		  tileWidth),
-															   self.theme.tileCornerRadius,
-															   self.theme.tileCornerRadius, nil)];
+			CGPathRef path = CGPathCreateWithRoundedRect(CGRectMake(0,
+																	0,
+																	tileWidth,
+																	tileWidth),
+														 self.theme.tileCornerRadius,
+														 self.theme.tileCornerRadius, nil);
+			[tileContainer setPath: path];
 			tileContainer.strokeColor = tileContainer.fillColor = self.theme.tileContainerColor;
 			CGPoint pos = CGPointMake((col + 1) * edgeWidth + (col + 0.5) * tileWidth, (row + 1) * edgeWidth + (row + 0.5) * tileWidth);
 			tileContainer.position = pos;
@@ -185,50 +211,97 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 
 -(void)startGameFromBoard:(Board *)board animated:(BOOL)animated {
 	if (board) {
-		[self enableButtonAndGestureInteractions:NO];
-		self.board = board;
-		self.score = self.board.score;
-		self.gamePlaying = self.board.gameplaying;
-		self.data = [self.board getBoardDataArray];
-//		self.data = [NSMutableArray arrayWithArray:@[@[@(2), @(2), @(2), @(2)],
-//													 @[@(4), @(0), @(4), @(0)],
-//													 @[@(16), @(4), @(4), @(16)],
-//													 @[@(0), @(4), @(4), @(8)]]];
-		CGFloat tileWidth = self.theme.tileWidth;
-		void (^completion)() = nil;
-		for (size_t row = 0; row < 4; ++row) {
-			for (size_t col = 0; col < 4; col++) {
-				if ([self.data[row][col] intValue] != 0) { // If it's not zero
-					NSNumber *value = self.data[row][col];
-					TileSKShapeNode *tile = [TileSKShapeNode node];
-					[tile setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
-																		 0,
-																		 tileWidth,
-																		 tileWidth),
-																	   self.theme.tileCornerRadius,
-																	   self.theme.tileCornerRadius, nil)];
-					tile.strokeColor = tile.fillColor = self.theme.tileColors[value];
-					[tile setValue:[value intValue]
-							  text:[NSString stringWithFormat:@"%d", [value intValue]]
-						 textColor:([value intValue] <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
-							  type:TileTypeNumber];
-					CGPoint pos = [self getPositionFromRow:row andCol:col];
-					self.positionsForNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:pos];
-					self.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]] = tile;
-					pos = CGPointMake(pos.x+tileWidth/2.0f, pos.y+tileWidth/2.0f);
-					tile.position = pos;
-					tile.xScale = tile.yScale = 0.0f;
-					[self addChild:tile];
-					if (self.gamePlaying == NO && row * col == 9) {
-						completion = ^void() {
-							[self.gameViewController showGameEndView];
-						};
+		if (animated) {
+			[self enableButtonAndGestureInteractions:NO];
+			self.board = board;
+			self.score = self.board.score;
+			self.gamePlaying = self.board.gameplaying;
+			self.data = [self.board getBoardDataArray];
+//					self.data = [NSMutableArray arrayWithArray:@[@[@(2), @(8), @(2), @(2)],
+//																 @[@(4), @(2), @(8), @(16)],
+//																 @[@(2), @(4), @(2), @(4)],
+//																 @[@(4), @(2), @(4), @(2)]]];
+			CGFloat tileWidth = self.theme.tileWidth;
+			void (^completion)() = nil;
+			for (size_t row = 0; row < 4; ++row) {
+				for (size_t col = 0; col < 4; col++) {
+					if ([self.data[row][col] intValue] != 0) { // If it's not zero
+						NSNumber *value = self.data[row][col];
+						TileSKShapeNode *tile = [TileSKShapeNode node];
+						CGPathRef path = CGPathCreateWithRoundedRect(CGRectMake(0,
+																				0,
+																				tileWidth,
+																				tileWidth),
+																	 self.theme.tileCornerRadius,
+																	 self.theme.tileCornerRadius, nil);
+						[tile setPath: path];
+						tile.strokeColor = tile.fillColor = self.theme.tileColors[value];
+						tile.theme = self.theme;
+						[tile setValue:[value intValue]
+								  text:[NSString stringWithFormat:@"%d", [value intValue]]
+							 textColor:([value intValue] <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+								  type:self.tileType
+								 image:self.imagesForValues[value]];
+						CGPoint pos = [self getPositionFromRow:row andCol:col];
+						self.positionsForNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:pos];
+						self.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]] = tile;
+						pos = CGPointMake(pos.x+tileWidth/2.0f, pos.y+tileWidth/2.0f);
+						tile.position = pos;
+						tile.xScale = tile.yScale = 0.0f;
+						[self addChild:tile];
+						if (self.gamePlaying == NO && row * col == 9) {
+							completion = ^void() {
+								[self.gameViewController showGameEndView];
+							};
+						}
+						[tile runAction:self.scaleToFullSizeAction completion:completion];
 					}
-					[tile runAction:self.scaleToFullSizeAction completion:completion];
+				}
+			}
+		
+		} else {
+			self.board = board;
+			self.score = self.board.score;
+			self.gamePlaying = self.board.gameplaying;
+			self.data = [self.board getBoardDataArray];
+			//		self.data = [NSMutableArray arrayWithArray:@[@[@(2), @(2), @(2), @(2)],
+			//													 @[@(4), @(0), @(4), @(0)],
+			//													 @[@(16), @(4), @(4), @(16)],
+			//													 @[@(0), @(4), @(4), @(8)]]];
+			CGFloat tileWidth = self.theme.tileWidth;
+			for (size_t row = 0; row < 4; ++row) {
+				for (size_t col = 0; col < 4; col++) {
+					if ([self.data[row][col] intValue] != 0) { // If it's not zero
+						NSNumber *value = self.data[row][col];
+						TileSKShapeNode *tile = [TileSKShapeNode node];
+						CGPathRef path = CGPathCreateWithRoundedRect(CGRectMake(0,
+																				0,
+																				tileWidth,
+																				tileWidth),
+																	 self.theme.tileCornerRadius,
+																	 self.theme.tileCornerRadius, nil);
+						[tile setPath: path];
+						tile.strokeColor = tile.fillColor = self.theme.tileColors[value];
+						tile.theme = self.theme;
+						[tile setValue:[value intValue]
+								  text:[NSString stringWithFormat:@"%d", [value intValue]]
+							 textColor:([value intValue] <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
+								  type:self.tileType
+								 image:self.imagesForValues[value]];
+						CGPoint pos = [self getPositionFromRow:row andCol:col];
+						self.positionsForNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:pos];
+						self.nodeForIndexes[[NSValue valueWithCGPoint:CGPointMake(row, col)]] = tile;
+						tile.position = pos;
+						[self addChild:tile];
+						if (self.gamePlaying == NO && row * col == 9) {
+							[self.gameViewController showGameEndView];
+						}
+					}
 				}
 			}
 		}
 		[self enableButtonAndGestureInteractions:YES];
+		[self updateScoresInView];
 	}
 }
 
@@ -308,19 +381,22 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 	self.nextData[row][col] = value;
 	
 	TileSKShapeNode *tile = [TileSKShapeNode node];
-	[tile setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
-														 0,
-														 tileWidth,
-														 tileWidth),
-											  self.theme.tileCornerRadius,
-											  self.theme.tileCornerRadius, nil)];
-	SKColor *color = [SKColor colorWithCGColor:[self.theme.tileColors[value] CGColor]];
-	tile.strokeColor = color;
-	tile.fillColor = color;
+	CGPathRef path = CGPathCreateWithRoundedRect(CGRectMake(0,
+															0,
+															tileWidth,
+															tileWidth),
+												 self.theme.tileCornerRadius,
+												 self.theme.tileCornerRadius, nil);
+	[tile setPath: path];
+	CGPathRelease(path);
+	tile.strokeColor = self.theme.tileColors[value];
+	tile.fillColor = self.theme.tileColors[value];
+	tile.theme = self.theme;
 	[tile setValue:[value intValue]
 			  text:[NSString stringWithFormat:@"%d", [value intValue]]
 		 textColor:([value intValue] <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
-			  type:TileTypeNumber];
+			  type:self.tileType
+			 image:self.imagesForValues[value]];
 	CGPoint pos = [self getPositionFromRow:row andCol:col];
 	self.nextPositionsForNodes[[NSValue valueWithNonretainedObject:tile]] = [NSValue valueWithCGPoint:pos];
 	pos = CGPointMake(pos.x+tileWidth/2.0f, pos.y+tileWidth/2.0f);
@@ -704,6 +780,57 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 
 #pragma mark - Helper Methods
 
+-(UIImage *)cropImageToRoundedRect:(UIImage *)image {
+	UIImage *ret = nil;
+	
+    // This calculates the crop area.
+	
+    float originalWidth  = image.size.width;
+    float originalHeight = image.size.height;
+	
+    float edge = fminf(originalWidth, originalHeight);
+	
+    float posX = (originalWidth   - edge) / 2.0f;
+    float posY = (originalHeight  - edge) / 2.0f;
+	
+	
+    CGRect cropSquare = CGRectZero;
+	
+	// If orientation indicates a change to portrait.
+	if(image.imageOrientation == UIImageOrientationLeft ||
+	   image.imageOrientation == UIImageOrientationRight) {
+		cropSquare = CGRectMake(posY, posX, edge, edge);
+	} else {
+		cropSquare = CGRectMake(posX, posY, edge, edge);
+	}
+	
+    // This performs the image cropping.
+    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropSquare);
+	
+    ret = [UIImage imageWithCGImage:imageRef
+                              scale:image.scale
+                        orientation:image.imageOrientation];
+	
+    CGImageRelease(imageRef);
+	
+	UIGraphicsBeginImageContextWithOptions(ret.size, NO, 0);
+	
+	// Add a clip before drawing anything, in the shape of an rounded rect
+    CGRect rect = CGRectMake(0, 0, ret.size.width, ret.size.height);
+    [[UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:self.theme.tileCornerRadius * 2] addClip];
+	
+    // Draw your image
+    [ret drawInRect:rect];
+	
+    // Get the image, here setting the UIImageView image
+    UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
+	
+    // Lets forget about that we were drawing
+    UIGraphicsEndImageContext();
+	
+    return roundedImage;
+}
+
 -(CGPoint)getPositionFromRow:(size_t)row andCol: (size_t)col {
 	SKShapeNode *container = self.tileContainers[(int)(3 - row)][(int)col];
 	return container.position;
@@ -729,18 +856,21 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 	
 	/* Create new tile */
 	TileSKShapeNode *node = [TileSKShapeNode node];
-	[node setPath:CGPathCreateWithRoundedRect(CGRectMake(0,
-														 0,
-														 tileWidth,
-														 tileWidth),
-											  self.theme.tileCornerRadius,
-											  self.theme.tileCornerRadius, nil)];
-	node.strokeColor = self.theme.tileColors[@(newVal)];
-	node.fillColor = self.theme.tileColors[@(newVal)];
+	CGPathRef path = CGPathCreateWithRoundedRect(CGRectMake(0,
+															0,
+															tileWidth,
+															tileWidth),
+												 self.theme.tileCornerRadius,
+												 self.theme.tileCornerRadius, nil);
+	[node setPath: path];
+	CGPathRelease(path);
+	node.strokeColor = node.fillColor = self.theme.tileColors[@(newVal)];
+	node.theme = self.theme;
 	[node setValue:newVal
 			  text:[NSString stringWithFormat:@"%d", newVal]
 		 textColor:(newVal <= 4 ? self.theme.tileTextColor:[UIColor whiteColor])
-			  type:TileTypeNumber];
+			  type:self.tileType
+			 image:self.imagesForValues[@(newVal)]];
 	CGPoint pos = [self getPositionFromRow:row1 andCol:col1];
 	self.indexesForNewNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:CGPointMake(row1, col1)];
 	self.positionForNewNodes[[NSValue valueWithNonretainedObject:node]] = [NSValue valueWithCGPoint:pos];
@@ -782,11 +912,11 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 -(void)updateGamePlaying_MaxOccuredDictionary {
 	// Check to see if the game is still playing and update onboard tiles.
 	self.gamePlaying = [Board gameEndFrom2DArray:self.data];
+	self.board.swipeDirection = self.nextDirection;
 	self.board = [Board createBoardWithBoardData:self.nextData
 									 gamePlaying:self.gamePlaying
 										   score:self.score
 								  swipeDirection:BoardSwipeGestureDirectionNone];
-	self.board.swipeDirection = self.nextDirection;
 	
 	// Add this board to history
 	[self.history addBoardsObject:self.board];
@@ -820,6 +950,12 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 	[self.gManager setMaxOccuredDictionary:[maxOccuredDictionary copy]];
 	self.board = [Board createBoardWithBoardData:self.data gamePlaying:self.gamePlaying score:self.score swipeDirection:self.nextDirection];
 	[self.history addBoardsObject:self.board];
+	[self updateScoresInView];
+}
+
+-(void)updateScoresInView {
+	self.gameViewController.scoreLabel.text = [NSString stringWithFormat:@"%d", self.score];
+	self.gameViewController.bestScoreLabel.text = [NSString stringWithFormat:@"%d", self.gManager.bestScore];
 }
 
 -(void)enableGestureRecognizers:(BOOL)enabled {

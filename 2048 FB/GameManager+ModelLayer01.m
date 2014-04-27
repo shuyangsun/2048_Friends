@@ -78,6 +78,12 @@ NSString *const kCoreDataEntityName_GameManager = @"GameManager";
 	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName: (NSString *)kCoreDataEntityName_GameManager];
 	NSError *error;
 	NSArray *matches = [context executeFetchRequest:request error:&error];
+	if (error) {
+		NSLog(@"%@", error);
+	}
+	if ([matches count] <= 0) {
+		NSLog(@"Cannot find gameManger in Core Data database");
+	}
 	return matches;
 }
 

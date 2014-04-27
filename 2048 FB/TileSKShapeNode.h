@@ -7,11 +7,13 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "Tile+ModelLayer03.h"
 
-typedef NS_ENUM(NSUInteger, TileType) {
-	TileTypeImage = 0,
-	TileTypeNumber
-};
+extern const NSTimeInterval kAnimationDuration_ImageFade;
+extern const NSTimeInterval kAnimationDuration_ImageTransparent;
+extern const NSTimeInterval kAnimationImageTransparencyFraction;
+
+@class Theme;
 
 @interface TileSKShapeNode : SKShapeNode <NSCopying>
 
@@ -19,12 +21,21 @@ typedef NS_ENUM(NSUInteger, TileType) {
 @property (strong, nonatomic) NSString *displayText;
 @property (strong, nonatomic) SKColor *textColor;
 @property (nonatomic) TileType type;
-@property (strong, nonatomic) UIImage *image;
-@property (strong, nonatomic) NSUUID *uuid;
+@property (nonatomic, strong, readonly) UIImage *image;
+@property (nonatomic, strong) SKSpriteNode *imageNode;
 
--(void)setValue: (int32_t)val
-		   text: (NSString *)text
-	  textColor: (UIColor *)textColor
-		   type: (TileType) type;
+@property (nonatomic, strong) Theme *theme;
+
+-(void)setValue:(int32_t)val
+		   text:(NSString *)text
+	  textColor:(UIColor *)textColor
+		   type:(TileType)type
+		  image:(UIImage *) image;
+
+-(BOOL)updateImage:(UIImage *)image completion:(void (^)(void))completion;
+-(void)showImageAnimated:(BOOL)animated;
+-(void)hideImageAnimated:(BOOL)animated;
+-(void)transparentImageAnimated:(BOOL)animated;
+-(void)opaqueImageAnimated:(BOOL)animated;
 
 @end

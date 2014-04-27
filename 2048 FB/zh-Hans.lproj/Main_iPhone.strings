@@ -1,0 +1,30 @@
+
+/* Class = "IBUILabel"; text = "You Win!"; ObjectID = "B6h-Kw-XoM"; */
+"B6h-Kw-XoM.text" = "胜利！";
+
+/* Class = "IBUIButton"; normalTitle = "Share"; ObjectID = "UXU-bk-poh"; */
+"UXU-bk-poh.normalTitle" = "分享";
+
+/* Class = "IBUIButton"; normalTitle = "Menu"; ObjectID = "gph-wq-Grt"; */
+"gph-wq-Grt.normalTitle" = "设置";
+
+/* Class = "IBUILabel"; text = "2048"; ObjectID = "hpg-ED-7cU"; */
+"hpg-ED-7cU.text" = "2048";
+
+/* Class = "IBUILabel"; text = "Get to 2048 to win!"; ObjectID = "lkj-1g-70d"; */
+"lkj-1g-70d.text" = "目标：2048砖块！";
+
+/* Class = "IBUIButton"; normalTitle = "Log in"; ObjectID = "mSb-ql-dkT"; */
+"mSb-ql-dkT.normalTitle" = "登陆";
+
+/* Class = "IBUIButton"; normalTitle = "Facebook"; ObjectID = "pYh-b1-51Q"; */
+"pYh-b1-51Q.normalTitle" = "Facebook";
+
+/* Class = "IBUILabel"; text = "@ShuyangSun"; ObjectID = "vSK-35-dQ7"; */
+"vSK-35-dQ7.text" = "@ShuyangSun";
+
+/* Class = "IBUILabel"; text = "with "; ObjectID = "yNL-Pj-S6t"; */
+"yNL-Pj-S6t.text" = "和朋友一起玩";
+
+/* Class = "IBUIButton"; normalTitle = "Back"; ObjectID = "yyk-dd-g0M"; */
+"yyk-dd-g0M.normalTitle" = "返回";

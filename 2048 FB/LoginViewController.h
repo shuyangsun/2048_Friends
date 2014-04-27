@@ -9,13 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 
+@class GameViewController;
+
 // constant variables
 extern const NSTimeInterval kViewControllerDuration_Animation;
 extern const NSTimeInterval kViewControllerDuration_Delay;
 extern const NSTimeInterval kViewControllerDuration_SpringDamping;
 extern const NSTimeInterval kViewControllerDuration_SpringVelocity;
 
-@interface ViewController : UIViewController <FBLoginViewDelegate>
+@interface LoginViewController : UIViewController <FBLoginViewDelegate>
 
 /// The Facebook login button, may not neccesarily be shown on the screen, but is sent event when user want to log in/out.
 @property (weak, nonatomic) IBOutlet FBLoginView *fbLoginView;

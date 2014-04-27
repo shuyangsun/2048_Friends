@@ -11,6 +11,11 @@
 // The maximum power of 2 the player can play.
 extern NSUInteger maxTilePower;
 
+typedef NS_ENUM(NSUInteger, TileType) {
+	TileTypeImage = 0,
+	TileTypeNumber
+};
+
 @interface Tile (ModelLayer03)
 
 // Initialize all the tiles without images. Should be called only once when the app launches, and there is no iCloud data to fetch.

@@ -7,23 +7,28 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "Board+ModelLayer03.h"
+#import "TileSKShapeNode.h"
 
 extern const NSTimeInterval kAnimationDuration_TileContainerPopup;
 
 @class Theme;
 @class Board;
 @class GameViewController;
-
-#import "Board+ModelLayer03.h"
 @class GameManager, History, Board;
 
 @interface BoardScene : SKScene
 
+#pragma mark - Scene Properties
 @property (nonatomic, strong) Theme          * theme;
 @property (nonatomic, strong) GameViewController *gameViewController;
 @property (nonatomic, strong) NSMutableArray * data;
 @property (nonatomic        ) int32_t        score;
 @property (nonatomic        ) BOOL           gamePlaying;
+@property (nonatomic, assign) TileType tileType;
+@property (nonatomic        ) UIUserInterfaceIdiom       uiIdiom;
+@property (nonatomic, strong) NSMutableDictionary *imagesForValues; // @(2):UIImage*
+@property (nonatomic, strong) NSMutableSet *userIDs;
 
 +(instancetype)sceneWithSize:(CGSize)size andTheme: (Theme *)theme;
 -(instancetype)initWithSize:(CGSize)size andTheme: (Theme *)theme;
@@ -31,8 +36,7 @@ extern const NSTimeInterval kAnimationDuration_TileContainerPopup;
 
 -(void)startGameFromBoard:(Board *)board animated:(BOOL)animated;
 
-@property (nonatomic        ) UIUserInterfaceIdiom       uiIdiom;
-
+#pragma mark - Swipping Algorithm Properties
 /// Animation phase 1
 // NSValue(CGPoint): SKnode
 @property (nonatomic, strong) NSMutableDictionary        *nodeForIndexes;// Tiles for current indexes (CGPoint(row, col))
@@ -67,6 +71,10 @@ extern const NSTimeInterval kAnimationDuration_TileContainerPopup;
 @property (nonatomic, strong) SKAction                   *scaleToFullSizeAction_NewTile;
 @property (nonatomic, strong) SKAction                   *popUpNewTileAction;
 
+-(void)updateImagesAndUserIDs;
+
+#pragma mark - Swipping Algorithm Methods
+
 // For algorithms
 -(CGPoint)getPositionFromRow:(size_t)row andCol: (size_t)col;
 -(BOOL)dataCanBeSwippedToDirection:(BoardSwipeGestureDirection) direction;
@@ -82,5 +90,8 @@ extern const NSTimeInterval kAnimationDuration_TileContainerPopup;
 
 -(void)animateTileScaleToDirection:(BoardSwipeGestureDirection)direction withFraction: (CGFloat) fraction;
 -(void)reverseTileScaleAnimationWithDuration:(NSTimeInterval)duration;
+
+#pragma mark - Helper Methods
+-(UIImage *)cropImageToRoundedRect:(UIImage *)image;
 
 @end

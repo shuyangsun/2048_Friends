@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class BoardScene;
+
 extern const NSTimeInterval kAnimationDuration_Default;
 extern const NSTimeInterval kAnimationDuration_ScreenBlur;
 extern const NSTimeInterval kAnimationDuration_MoveTile;
@@ -25,6 +27,10 @@ extern const NSUInteger kDefaultContextSavingSwipeNumber;
 
 
 @interface GameViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UILabel *bestScoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (strong, nonatomic) BoardScene *scene;
 
 - (IBAction)menuButtonTapped:(UIButton *)sender;
 -(void)showGameEndView;
