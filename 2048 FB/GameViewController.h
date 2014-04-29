@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class BoardScene;
+@class MenuTableViewControllerTransitionAnimator;
 
 extern const NSTimeInterval kAnimationDuration_Default;
 extern const NSTimeInterval kAnimationDuration_ScreenBlur;
@@ -26,13 +27,15 @@ extern const CGFloat kTileMoveAnimationDurationFraction;
 extern const NSUInteger kDefaultContextSavingSwipeNumber;
 
 
-@interface GameViewController : UIViewController
+@interface GameViewController : UIViewController <UIViewControllerTransitioningDelegate>
 
+@property (weak, nonatomic) IBOutlet UIButton *menuButton;
 @property (weak, nonatomic) IBOutlet UILabel *bestScoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) BoardScene *scene;
+@property (nonatomic, strong) UIView *greyLayerView;
+@property (nonatomic, strong) MenuTableViewControllerTransitionAnimator *menuNavigationViewControllerAnimator;
 
-- (IBAction)menuButtonTapped:(UIButton *)sender;
 -(void)showGameEndView;
 -(void)enableGestureRecognizers:(BOOL)enabled;
 -(void)enableButtonAndGestureInteractions:(BOOL)enabled;

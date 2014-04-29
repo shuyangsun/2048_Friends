@@ -86,8 +86,9 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 	for (Tile *tile in tiles) {
 		UIImage *image = tile.image;
 		if (image) {
-			image = [self cropImageToRoundedRect:image];
-			imagesDictionary[@(tile.value)] = image;
+			if ((image = [self cropImageToRoundedRect:image]) != nil ) {
+				imagesDictionary[@(tile.value)] = image;
+			}
 		}
 		NSString *ID = tile.fbUserID;
 		if (ID) {
@@ -817,7 +818,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 	
 	// Add a clip before drawing anything, in the shape of an rounded rect
     CGRect rect = CGRectMake(0, 0, ret.size.width, ret.size.height);
-    [[UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:self.theme.tileCornerRadius * 2] addClip];
+    [[UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:self.theme.tileCornerRadius * 4] addClip];
 	
     // Draw your image
     [ret drawInRect:rect];

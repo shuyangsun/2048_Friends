@@ -19,6 +19,8 @@
 #import "BoardScene.h"
 #import "TileSKShapeNode.h"
 #import "UIImage+ImageEffects.h"
+#import "MenuTableViewController.h"
+#import "MenuTableViewControllerTransitionAnimator.h"
 
 // Defines for localization
 #define STRING_GAME_OVER_LABEL NSLocalizedStringFromTable(@"STRING_GAME_OVER_LABEL", @"GameViewControllerTable", @"Text on Game Over label.")
@@ -49,8 +51,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePictureImageView;
 @property (weak, nonatomic) IBOutlet UIView *profilePictureInteractionLayer;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *profilePictureTapGestureRecognizer;
-@property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *profilePictureLongPressGestureRecognizer;
-@property (weak, nonatomic) IBOutlet UIButton *menuButton;
+@property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *profilePictureLongPressGestureRecognizer;\
 @property (weak, nonatomic) IBOutlet SKView *boardSKView;
 @property (weak, nonatomic) IBOutlet UIView *boardInteractionLayerVIew;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
@@ -91,7 +92,6 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	self.gManager = [GameManager sharedGameManager];
 	self.theme = [Theme sharedThemeWithID:self.gManager.currentThemeID];
 	self.messageLabel.textAlignment = NSTextAlignmentCenter;
-	self.menuButton.titleLabel.textAlignment = NSTextAlignmentCenter;
 	self.bestScoreLabel.textAlignment = NSTextAlignmentCenter;
 	self.scoreLabel.textAlignment = NSTextAlignmentCenter;
 	self.appDelegate = [UIApplication sharedApplication].delegate;
@@ -148,7 +148,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	if (profileImage) {
 		self.profilePictureImageView.image = profileImage;
 	}
-
+	
     // Present the scene.
     [skView presentScene:self.scene];
 }
@@ -174,7 +174,6 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 
 -(void)setThemeDataForViews {
 	// Change the corner radius of views
-	self.originalContentView.backgroundColor = self.theme.backgroundColor;
 	self.boardSKView.layer.cornerRadius = self.theme.boardCornerRadius;
 	self.boardSKView.layer.masksToBounds = YES;
 	self.profilePictureView.layer.cornerRadius = self.theme.buttonCornerRadius;
@@ -184,6 +183,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	self.profilePictureInteractionLayer.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.profilePictureInteractionLayer.layer.masksToBounds = YES;
 	self.menuButton.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.menuButton.layer.masksToBounds = YES;
 	self.bestScoreLabel.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.scoreLabel.layer.cornerRadius = self.theme.buttonCornerRadius;
 	self.resumeGameButton.layer.cornerRadius = self.theme.buttonCornerRadius;
@@ -192,12 +192,24 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	self.shareButton.layer.masksToBounds = YES;
 	
 	// Change the color of views
+	self.originalContentView.backgroundColor = self.theme.backgroundColor;
 	self.boardSKView.backgroundColor = self.theme.boardColor;
 	self.profilePictureView.backgroundColor = self.theme.tileColors[@(2048)];
 	self.resumeGameButton.backgroundColor = self.theme.boardColor;
 	self.shareButton.backgroundColor = self.theme.boardColor;
-	self.menuButton.backgroundColor = self.theme.tileColors[@(8)];
 	self.scoreLabel.backgroundColor = self.theme.tileColors[@(4)];
+	self.menuButton.backgroundColor = self.theme.tileColors[@(8)];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	if (self.scene.tileType == TileTypeImage) {
+		UIImage *image = [Tile tileWithValue:2048].image;
+		if (image) {
+			image = [self.scene cropImageToRoundedRect:image];
+			self.profilePictureImageView.image = image;
+		}
+	}
 }
 
 -(BOOL)prefersStatusBarHidden {
@@ -225,10 +237,6 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 }
 
 #pragma mark - IBActions
-
-- (IBAction)menuButtonTapped:(UIButton *)sender {
-	
-}
 
 - (IBAction)profilePictureTapped:(UITapGestureRecognizer *)sender {
 	
@@ -262,7 +270,6 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 			for (TileSKShapeNode *node in allNodes) {
 				[node transparentImageAnimated:YES];
 			}
-//			self.profilePictureInteractionLayer.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
 			[UIView animateWithDuration:kAnimationDuration_ImageTransparent
 							 animations:^{
 								 self.profilePictureImageView.alpha = kAnimationImageTransparencyFraction;
@@ -274,7 +281,6 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 			for (TileSKShapeNode *node in allNodes) {
 				[node opaqueImageAnimated:YES];
 			}
-//			self.profilePictureInteractionLayer.backgroundColor = [UIColor clearColor];
 			[UIView animateWithDuration:kAnimationDuration_ImageTransparent
 							 animations:^{
 								 self.profilePictureImageView.alpha = 1.0f;
@@ -414,6 +420,55 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 		self.direction = BoardSwipeGestureDirectionNone;
 		self.canSwipeToDesiredDirection = YES;
 	}
+}
+
+#pragma mark - Custom View Controller Transitions
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	[super prepareForSegue:segue sender:sender];
+	// If we are going to menu view
+	if ([segue.identifier isEqualToString:@"GameViewControllerToMenuTableViewControllerSegue"]) {
+		UIViewController *menuNavigationViewController = segue.destinationViewController;
+		menuNavigationViewController.transitioningDelegate = self;
+		menuNavigationViewController.modalPresentationStyle = UIModalPresentationCustom;
+		menuNavigationViewController.view.layer.cornerRadius = self.theme.boardCornerRadius;
+		menuNavigationViewController.view.layer.masksToBounds = YES;
+		// Add button corner radius
+		menuNavigationViewController.view.layer.cornerRadius = self.theme.buttonCornerRadius;
+		menuNavigationViewController.view.layer.masksToBounds = YES;
+		
+		// Set the theme for menu tableViewController
+		if ([menuNavigationViewController isKindOfClass:[UINavigationController class]]) {
+			UIViewController *topViewController = ((UINavigationController *) menuNavigationViewController).topViewController;
+			if ([topViewController isKindOfClass:[MenuTableViewController class]]) {
+				MenuTableViewController *menuTableViewController = (MenuTableViewController *)topViewController;
+				menuTableViewController.theme = self.theme;
+			}
+		}
+	}
+}
+
+// Should return an animator object to handle the presenting (other view controllers) transition.
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented // The view controller is going to be presented on the screen.
+																 presentingController:(UIViewController *)presenting
+																	 sourceController:(UIViewController *)source { // Source view controller is this one.
+	if (([source isKindOfClass: [self class]] && [presenting isKindOfClass:[self class]])) { // If source is this view controller
+		self.menuNavigationViewControllerAnimator = [[MenuTableViewControllerTransitionAnimator alloc] init];
+		presented.modalPresentationStyle = UIModalPresentationCustom;
+		presented.transitioningDelegate = self;
+		return self.menuNavigationViewControllerAnimator;
+	}
+	self.menuNavigationViewControllerAnimator = [[MenuTableViewControllerTransitionAnimator alloc] init];
+	self.menuNavigationViewControllerAnimator.theme = self.theme;
+	return self.menuNavigationViewControllerAnimator;
+}
+
+// Should return an animator object to handle the dismissing (other view controllers) transition.
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+	self.transitioningDelegate = self;
+	self.menuNavigationViewControllerAnimator = [[MenuTableViewControllerTransitionAnimator alloc] init];
+	self.menuNavigationViewControllerAnimator.theme = self.theme;
+	return self.menuNavigationViewControllerAnimator;
 }
 
 #pragma mark - Helper Methods

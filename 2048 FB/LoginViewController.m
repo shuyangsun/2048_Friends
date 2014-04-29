@@ -33,7 +33,6 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 
 // Private property to check if the user
 @property (nonatomic, getter = isUserLoggedIn) BOOL userLoggedIn;
-@property (nonatomic, strong) Theme *theme;
 
 +(NSURL *)profilePictureURLFromFBUserID: (NSString *) userId;
 -(void)executeFacebookFetchRequests;
@@ -80,6 +79,31 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	self.fbLoginView.readPermissions = @[@"read_friendlists", @"user_about_me", @"friends_about_me"];
+	
+	// Set colros
+	self.view.backgroundColor = self.theme.backgroundColor;
+	self.customFacebookLoginButton.backgroundColor = self.theme.boardColor;
+	self.customTwitterLoginButton.backgroundColor = self.theme.boardColor;
+	self.customWeiboLoginButton.backgroundColor = self.theme.boardColor;
+	self.updatePictureButton.backgroundColor = self.theme.boardColor;
+	
+	// Set corner raidus:
+	self.customFacebookLoginButton.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.customTwitterLoginButton.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.customWeiboLoginButton.layer.cornerRadius = self.theme.buttonCornerRadius;
+	self.updatePictureButton.layer.cornerRadius = self.theme.buttonCornerRadius;
+	
+	self.customFacebookLoginButton.layer.masksToBounds = YES;
+	self.customTwitterLoginButton.layer.masksToBounds = YES;
+	self.customWeiboLoginButton.layer.masksToBounds = YES;
+	self.updatePictureButton.layer.masksToBounds = YES;
+	
+	// Navigation bar related
+	if (self.navigationController) {
+		self.view.tintColor = [UIColor whiteColor];
+		self.navigationItem.title = @"Log In";
+		self.navigationItem.backBarButtonItem.tintColor = [UIColor whiteColor];
+	}
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -87,9 +111,6 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 	self.fbLoginView.delegate = self;
 	// Get the pointer to the button.
 	[self findUIButtonInfbLoginView];
-	self.customLoginButton.layer.cornerRadius = self.theme.buttonCornerRadius;
-	self.view.backgroundColor = self.theme.backgroundColor;
-	[self fetchFbImages];
 }
 
 -(void)viewDidLayoutSubviews {
@@ -105,10 +126,9 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 // Handle events when users start panning on "Introduction" page.
 - (IBAction)handlePan:(UIPanGestureRecognizer *)sender {
 	CGFloat viewWidth = self.view.frame.size.width;
-	CGFloat maxPanLength1 = 10.0f;
-	CGFloat maxPanLength2 = 5.0f;
+	CGFloat maxPanLength1 = 3.0f;
+	CGFloat maxPanLength2 = 2.0f;
 	CGFloat newWidthAdded = 0.0f;
-	CGAffineTransform transform = CGAffineTransformIdentity;
 	if (sender.state == UIGestureRecognizerStateBegan) {
 		NSArray *viewArr = [self.view subviews];
 		for (UIView *v in viewArr) {
@@ -119,15 +139,15 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 			CGFloat translationX = [sender translationInView:self.view].x;
 			newWidthAdded += maxPanLength1 * MIN(1.0f, fabs(translationX)/(viewWidth/2));
 			newWidthAdded += maxPanLength2 * MAX(0.0f, (fabs(translationX) - (viewWidth/2))/(viewWidth/2));
+			CGAffineTransform transform = CGAffineTransformIdentity;
 			if (translationX > 0) {
-				self.customLoginButton.transform = CGAffineTransformScale(transform,
-																		  1.0f + newWidthAdded/self.customLoginButton.frame.size.width,
-																		  1.0f);
+				transform = CGAffineTransformTranslate(CGAffineTransformIdentity, newWidthAdded, 0.0f);
 			} else {
-				self.customLoginButton.transform = CGAffineTransformScale(transform,
-																		  1.0f + newWidthAdded/self.customLoginButton.frame.size.width,
-																		  1.0f);
-				self.customLoginButton.transform = CGAffineTransformTranslate(self.customLoginButton.transform, -newWidthAdded, 0.0f);
+				transform = CGAffineTransformTranslate(CGAffineTransformIdentity, -newWidthAdded * 2, 0.0f);
+			}
+			transform = CGAffineTransformScale(transform, 1.0f + newWidthAdded/self.customFacebookLoginButton.frame.size.width, 1.0f);
+			for (UIButton *button in self.buttons) {
+				button.transform = transform;
 			}
 		}
 	} else if (sender.state == UIGestureRecognizerStateEnded || sender.state == UIGestureRecognizerStateCancelled) {
@@ -137,7 +157,9 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 			   initialSpringVelocity:kViewControllerDuration_SpringVelocity
 							options:UIViewAnimationOptionCurveEaseInOut
 						 animations:^{
-							 self.customLoginButton.transform = CGAffineTransformIdentity;
+							 for (UIButton *button in self.buttons) {
+								 button.transform = CGAffineTransformIdentity;
+							 }
 						 }
 						 completion:^(BOOL finished){
 							 NSArray *viewArr = [self.view subviews];
@@ -148,12 +170,12 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 	}
 }
 
-- (IBAction)customLoginButtonTouched:(UIButton *)sender {
+- (IBAction)customFacebookLoginButtonTouched:(UIButton *)sender {
 	[self.fbLoginViewButton sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
 
-- (IBAction)backTapped:(UIButton *)sender {
-	[self dismissViewControllerAnimated:YES completion:nil];
+- (IBAction)updatePictureButtonTouched:(UIButton *)sender {
+	[self fetchFbImages];
 }
 
 // <FBLoginViewDelegate> method

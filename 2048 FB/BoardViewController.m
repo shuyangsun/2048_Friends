@@ -17,7 +17,6 @@
 #import "Tile+ModelLayer03.h"
 #import "Theme.h"
 #import "TileView.h"
-#import "PaperFoldView.h"
 
 @interface BoardViewController ()
 
