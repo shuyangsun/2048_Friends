@@ -1,6 +1,6 @@
 //
 //  TileTest.m
-//  2048 FB
+//  2048 Friends
 //
 //  Created by Shuyang Sun on 4/7/14.
 //  Copyright (c) 2014 Shuyang Sun. All rights reserved.

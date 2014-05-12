@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.developer.ubiquity-container-identifiers</key>
 	<array>
-		<string>$(TeamIdentifierPrefix)com.shuyangsun.2048FB.-048-FB</string>
+		<string>$(TeamIdentifierPrefix)com.shuyangsun.2048Friends</string>
 	</array>
 </dict>
 </plist>

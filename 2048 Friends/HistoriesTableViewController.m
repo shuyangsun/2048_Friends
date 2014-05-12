@@ -1,26 +1,26 @@
 //
-//  MenuTableViewController.m
-//  2048 FB
+//  HistoriesTableViewController.m
+//  2048 Friends
 //
-//  Created by Shuyang Sun on 4/27/14.
+//  Created by Shuyang Sun on 5/12/14.
 //  Copyright (c) 2014 Shuyang Sun. All rights reserved.
 //
 
-#import "MenuTableViewController.h"
-#import "Theme.h"
+#import "HistoriesTableViewController.h"
+#import "GameManager+ModelLayer03.h"
+#import "History+ModelLayer03.h"
 
-@interface MenuTableViewController ()
+@interface HistoriesTableViewController ()
 
 @end
 
-@implementation MenuTableViewController
+@implementation HistoriesTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-		
     }
     return self;
 }
@@ -33,12 +33,7 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action: @selector(dismissNavigationBarController)];
-	doneButton.tintColor = [UIColor whiteColor];
-	self.navigationItem.rightBarButtonItem = doneButton;
-	// Set some colors
-	self.navigationController.navigationBar.backgroundColor = self.theme.tileColors[@(8)];
-	self.view.backgroundColor = self.theme.backgroundColor;
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,48 +42,34 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)dismissNavigationBarController {
-	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 1;
+	if (_histories) {
+		return [_histories count];
+	}
+    return 0;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSString *cellIdentifier = @"MenuShareCell";
-	if (indexPath.section == 0) {
-		cellIdentifier = @"MenuShareCell";
-	} else if (indexPath.section == 1) {
-		cellIdentifier = @"MenuLoginCell";
-	} else if (indexPath.section == 2) {
-		cellIdentifier = @"MenuThemeCell";
-	} else if (indexPath.section == 3) {
-		cellIdentifier = @"MenuHistoriesCell";
-	}
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-	if (indexPath.section%2 == 0) {
-		cell.backgroundColor = self.theme.tileColors[@(2)];
-	} else {
-		cell.backgroundColor = self.theme.tileColors[@(4)];
-	}
-	if (cell.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
-		cell.accessoryView.tintColor = [UIColor whiteColor];
-		cell.accessoryView.backgroundColor = [UIColor whiteColor];
-	}
-    cell.layer.cornerRadius = self.theme.buttonCornerRadius;
-	cell.layer.masksToBounds = YES;
-    // Configure the cell...
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HistoryCell" forIndexPath:indexPath];
+    
+	History *history = [_histories objectAtIndex:indexPath.row];
+	NSDate *createDate = [NSDate dateWithTimeIntervalSince1970:history.createDate];
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	formatter.dateStyle = NSDateFormatterShortStyle;
+	formatter.timeStyle = NSDateFormatterShortStyle;
+	formatter.locale = [NSLocale currentLocale];
+	
+	cell.textLabel.text = [NSString stringWithFormat:@"Game %02lu", indexPath.row + 1];
+	cell.detailTextLabel.text = [formatter stringFromDate:createDate];
     
     return cell;
 }

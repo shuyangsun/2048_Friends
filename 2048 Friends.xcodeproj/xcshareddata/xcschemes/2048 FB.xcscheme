@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0448478418EA1BA100D35B0F"
-               BuildableName = "2048 FB.app"
-               BlueprintName = "2048 FB"
-               ReferencedContainer = "container:2048 FB.xcodeproj">
+               BuildableName = "2048 Friends.app"
+               BlueprintName = "2048 Friends"
+               ReferencedContainer = "container:2048 Friends.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "044847A818EA1BA100D35B0F"
-               BuildableName = "2048 FBTests.xctest"
-               BlueprintName = "2048 FBTests"
-               ReferencedContainer = "container:2048 FB.xcodeproj">
+               BuildableName = "2048 FriendsTests.xctest"
+               BlueprintName = "2048 FriendsTests"
+               ReferencedContainer = "container:2048 Friends.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0448478418EA1BA100D35B0F"
-            BuildableName = "2048 FB.app"
-            BlueprintName = "2048 FB"
-            ReferencedContainer = "container:2048 FB.xcodeproj">
+            BuildableName = "2048 Friends.app"
+            BlueprintName = "2048 Friends"
+            ReferencedContainer = "container:2048 Friends.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0448478418EA1BA100D35B0F"
-            BuildableName = "2048 FB.app"
-            BlueprintName = "2048 FB"
-            ReferencedContainer = "container:2048 FB.xcodeproj">
+            BuildableName = "2048 Friends.app"
+            BlueprintName = "2048 Friends"
+            ReferencedContainer = "container:2048 Friends.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0448478418EA1BA100D35B0F"
-            BuildableName = "2048 FB.app"
-            BlueprintName = "2048 FB"
-            ReferencedContainer = "container:2048 FB.xcodeproj">
+            BuildableName = "2048 Friends.app"
+            BlueprintName = "2048 Friends"
+            ReferencedContainer = "container:2048 Friends.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

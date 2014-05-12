@@ -48,7 +48,6 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 
 #pragma mark - IBOutlets
 @property (weak, nonatomic) IBOutlet UIView *profilePictureView;
-@property (weak, nonatomic) IBOutlet UIImageView *profilePictureImageView;
 @property (weak, nonatomic) IBOutlet UIView *profilePictureInteractionLayer;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *profilePictureTapGestureRecognizer;
 @property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *profilePictureLongPressGestureRecognizer;\
@@ -130,8 +129,8 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
     // SpriteKit stuff
     SKView * skView = (SKView *)self.boardSKView;
 	
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
+//    skView.showsFPS = YES;
+//    skView.showsNodeCount = YES;
     
     // Create and configure the scene.
     self.scene = [BoardScene sceneWithSize:skView.bounds.size andTheme:self.theme];

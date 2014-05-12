@@ -248,7 +248,6 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 }
 
 -(void)executeFacebookFetchRequests {
-
 	NSString *graphPath = @"/me/friends";
 	[FBRequestConnection startWithGraphPath:graphPath
 								 parameters:nil
@@ -259,9 +258,6 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 								  NSLog(@"%@", error);
 							  } else {
 								  NSArray* friends = [result objectForKey:@"data"];
-								  // Fetch profile pictures in a different thread:
-								  dispatch_queue_t fetchingImageQueue = dispatch_queue_create("Fetch Facebook Profile Picture Queue", NULL);
-								  dispatch_async(fetchingImageQueue, ^{
 									  // Assign profile pictures to Tiles.
 									  if ([friends count] < 16) {
 										  NSLog(@"Not enough facebook friends.");
@@ -338,18 +334,16 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 									  AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 									  [appDelegate saveContext];
 									  NSLog(@"Fetching friends pictures done.");
-									  // Update profile images in main queue.
-									  dispatch_async(dispatch_get_main_queue(), ^{
-										  if ([presentingViewController isKindOfClass:[GameViewController class]]) {
-											  if (gViewController) {
-												  [gViewController.scene updateImagesAndUserIDs];
-												  for (TileSKShapeNode *node in [gViewController.scene.nodeForIndexes allValues]) {
-													  [node updateImage:gViewController.scene.imagesForValues[@(node.value)] completion:nil];
-												  }
+									  // Update profile images
+									  if ([presentingViewController isKindOfClass:[GameViewController class]]) {
+										  if (gViewController) {
+											  [gViewController.scene updateImagesAndUserIDs];
+											  for (TileSKShapeNode *node in [gViewController.scene.nodeForIndexes allValues]) {
+												  [node updateImage:gViewController.scene.imagesForValues[@(node.value)] completion:nil];
 											  }
+											  gViewController.profilePictureImageView = gViewController.scene.imagesForValues[@(2048)];
 										  }
-									  });
-								  });
+									  }
 							  }
 						  }];
 }

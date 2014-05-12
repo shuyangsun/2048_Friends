@@ -29,6 +29,7 @@ extern const NSUInteger kDefaultContextSavingSwipeNumber;
 
 @interface GameViewController : UIViewController <UIViewControllerTransitioningDelegate>
 
+@property (weak, nonatomic) IBOutlet UIImageView *profilePictureImageView;
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
 @property (weak, nonatomic) IBOutlet UILabel *bestScoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;

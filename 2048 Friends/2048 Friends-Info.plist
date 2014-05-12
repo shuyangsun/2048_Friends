@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.shuyangsun.2048FB${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.shuyangsun.2048Friends</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -25,16 +25,16 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb527969347324207</string>
+				<string>fb 1498414877047444</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>FacebookAppID</key>
-	<string>527969347324207</string>
+	<string>1498414877047444</string>
 	<key>FacebookDisplayName</key>
-	<string>2048 FacBok</string>
+	<string>2048 Friends</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>

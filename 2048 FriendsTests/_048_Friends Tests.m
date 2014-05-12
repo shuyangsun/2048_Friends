@@ -12,7 +12,7 @@
 #import "Board+ModelLayer03.h"
 #import "Tile+ModelLayer03.h"
 
-@interface _048_FBTests : XCTestCase
+@interface _048_FriendsTests : XCTestCase
 
 @property (nonatomic, strong) Board *board;
 // Set this parameter to YES if want to see ASCII board info
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation _048_FBTests
+@implementation _048_FriendsTests
 
 - (void)setUp
 {
