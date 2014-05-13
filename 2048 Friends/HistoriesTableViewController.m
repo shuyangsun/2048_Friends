@@ -72,7 +72,7 @@
 	formatter.timeStyle = NSDateFormatterShortStyle;
 	formatter.locale = [NSLocale currentLocale];
 	
-	cell.textLabel.text = [NSString stringWithFormat:@"Game %02lu", ([_histories count] - 1 - indexPath.row) + 1];
+	cell.textLabel.text = [NSString stringWithFormat:@"Game %02lu", (NSUInteger)([_histories count] - 1 - indexPath.row) + 1];
 	cell.detailTextLabel.text = [formatter stringFromDate:createDate];
     
     return cell;
