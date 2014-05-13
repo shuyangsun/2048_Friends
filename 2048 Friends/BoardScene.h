@@ -91,6 +91,8 @@ extern const NSTimeInterval kAnimationDuration_TileContainerPopup;
 -(void)animateTileScaleToDirection:(BoardSwipeGestureDirection)direction withFraction: (CGFloat) fraction;
 -(void)reverseTileScaleAnimationWithDuration:(NSTimeInterval)duration;
 
+-(void)popupTileContainersAnimated:(BOOL) animated;
+
 #pragma mark - Helper Methods
 -(UIImage *)cropImageToRoundedRect:(UIImage *)image;
 

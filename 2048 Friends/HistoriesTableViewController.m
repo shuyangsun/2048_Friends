@@ -9,8 +9,11 @@
 #import "HistoriesTableViewController.h"
 #import "GameManager+ModelLayer03.h"
 #import "History+ModelLayer03.h"
+#import "GameViewController.h"
 
 @interface HistoriesTableViewController ()
+
+@property (nonatomic, strong) History *selectedHistory;
 
 @end
 
@@ -61,14 +64,15 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HistoryCell" forIndexPath:indexPath];
     
-	History *history = [_histories objectAtIndex:indexPath.row];
+	// The front histories in the array should display at the bottom, so use reversed index for cells.
+	History *history = [_histories objectAtIndex:([_histories count] - 1 - indexPath.row)];
 	NSDate *createDate = [NSDate dateWithTimeIntervalSince1970:history.createDate];
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 	formatter.dateStyle = NSDateFormatterShortStyle;
 	formatter.timeStyle = NSDateFormatterShortStyle;
 	formatter.locale = [NSLocale currentLocale];
 	
-	cell.textLabel.text = [NSString stringWithFormat:@"Game %02lu", indexPath.row + 1];
+	cell.textLabel.text = [NSString stringWithFormat:@"Game %02ld", ([_histories count] - 1 - indexPath.row) + 1];
 	cell.detailTextLabel.text = [formatter stringFromDate:createDate];
     
     return cell;
@@ -112,15 +116,27 @@
 }
 */
 
-/*
+-(void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+	self.selectedHistory = [_histories objectAtIndex:([_histories count] - 1 - indexPath.row)];
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+	UIViewController *destController = segue.destinationViewController;
+    if ([segue.identifier isEqualToString:@"HistoriesToGameViewControllerSegue"]) {
+		GameViewController *gViewController = (GameViewController *)destController;
+		gViewController.mode = GameViewControllerModeReplay;
+		if (_selectedHistory) {
+			NSArray *boards = [_selectedHistory.boards allObjects];
+			NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"createDate" ascending:YES];
+			boards = [boards sortedArrayUsingDescriptors:@[sortDescriptor]];
+			gViewController.replayBoards = boards;
+		}
+	}
 }
-*/
+
 
 @end

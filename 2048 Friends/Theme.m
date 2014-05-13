@@ -100,7 +100,7 @@ NSString *const kThemeID_LightBlue = @"ThemeUUID_Light Blue_paid";
 		theme.tileContainerColor = [UIColor colorWithRed:0.80392 green:0.75686 blue:0.7098 alpha:1];
 		theme.tileTextColor = [UIColor colorWithRed:0.46667 green:0.43137 blue:0.39608 alpha:1];
 		theme.textColor = [UIColor whiteColor]; // TODO
-		theme.buttonColor = [UIColor colorWithRed:0.914 green:0.855 blue:0.737 alpha:1.000];
+		theme.buttonColor = [UIColor colorWithRed:0.933 green:0.635 blue:0.400 alpha:1.000];
 		[theme setThemeTileColorsFor2048: @[[UIColor colorWithRed:0.918 green:0.871 blue:0.824 alpha:1.000], // 2
 											[UIColor colorWithRed:0.914 green:0.855 blue:0.737 alpha:1.000], // 4
 											[UIColor colorWithRed:0.933 green:0.635 blue:0.400 alpha:1.000], // 8

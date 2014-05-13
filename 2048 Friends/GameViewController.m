@@ -50,10 +50,11 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 @property (weak, nonatomic) IBOutlet UIView *profilePictureView;
 @property (weak, nonatomic) IBOutlet UIView *profilePictureInteractionLayer;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *profilePictureTapGestureRecognizer;
-@property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *profilePictureLongPressGestureRecognizer;\
+@property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *profilePictureLongPressGestureRecognizer;
 @property (weak, nonatomic) IBOutlet SKView *boardSKView;
 @property (weak, nonatomic) IBOutlet UIView *boardInteractionLayerVIew;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (weak, nonatomic) IBOutlet UISlider *replaySlider;
 @property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *panGestureRecognizer;
 
 @property (weak, nonatomic) IBOutlet UIView *pauseView;
@@ -78,6 +79,9 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 @property (nonatomic, strong) AppDelegate *appDelegate;
 @property (nonatomic, strong) UIImage *lastFullScreenSnapshot;
 @property (nonatomic, assign) CGFloat scaledFraction;
+@property (nonatomic, strong) NSTimer *timer;
+
+@property (nonatomic, assign) NSUInteger lastSliderValue;
 
 @end
 
@@ -122,30 +126,30 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 {
     [super viewDidLoad];
 	[self updateThemeAnimated:NO];
-	self.pauseLabel.textAlignment = NSTextAlignmentCenter;
-	self.resumeGameButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-	self.shareButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+	_pauseLabel.textAlignment = NSTextAlignmentCenter;
+	_resumeGameButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+	_shareButton.titleLabel.textAlignment = NSTextAlignmentCenter;
 	
     // SpriteKit stuff
-    SKView * skView = (SKView *)self.boardSKView;
+    SKView * skView = (SKView *)_boardSKView;
 	
 //    skView.showsFPS = YES;
 //    skView.showsNodeCount = YES;
     
     // Create and configure the scene.
     self.scene = [BoardScene sceneWithSize:skView.bounds.size andTheme:self.theme];
-	if (!self.theme) {
+	if (!_theme) {
 		GameManager *gManager = [GameManager sharedGameManager];
 		self.theme = [Theme sharedThemeWithID:gManager.currentThemeID];
 	}
-	self.scene.theme = self.theme;
-    self.scene.scaleMode = SKSceneScaleModeAspectFill;
-	self.scene.gameViewController = self;
+	_scene.theme = self.theme;
+    _scene.scaleMode = SKSceneScaleModeAspectFill;
+	_scene.gameViewController = self;
 	
-	self.profilePictureImageView.contentMode = UIViewContentModeScaleAspectFill;
+	_profilePictureImageView.contentMode = UIViewContentModeScaleAspectFill;
 	UIImage *profileImage = [Tile tileWithValue:2048].image;
 	if (profileImage) {
-		self.profilePictureImageView.image = profileImage;
+		_profilePictureImageView.image = profileImage;
 	}
 	
     // Present the scene.
@@ -173,31 +177,33 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 
 -(void)setThemeDataForViews {
 	// Change the corner radius of views
-	self.boardSKView.layer.cornerRadius = self.theme.boardCornerRadius;
-	self.boardSKView.layer.masksToBounds = YES;
-	self.profilePictureView.layer.cornerRadius = self.theme.buttonCornerRadius;
-	self.profilePictureView.layer.masksToBounds = YES;
-	self.profilePictureImageView.layer.cornerRadius = self.theme.buttonCornerRadius;
-	self.profilePictureImageView.layer.masksToBounds = YES;
-	self.profilePictureInteractionLayer.layer.cornerRadius = self.theme.buttonCornerRadius;
-	self.profilePictureInteractionLayer.layer.masksToBounds = YES;
-	self.menuButton.layer.cornerRadius = self.theme.buttonCornerRadius;
-	self.menuButton.layer.masksToBounds = YES;
-	self.bestScoreLabel.layer.cornerRadius = self.theme.buttonCornerRadius;
-	self.scoreLabel.layer.cornerRadius = self.theme.buttonCornerRadius;
-	self.resumeGameButton.layer.cornerRadius = self.theme.buttonCornerRadius;
-	self.resumeGameButton.layer.masksToBounds = YES;
-	self.shareButton.layer.cornerRadius = self.theme.buttonCornerRadius;
-	self.shareButton.layer.masksToBounds = YES;
+	_boardSKView.layer.cornerRadius = _theme.boardCornerRadius;
+	_boardSKView.layer.masksToBounds = YES;
+	_profilePictureView.layer.cornerRadius = _theme.buttonCornerRadius;
+	_profilePictureView.layer.masksToBounds = YES;
+	_profilePictureImageView.layer.cornerRadius = _theme.buttonCornerRadius;
+	_profilePictureImageView.layer.masksToBounds = YES;
+	_profilePictureInteractionLayer.layer.cornerRadius = _theme.buttonCornerRadius;
+	_profilePictureInteractionLayer.layer.masksToBounds = YES;
+	_menuButton.layer.cornerRadius = _theme.buttonCornerRadius;
+	_menuButton.layer.masksToBounds = YES;
+	_bestScoreLabel.layer.cornerRadius = _theme.buttonCornerRadius;
+	_scoreLabel.layer.cornerRadius = _theme.buttonCornerRadius;
+	_resumeGameButton.layer.cornerRadius = _theme.buttonCornerRadius;
+	_resumeGameButton.layer.masksToBounds = YES;
+	_shareButton.layer.cornerRadius = _theme.buttonCornerRadius;
+	_shareButton.layer.masksToBounds = YES;
 	
 	// Change the color of views
-	self.originalContentView.backgroundColor = self.theme.backgroundColor;
-	self.boardSKView.backgroundColor = self.theme.boardColor;
-	self.profilePictureView.backgroundColor = self.theme.tileColors[@(2048)];
-	self.resumeGameButton.backgroundColor = self.theme.boardColor;
-	self.shareButton.backgroundColor = self.theme.boardColor;
-	self.scoreLabel.backgroundColor = self.theme.tileColors[@(4)];
-	self.menuButton.backgroundColor = self.theme.tileColors[@(8)];
+	self.originalContentView.backgroundColor = _theme.backgroundColor;
+	_boardSKView.backgroundColor = _theme.boardColor;
+	_profilePictureView.backgroundColor = _theme.tileColors[@(2048)];
+	_resumeGameButton.backgroundColor = _theme.boardColor;
+	_shareButton.backgroundColor = _theme.boardColor;
+	_scoreLabel.backgroundColor = _theme.tileColors[@(4)];
+	_menuButton.backgroundColor = _theme.buttonColor;
+	_replaySlider.minimumTrackTintColor = _theme.boardColor;
+	_replaySlider.maximumTrackTintColor = _theme.tileColors[@(4)];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -208,6 +214,27 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 			image = [self.scene cropImageToRoundedRect:image];
 			self.profilePictureImageView.image = image;
 		}
+	}
+	
+	
+	if (_mode == GameViewControllerModePlay) {
+		[_scene popupTileContainersAnimated:YES];
+		_replaySlider.alpha = 0.0f;
+	// If it's replay mode
+	} else if (_mode == GameViewControllerModeReplay) {
+		self.canDisplayBannerAds = NO;
+		[self enableButtonAndGestureInteractions:NO];
+		_menuButton.alpha = 0.0f;
+		_profilePictureView.alpha = 0.0f;
+		_messageLabel.alpha = 0.0f;
+		_bestScoreLabel.alpha = 0.0f;
+		_scene.tileType = TileTypeNumber;
+		_replaySlider.minimumValue = 0.0f;
+		_replaySlider.maximumValue = (float)([_replayBoards count] - 1);
+		self.lastSliderValue = 0;
+		// TODO: Change constraints and frame for _scoreLabel
+		[_scene popupTileContainersAnimated:NO];
+		[_scene startGameFromBoard:_replayBoards[0] animated:NO];
 	}
 }
 
@@ -236,6 +263,14 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 }
 
 #pragma mark - IBActions
+
+- (IBAction)replaySliderSlided:(UISlider *)sender {
+	NSUInteger currentValue = (NSUInteger)sender.value;
+	if (currentValue != _lastSliderValue) {
+		self.lastSliderValue = currentValue;
+		[_scene startGameFromBoard:_replayBoards[currentValue] animated:NO];
+	}
+}
 
 - (IBAction)profilePictureTapped:(UITapGestureRecognizer *)sender {
 	
@@ -490,24 +525,24 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 }
 
 -(void)showGameEndView {
-	// !!!: && self.mode == BoardViewControllerModePlaying
-	if (self.scene.gamePlaying == NO) {
+	if (_scene.gamePlaying == NO &&
+		_mode == GameViewControllerModePlay) {
 		// Disable some user interactions.
 		[self enableButtonAndGestureInteractions:NO];
 		
 		// Task a snapshot for sharing
 		UIGraphicsBeginImageContextWithOptions(self.originalContentView.bounds.size, YES, 0.0f);
-		[self.boardSKView drawViewHierarchyInRect:self.originalContentView.bounds afterScreenUpdates:YES];
+		[_boardSKView drawViewHierarchyInRect:self.originalContentView.bounds afterScreenUpdates:YES];
 		self.lastFullScreenSnapshot = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
 		
-		self.pauseView.alpha = 0.0f;
-		[self.boardSKView bringSubviewToFront:self.pauseView];
-		[self.boardSKView bringSubviewToFront:self.pauseImageView];
-		[self.pauseView bringSubviewToFront:self.pauseLabel];
-		[self.pauseView bringSubviewToFront:self.shareButton];
-		[self.pauseView bringSubviewToFront:self.resumeGameButton];
-		self.pauseLabel.tag = 0;
+		_pauseView.alpha = 0.0f;
+		[_boardSKView bringSubviewToFront:self.pauseView];
+		[_boardSKView bringSubviewToFront:self.pauseImageView];
+		[_pauseView bringSubviewToFront:self.pauseLabel];
+		[_pauseView bringSubviewToFront:self.shareButton];
+		[_pauseView bringSubviewToFront:self.resumeGameButton];
+		_pauseLabel.tag = 0;
 		self.pauseLabel.text = STRING_GAME_OVER_LABEL;
 		self.resumeGameButton.tag = 0; // 0 Represents "play again"
 		self.resumeGameButton.titleLabel.text = STRING_TRY_AGAIN;
@@ -560,6 +595,36 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	} else {
 		self.pauseView.alpha = 0.0f;
 	}
+}
+
+// The following two methods are for updating text. When updating, the banner ads should disapear.
+-(void)updateMessage: (NSString *)message {
+	[_timer invalidate];
+	[UIView animateWithDuration:kAnimationDuration_TextFade
+					 animations:^{
+						 self.messageLabel.alpha = 0.0f;
+					 } completion:^(BOOL finished) {
+						 self.messageLabel.text = message;
+						 // If we're on an 3.7" screen
+						 if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone &&
+							 [UIScreen mainScreen].bounds.size.height < 568) {
+							 self.canDisplayBannerAds = NO;
+						 }
+						 [UIView animateWithDuration:kAnimationDuration_TextFade
+										  animations:^{
+											  self.messageLabel.alpha = 1.0f;
+										  } completion:^(BOOL finished) {
+											  self.timer = [NSTimer scheduledTimerWithTimeInterval:kTextShowDuration
+																								target:self
+																							  selector:@selector(enableDisplayingBannerAds)
+																							  userInfo:nil
+																							   repeats:NO];
+										  }];
+					 }];
+}
+
+-(void)enableDisplayingBannerAds {
+	self.canDisplayBannerAds = YES;
 }
 
 @end

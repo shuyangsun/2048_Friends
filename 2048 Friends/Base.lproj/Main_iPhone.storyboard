@@ -257,7 +257,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="321" height="44"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -298,7 +298,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fzK-kv-eTR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4668" y="-463"/>
+            <point key="canvasLocation" x="-5053" y="869"/>
         </scene>
         <!--Table View Controller - Theme-->
         <scene sceneID="1dS-9L-j5x">
@@ -367,6 +367,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="aAP-QA-6gO" kind="push" identifier="HistoriesToGameViewControllerSegue" id="1l9-id-XMq"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -378,7 +381,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ex-AZ-CiJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5053" y="862"/>
+            <point key="canvasLocation" x="-6449" y="922"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="n5K-4U-FoC">
@@ -551,6 +554,13 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Ory-2k-ANa">
+                                <rect key="frame" x="18" y="432" width="284" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="replaySliderSlided:" destination="aAP-QA-6gO" eventType="valueChanged" id="SnG-nF-k4s"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="0.97647064920000004" green="0.96862751250000001" blue="0.9215686917" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
@@ -565,6 +575,7 @@
                             <constraint firstAttribute="centerX" secondItem="5qC-Id-XCw" secondAttribute="centerX" id="whz-Fe-lMF"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="EMA-Zk-84M"/>
                     <connections>
                         <outlet property="bestScoreLabel" destination="bwZ-ph-Ie7" id="rut-Xx-Z2s"/>
                         <outlet property="boardInteractionLayerVIew" destination="qxV-Ab-dwJ" id="aqO-QZ-ACz"/>
@@ -580,6 +591,7 @@
                         <outlet property="profilePictureLongPressGestureRecognizer" destination="Eay-xp-tvK" id="9oX-N1-Rga"/>
                         <outlet property="profilePictureTapGestureRecognizer" destination="dix-Xj-gEt" id="clX-4c-wV3"/>
                         <outlet property="profilePictureView" destination="uLK-gS-p0B" id="oM4-E9-7pe"/>
+                        <outlet property="replaySlider" destination="Ory-2k-ANa" id="EEp-vl-IaI"/>
                         <outlet property="resumeGameButton" destination="aov-Uh-1aE" id="okq-r5-K6e"/>
                         <outlet property="scoreLabel" destination="I1P-Bq-tXO" id="KGU-Ck-n0T"/>
                         <outlet property="shareButton" destination="UXU-bk-poh" id="jij-vu-cez"/>

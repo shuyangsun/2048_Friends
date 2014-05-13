@@ -52,7 +52,6 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 	}
 	[self initializePropertyLists];
 	[self initializeTileContainers:size];
-	[self popupTileContainersAnimated:YES];
 	
 	return res;
 }
@@ -212,16 +211,22 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 
 -(void)startGameFromBoard:(Board *)board animated:(BOOL)animated {
 	if (board) {
+		for (NSValue *value in [_positionsForNodes allKeys]) {
+			if (value) {
+				id tile = [value nonretainedObjectValue];
+				if ([tile isKindOfClass:[TileSKShapeNode class]]) {
+					[tile removeFromParent];
+				}
+			}
+		}
+		[_positionsForNodes removeAllObjects];
 		if (animated) {
 			[self enableButtonAndGestureInteractions:NO];
 			self.board = board;
 			self.score = self.board.score;
 			self.gamePlaying = self.board.gameplaying;
 			self.data = [self.board getBoardDataArray];
-//					self.data = [NSMutableArray arrayWithArray:@[@[@(2), @(8), @(2), @(2)],
-//																 @[@(4), @(2), @(8), @(16)],
-//																 @[@(2), @(4), @(2), @(4)],
-//																 @[@(4), @(2), @(4), @(2)]]];
+			
 			CGFloat tileWidth = self.theme.tileWidth;
 			void (^completion)() = nil;
 			for (size_t row = 0; row < 4; ++row) {
@@ -265,10 +270,7 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 			self.score = self.board.score;
 			self.gamePlaying = self.board.gameplaying;
 			self.data = [self.board getBoardDataArray];
-			//		self.data = [NSMutableArray arrayWithArray:@[@[@(2), @(2), @(2), @(2)],
-			//													 @[@(4), @(0), @(4), @(0)],
-			//													 @[@(16), @(4), @(4), @(16)],
-			//													 @[@(0), @(4), @(4), @(8)]]];
+			
 			CGFloat tileWidth = self.theme.tileWidth;
 			for (size_t row = 0; row < 4; ++row) {
 				for (size_t col = 0; col < 4; col++) {
@@ -301,7 +303,9 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 				}
 			}
 		}
-		[self enableButtonAndGestureInteractions:YES];
+		if (_gameViewController.mode == GameViewControllerModePlay) {
+			[self enableButtonAndGestureInteractions:YES];
+		}
 		[self updateScoresInView];
 	}
 }

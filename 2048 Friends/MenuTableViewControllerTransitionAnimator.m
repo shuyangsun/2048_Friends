@@ -10,8 +10,9 @@
 #import "GameViewController.h"
 #import "MenuTableViewController.h"
 #import "Theme.h"
+#import "macro.h"
 
-const NSTimeInterval kAnimationDuration_MainToMenuViewControllerTransition = 0.5f;
+const NSTimeInterval kAnimationDuration_MainToMenuViewControllerTransition = SCALED_ANIMATION_DURATION(0.5f);
 const CGFloat kAnimationSpringDamping_MainToMenuViewControllerTransition = 0.8f;
 const CGFloat kAnimationSpringVelocity_MainToMenuViewControllerTransition = 0.4f;
 const CGFloat kMenuViewScaleFraction = 0.95f;

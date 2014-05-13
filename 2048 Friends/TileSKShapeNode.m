@@ -14,7 +14,7 @@
 
 const NSTimeInterval kAnimationDuration_ImageFade = SCALED_ANIMATION_DURATION(0.2f);
 const NSTimeInterval kAnimationDuration_ImageTransparent = SCALED_ANIMATION_DURATION(0.15f);
-const NSTimeInterval kAnimationImageTransparencyFraction = 0.3f;
+const CGFloat kAnimationImageTransparencyFraction = 0.3f;
 
 @interface TileSKShapeNode()
 

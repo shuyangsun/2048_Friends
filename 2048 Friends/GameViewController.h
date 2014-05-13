@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, GameViewControllerMode) {
+	GameViewControllerModePlay = 0,
+	GameViewControllerModeReplay
+};
+
 @class BoardScene;
 @class MenuTableViewControllerTransitionAnimator;
 
@@ -29,16 +34,22 @@ extern const NSUInteger kDefaultContextSavingSwipeNumber;
 
 @interface GameViewController : UIViewController <UIViewControllerTransitioningDelegate>
 
-@property (weak, nonatomic) IBOutlet UIImageView *profilePictureImageView;
-@property (weak, nonatomic) IBOutlet UIButton *menuButton;
-@property (weak, nonatomic) IBOutlet UILabel *bestScoreLabel;
-@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (strong, nonatomic) BoardScene *scene;
+@property (nonatomic, weak) IBOutlet UIImageView *profilePictureImageView;
+@property (nonatomic, weak) IBOutlet UIButton *menuButton;
+@property (nonatomic, weak) IBOutlet UILabel *bestScoreLabel;
+@property (nonatomic, weak) IBOutlet UILabel *scoreLabel;
+
+@property (nonatomic, strong) BoardScene *scene;
 @property (nonatomic, strong) UIView *greyLayerView;
 @property (nonatomic, strong) MenuTableViewControllerTransitionAnimator *menuNavigationViewControllerAnimator;
+
+// Properties related to replay mode
+@property (nonatomic, assign) GameViewControllerMode mode;
+@property (nonatomic, strong) NSArray *replayBoards;
 
 -(void)showGameEndView;
 -(void)enableGestureRecognizers:(BOOL)enabled;
 -(void)enableButtonAndGestureInteractions:(BOOL)enabled;
+-(void)updateMessage: (NSString *)message;
 
 @end

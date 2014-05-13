@@ -11,7 +11,7 @@
 
 extern const NSTimeInterval kAnimationDuration_ImageFade;
 extern const NSTimeInterval kAnimationDuration_ImageTransparent;
-extern const NSTimeInterval kAnimationImageTransparencyFraction;
+extern const CGFloat kAnimationImageTransparencyFraction;
 
 @class Theme;
 

@@ -58,7 +58,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -70,15 +70,26 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSString *cellIdentifier = @"MenuShareCell";
-	if (indexPath.section == 0) {
-		cellIdentifier = @"MenuShareCell";
-	} else if (indexPath.section == 1) {
-		cellIdentifier = @"MenuLoginCell";
-	} else if (indexPath.section == 2) {
-		cellIdentifier = @"MenuThemeCell";
-	} else if (indexPath.section == 3) {
-		cellIdentifier = @"MenuHistoriesCell";
+	switch (indexPath.section) {
+		case 0:
+			cellIdentifier = @"MenuShareCell";
+			break;
+		case 1:
+			cellIdentifier = @"MenuLoginCell";
+			break;
+		case 2:
+			cellIdentifier = @"MenuThemeCell";
+			break;
+		case 3:
+			cellIdentifier = @"MenuHistoriesCell";
+			break;
+		case 4:
+			cellIdentifier = @"MenuAboutCell";
+			break;
+		default:
+			break;
 	}
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
 	if (indexPath.section%2 == 0) {
 		cell.backgroundColor = self.theme.tileColors[@(2)];
