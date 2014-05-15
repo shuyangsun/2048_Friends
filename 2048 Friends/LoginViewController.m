@@ -341,7 +341,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 											  for (TileSKShapeNode *node in [gViewController.scene.nodeForIndexes allValues]) {
 												  [node updateImage:gViewController.scene.imagesForValues[@(node.value)] completion:nil];
 											  }
-											  gViewController.profilePictureImageView = gViewController.scene.imagesForValues[@(2048)];
+											  gViewController.profilePictureImageView.image = gViewController.scene.imagesForValues[@(2048)];
 										  }
 									  }
 							  }

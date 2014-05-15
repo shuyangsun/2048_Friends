@@ -32,7 +32,8 @@
 }
 
 +(History *)latestHistory {
-	return [[self allHistories] lastObject];
+	History *res = [[self allHistories] lastObject];
+	return res;
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 #import "GameManager+ModelLayer03.h"
+#import "History+ModelLayer03.h"
 #import "Board+ModelLayer03.h"
 #import "Tile+ModelLayer03.h"
 #import "AppDelegate.h"

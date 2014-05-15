@@ -32,11 +32,11 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 	if (self = [super initWithSize:size]) {
 		self.uiIdiom = [UIDevice currentDevice].userInterfaceIdiom;
 		self.gManager = [GameManager sharedGameManager];
-		self.history = [History latestHistory];
 		self.board = [Board latestBoard];
 		if (!self.board) {
 			self.board = [Board initializeNewBoard];
 		}
+		self.history = [History latestHistory];
 		self.tileType = self.gManager.tileViewType;
 		[self updateImagesAndUserIDs];
     }
@@ -953,8 +953,6 @@ const NSTimeInterval kAnimationDuration_TileContainerPopup = SCALED_ANIMATION_DU
 	}
 	
 	[self.gManager setMaxOccuredDictionary:[maxOccuredDictionary copy]];
-	self.board = [Board createBoardWithBoardData:self.data gamePlaying:self.gamePlaying score:self.score swipeDirection:self.nextDirection];
-	[self.history addBoardsObject:self.board];
 	[self updateScoresInView];
 }
 

@@ -357,6 +357,8 @@
 				04A8EA3E19104C0000E6AC55 /* Main_iPhone.storyboard */,
 				04A8EA4119104C2400E6AC55 /* Main_iPad.storyboard */,
 				04A8EA4419104C3200E6AC55 /* Images.xcassets */,
+				04A8EA7D19104E4200E6AC55 /* AppDelegate.h */,
+				04A8EA7E19104E4200E6AC55 /* AppDelegate.m */,
 				04983CD118EF628E0022FB63 /* GUI/UX */,
 				04601EE818EB8C39007BAC8E /* Model */,
 				04E3FD2518F4BF23004A0DB8 /* Third Party Frameworks */,
@@ -414,8 +416,6 @@
 			isa = PBXGroup;
 			children = (
 				04A8EA7919104E1700E6AC55 /* macro.h */,
-				04A8EA7D19104E4200E6AC55 /* AppDelegate.h */,
-				04A8EA7E19104E4200E6AC55 /* AppDelegate.m */,
 				04983CDC18EFAA400022FB63 /* Layer03 (End User APIs, automatically save context and iCloud) */,
 				04911A9C18EE04F500013B8E /* Layer02 (Simplified Object Management) */,
 				0437867C18ECF90D0034651C /* Layer01 (CoreData Foundation) */,
@@ -858,7 +858,6 @@
 					"$(PROJECT_DIR)/FacebookSDK",
 					"$(PROJECT_DIR)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					/Users/mac/Documents/FacebookSDK/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "2048 Friends/2048 Friends-Prefix.pch";
@@ -885,7 +884,6 @@
 					"$(PROJECT_DIR)/FacebookSDK",
 					"$(PROJECT_DIR)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					/Users/mac/Documents/FacebookSDK/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "2048 Friends/2048 Friends-Prefix.pch";
@@ -907,7 +905,6 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					/Users/mac/Documents/FacebookSDK/,
 					"$(PROJECT_DIR)/FacebookSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -933,7 +930,6 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					/Users/mac/Documents/FacebookSDK/,
 					"$(PROJECT_DIR)/FacebookSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

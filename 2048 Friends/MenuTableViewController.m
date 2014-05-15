@@ -11,6 +11,8 @@
 #import "HistoriesTableViewController.h"
 #import "GameManager+ModelLayer03.h"
 #import "History+ModelLayer03.h"
+#import "GameViewController.h"
+#import "BoardScene.h"
 
 @interface MenuTableViewController ()
 
@@ -58,51 +60,64 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 1;
+	switch (section) {
+		case 0:
+			return 1;
+		case 1:
+			return 4;
+		default:
+			return 0;
+	}
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSString *cellIdentifier = @"MenuShareCell";
-	switch (indexPath.section) {
-		case 0:
-			cellIdentifier = @"MenuShareCell";
-			break;
-		case 1:
-			cellIdentifier = @"MenuLoginCell";
-			break;
-		case 2:
-			cellIdentifier = @"MenuThemeCell";
-			break;
-		case 3:
-			cellIdentifier = @"MenuHistoriesCell";
-			break;
-		case 4:
-			cellIdentifier = @"MenuAboutCell";
-			break;
-		default:
-			break;
+	if (indexPath.section == 0) {
+		switch (indexPath.row) {
+			case 0:
+				cellIdentifier = @"MenuShareCell";
+				break;
+			default:
+				break;
+		}
+	} else if (indexPath.section == 1) {
+		switch (indexPath.row) {
+			case 0:
+				cellIdentifier = @"MenuLoginCell";
+				break;
+			case 1:
+				cellIdentifier = @"MenuThemeCell";
+				break;
+			case 2:
+				cellIdentifier = @"MenuHistoriesCell";
+				break;
+			case 3:
+				cellIdentifier = @"MenuAboutCell";
+				break;
+			default:
+				break;
+		}
 	}
-
+	
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-	if (indexPath.section%2 == 0) {
+	if (indexPath.row%2 == 0) {
 		cell.backgroundColor = self.theme.tileColors[@(2)];
 	} else {
 		cell.backgroundColor = self.theme.tileColors[@(4)];
 	}
+	cell.textLabel.textColor = _theme.tileTextColor;
+	cell.textLabel.font = [UIFont fontWithName:@"ArialMT" size:18.0f];
 	if (cell.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
-		cell.accessoryView.tintColor = [UIColor whiteColor];
-		cell.accessoryView.backgroundColor = [UIColor whiteColor];
+		cell.accessoryView.tintColor = _theme.tileTextColor;
+		cell.accessoryView.backgroundColor = _theme.tileTextColor;
 	}
-    cell.layer.cornerRadius = self.theme.buttonCornerRadius;
-	cell.layer.masksToBounds = YES;
-    // Configure the cell...
     
     return cell;
 }
@@ -157,6 +172,5 @@
 		hTableViewController.histories = [History allHistories];
 	}
 }
-
 
 @end

@@ -23,6 +23,7 @@ extern const NSTimeInterval kAnimationDelay_GameOver;
 extern const NSTimeInterval kAnimationDuration_ScaleTile;
 extern const NSTimeInterval kAnimationDuration_TextFade;
 extern const NSTimeInterval kTextShowDuration;
+extern const NSTimeInterval kReplayBoardShowDuration;
 extern const CGFloat kAnimationSpring_Damping;
 extern const CGFloat kAnimationSpring_Velocity;
 extern const CGFloat kBoardPanMinDistance;

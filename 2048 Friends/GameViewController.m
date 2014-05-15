@@ -33,9 +33,10 @@ const NSTimeInterval kAnimationDuration_ScaleTile = SCALED_ANIMATION_DURATION(1.
 const NSTimeInterval kAnimationDuration_MoveTile = SCALED_ANIMATION_DURATION(0.2f);
 const NSTimeInterval kAnimationDelay_GameOver = SCALED_ANIMATION_DURATION(0.0f);
 const NSTimeInterval kAnimationDuration_TextFade = SCALED_ANIMATION_DURATION(0.5f);
-const NSTimeInterval kTextShowDuration = SCALED_ANIMATION_DURATION(5.0f);
-const CGFloat kAnimationSpring_Damping = SCALED_ANIMATION_DURATION(0.5f);
-const CGFloat kAnimationSpring_Velocity = SCALED_ANIMATION_DURATION(0.4f);
+const NSTimeInterval kTextShowDuration = 5.0f;
+const NSTimeInterval kReplayBoardShowDuration = 0.2f;
+const CGFloat kAnimationSpring_Damping = 0.5f;
+const CGFloat kAnimationSpring_Velocity = 0.4f;
 
 const CGFloat kTileMoveAnimationDurationFraction = 1.5f;
 
@@ -54,8 +55,11 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 @property (weak, nonatomic) IBOutlet SKView *boardSKView;
 @property (weak, nonatomic) IBOutlet UIView *boardInteractionLayerVIew;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
-@property (weak, nonatomic) IBOutlet UISlider *replaySlider;
 @property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *panGestureRecognizer;
+@property (weak, nonatomic) IBOutlet UISlider *replaySlider;
+@property (weak, nonatomic) IBOutlet UIButton *replayPreviousButton;
+@property (weak, nonatomic) IBOutlet UIButton *replayNextButton;
+@property (weak, nonatomic) IBOutlet UIButton *replayPlayButton;
 
 @property (weak, nonatomic) IBOutlet UIView *pauseView;
 @property (weak, nonatomic) IBOutlet UIImageView *pauseImageView;
@@ -79,7 +83,13 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 @property (nonatomic, strong) AppDelegate *appDelegate;
 @property (nonatomic, strong) UIImage *lastFullScreenSnapshot;
 @property (nonatomic, assign) CGFloat scaledFraction;
-@property (nonatomic, strong) NSTimer *timer;
+// This timer is for displaying text, everytime the text needs to update, the timer get stopped, and start again.
+@property (nonatomic, strong) NSTimer *messageUpdateTimer;
+/** This timer is for play replay. Every time the play button get hit, the timer starts.
+ *  When the replay is playing, the timer is not nil, when the replay is not playing, the timer should be nil.
+ *  This timer indicates if the replay is playing. (as like a boolean variable)
+ */
+@property (nonatomic, strong) NSTimer *replayTimer;
 
 @property (nonatomic, assign) NSUInteger lastSliderValue;
 
@@ -132,9 +142,6 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	
     // SpriteKit stuff
     SKView * skView = (SKView *)_boardSKView;
-	
-//    skView.showsFPS = YES;
-//    skView.showsNodeCount = YES;
     
     // Create and configure the scene.
     self.scene = [BoardScene sceneWithSize:skView.bounds.size andTheme:self.theme];
@@ -193,6 +200,12 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	_resumeGameButton.layer.masksToBounds = YES;
 	_shareButton.layer.cornerRadius = _theme.buttonCornerRadius;
 	_shareButton.layer.masksToBounds = YES;
+	_replayPreviousButton.layer.cornerRadius = _theme.buttonCornerRadius;
+	_replayPreviousButton.layer.masksToBounds = YES;
+	_replayNextButton.layer.cornerRadius = _theme.buttonCornerRadius;
+	_replayNextButton.layer.masksToBounds = YES;
+	_replayPlayButton.layer.cornerRadius = _theme.buttonCornerRadius;
+	_replayPlayButton.layer.masksToBounds = YES;
 	
 	// Change the color of views
 	self.originalContentView.backgroundColor = _theme.backgroundColor;
@@ -202,8 +215,10 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 	_shareButton.backgroundColor = _theme.boardColor;
 	_scoreLabel.backgroundColor = _theme.tileColors[@(4)];
 	_menuButton.backgroundColor = _theme.buttonColor;
+	_messageLabel.textColor = _theme.tileTextColor;
 	_replaySlider.minimumTrackTintColor = _theme.boardColor;
 	_replaySlider.maximumTrackTintColor = _theme.tileColors[@(4)];
+	_replayPreviousButton.backgroundColor = _replayNextButton.backgroundColor = _replayPlayButton.backgroundColor = _theme.buttonColor;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -216,11 +231,15 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 		}
 	}
 	
-	
+	/** The following code is to hide/show views on the controller based on the current view controller mode (play or replay). */
+	// Play Mode
 	if (_mode == GameViewControllerModePlay) {
 		[_scene popupTileContainersAnimated:YES];
 		_replaySlider.alpha = 0.0f;
-	// If it's replay mode
+		_replayPreviousButton.alpha = 0.0f;
+		_replayNextButton.alpha = 0.0f;
+		_replayPlayButton.alpha = 0.0f;
+	// Replay Mode
 	} else if (_mode == GameViewControllerModeReplay) {
 		self.canDisplayBannerAds = NO;
 		[self enableButtonAndGestureInteractions:NO];
@@ -231,6 +250,19 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 		_scene.tileType = TileTypeNumber;
 		_replaySlider.minimumValue = 0.0f;
 		_replaySlider.maximumValue = (float)([_replayBoards count] - 1);
+		
+		// TODO: Instead of make these buttons invisible, display them as grey.
+		if (_replaySlider.maximumValue == 0.0f) {
+			_replaySlider.alpha = 0.0f;
+			_replayPreviousButton.alpha = 0.0f;
+			_replayNextButton.alpha = 0.0f;
+			_replayPlayButton.alpha = 0.0f;
+		} else {
+			_replaySlider.alpha = 1.0f;
+			_replayPreviousButton.alpha = 1.0f;
+			_replayNextButton.alpha = 1.0f;
+			_replayPlayButton.alpha = 1.0f;
+		}
 		self.lastSliderValue = 0;
 		// TODO: Change constraints and frame for _scoreLabel
 		[_scene popupTileContainersAnimated:NO];
@@ -264,11 +296,100 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 
 #pragma mark - IBActions
 
+/** Seperating replay replated methods because of timer issue.
+ *  When the user actually tap on a button, the timer get stopped.
+ *  But the "play" timer only fires the helper methods corresponding to IBAction methods,
+ *  so the "[_replayTimer invalidate];" line won't get called.
+ */
+
+// TODO: Use images instead of text to show "Play" and "Pause"
 - (IBAction)replaySliderSlided:(UISlider *)sender {
+	[_replayTimer invalidate];
+	[_replayPlayButton setTitle:@"Play" forState:UIControlStateNormal];
+	self.replayTimer = nil;
+	[self showBoardInHistoryWithSlider:sender];
+}
+
+-(void)showBoardInHistoryWithSlider: (UISlider *)sender {
 	NSUInteger currentValue = (NSUInteger)sender.value;
 	if (currentValue != _lastSliderValue) {
+		/** Change the button color based on slider value
+		 *  If the last slider value is not the same as this one, check to see if we need to change color.
+		 *  If the last slider value is 0, now it's changed, enable previous button.
+		 *  If the last slider value is [_replayBoards count], and now it's changed, enable next and play button.
+		 */
+		if (_lastSliderValue <= 0) {
+			_replayPreviousButton.backgroundColor = _theme.buttonColor;
+			_replayPreviousButton.enabled = YES;
+		} else if (_lastSliderValue >= [_replayBoards count] - 1) {
+			_replayNextButton.backgroundColor = _theme.buttonColor;
+			_replayPlayButton.backgroundColor = _theme.buttonColor;
+			_replayNextButton.enabled = YES;
+			_replayPlayButton.enabled = YES;
+		}
+		if (currentValue < 1) {
+			_replayPreviousButton.backgroundColor = [UIColor grayColor];
+			_replayPreviousButton.enabled = NO;
+		}
+		if (currentValue >= [_replayBoards count] - 1) {
+			_replayNextButton.backgroundColor = [UIColor grayColor];
+			_replayPlayButton.backgroundColor = [UIColor grayColor];
+			_replayNextButton.enabled = NO;
+			_replayPlayButton.enabled = NO;
+		}
+		
 		self.lastSliderValue = currentValue;
 		[_scene startGameFromBoard:_replayBoards[currentValue] animated:NO];
+	}
+}
+
+- (IBAction)replayPreviousTapped:(UIButton *)sender {
+	[_replayTimer invalidate];
+	[_replayPlayButton setTitle:@"Play" forState:UIControlStateNormal];
+	self.replayTimer = nil;
+	[self showPreviousBoardInHistory];
+}
+
+-(void)showPreviousBoardInHistory {
+	if (_lastSliderValue < 1) {
+		return;
+	} else {
+		_replaySlider.value = _replaySlider.value - 1;
+		[self showBoardInHistoryWithSlider:_replaySlider];
+	}
+}
+
+- (IBAction)replayNextTapped:(UIButton *)sender {
+	[_replayTimer invalidate];
+	[_replayPlayButton setTitle:@"Play" forState:UIControlStateNormal];
+	self.replayTimer = nil;
+	[self showNextBoardInHistory];
+}
+
+-(void)showNextBoardInHistory {
+	if (_lastSliderValue > [_replayBoards count] - 2) {
+		return;
+	} else {
+		_replaySlider.value = _replaySlider.value + 1;
+		[self showBoardInHistoryWithSlider:_replaySlider];
+	}
+}
+
+- (IBAction)replayPlayTapped:(UIButton *)sender {
+	if (_replayTimer) {
+		[_replayPlayButton setTitle:@"Play" forState:UIControlStateNormal];
+		[_replayTimer invalidate];
+		self.replayTimer = nil;
+	} else {
+		[_replayPlayButton setTitle:@"Pause" forState:UIControlStateNormal];
+		self.replayTimer = [NSTimer timerWithTimeInterval:kReplayBoardShowDuration
+												   target:self
+												 selector:@selector(showNextBoardInHistory)
+												 userInfo:nil
+												  repeats:YES];
+		NSRunLoop *runLoop = [NSRunLoop mainRunLoop];
+		[runLoop addTimer:_replayTimer
+				  forMode:NSRunLoopCommonModes];
 	}
 }
 
@@ -477,6 +598,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 			if ([topViewController isKindOfClass:[MenuTableViewController class]]) {
 				MenuTableViewController *menuTableViewController = (MenuTableViewController *)topViewController;
 				menuTableViewController.theme = self.theme;
+				menuTableViewController.gViewController = self;
 			}
 		}
 	}
@@ -599,7 +721,7 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 
 // The following two methods are for updating text. When updating, the banner ads should disapear.
 -(void)updateMessage: (NSString *)message {
-	[_timer invalidate];
+	[_messageUpdateTimer invalidate];
 	[UIView animateWithDuration:kAnimationDuration_TextFade
 					 animations:^{
 						 self.messageLabel.alpha = 0.0f;
@@ -614,11 +736,11 @@ const NSUInteger kDefaultContextSavingSwipeNumber = 10;
 										  animations:^{
 											  self.messageLabel.alpha = 1.0f;
 										  } completion:^(BOOL finished) {
-											  self.timer = [NSTimer scheduledTimerWithTimeInterval:kTextShowDuration
-																								target:self
-																							  selector:@selector(enableDisplayingBannerAds)
-																							  userInfo:nil
-																							   repeats:NO];
+											  self.messageUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:kTextShowDuration
+																										 target:self
+																									   selector:@selector(enableDisplayingBannerAds)
+																									   userInfo:nil
+																										repeats:NO];
 										  }];
 					 }];
 }

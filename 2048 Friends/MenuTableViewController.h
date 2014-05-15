@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class Theme;
+@class Theme, GameViewController;
 
 @interface MenuTableViewController : UITableViewController
 
 @property (nonatomic, strong) Theme *theme;
+@property (nonatomic, strong) GameViewController *gViewController;
 
 -(void)dismissNavigationBarController;
 
