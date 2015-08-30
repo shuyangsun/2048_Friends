@@ -101,6 +101,7 @@ const CGFloat kMenuViewScaleFraction = 0.95f;
 						 completion:^(BOOL finished) {
 							 [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
 						 }];
+		[[[UIApplication sharedApplication] keyWindow] addSubview:toViewController.view];
 	}
 }
 

@@ -78,7 +78,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-	self.fbLoginView.readPermissions = @[@"read_friendlists", @"user_about_me", @"friends_about_me"];
+	self.fbLoginView.readPermissions = @[@"read_friendlists", @"user_about_me", @"user_friends"];
 	
 	// Set colros
 	self.view.backgroundColor = self.theme.backgroundColor;
@@ -226,7 +226,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 -(BOOL)fetchFbImages {
 	if (!FBSession.activeSession.isOpen) {
 		// if the session is closed, then we open it here, and establish a handler for state changes
-		[FBSession openActiveSessionWithReadPermissions:@[@"read_friendlists", @"user_about_me", @"friends_about_me"]
+		[FBSession openActiveSessionWithReadPermissions:@[@"read_friendlists", @"user_about_me", @"user_friends"]
 										   allowLoginUI:YES
 									  completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
 										  if (error) {
@@ -260,7 +260,14 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 								  NSArray* friends = [result objectForKey:@"data"];
 									  // Assign profile pictures to Tiles.
 									  if ([friends count] < 16) {
-										  NSLog(@"Not enough facebook friends.");
+#if DEBUG
+										  NSMutableArray *names = [NSMutableArray array];
+										  for (int i = 0; i < [friends count]; ++i) {
+											  NSDictionary<FBGraphUser> *friend = friends[i];
+											  [names addObject: friend.name];
+										  }
+										  NSLog(@"NOT ENOUGH FRIENDS (%lu): %@", (unsigned long)names.count, names);
+#endif
 										  return;
 									  }
 									  UIViewController *presentingViewController = self.presentingViewController;
@@ -286,7 +293,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 												  // Get image:
 												  NSData *imageData = [NSData dataWithContentsOfURL:profilePictureURL];
 												  UIImage *profilePic = [UIImage imageWithData:imageData];
-												  // Detect if there's a face in it.
+												  // Detect if there's a face in the picture.
 												  if (detectFacesAndDuplicates) {
 													  // If the user ID already exists, use another one
 													  if ([gViewController.scene.userIDs containsObject:friend.id]) {
@@ -306,7 +313,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 														  opts = @{CIDetectorImageOrientation :@(1)};
 													  }
 													  NSArray *features = [detector featuresInImage:convertedCIImage options:opts];
-													  if ([features count] > 0) { // If there is a face"
+													  if ([features count] > 0) { // If there is a face
 														  tile.fbUserID = fbUserID;
 														  tile.fbUserName = name;
 														  tile.image = profilePic;

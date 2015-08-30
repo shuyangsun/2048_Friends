@@ -467,27 +467,7 @@
 		[str appendString:@"\n--------------------\n"];
 	}
 	
-	NSString *directionString = nil;
-	switch (self.swipeDirection) {
-		case BoardSwipeGestureDirectionNone:
-			directionString = @"NONE";
-			break;
-		case BoardSwipeGestureDirectionLeft:
-			directionString = @"LEFT";
-			break;
-		case BoardSwipeGestureDirectionRight:
-			directionString = @"RIGHT";
-			break;
-		case BoardSwipeGestureDirectionUp:
-			directionString = @"UP";
-			break;
-		case BoardSwipeGestureDirectionDown:
-			directionString = @"DOWN";
-			break;
-		default:
-			directionString = @"NONE";
-			break;
-	}
+	NSString *directionString = [Board directionStringFromDirection:self.swipeDirection];
 	[str appendFormat:@"Direction: %@\n", directionString];
 	[str appendFormat:@"Score: %d\n", self.score];
 	[str appendFormat:@"Game Playing: %@", (self.gameplaying ? @"YES":@"NO")];
