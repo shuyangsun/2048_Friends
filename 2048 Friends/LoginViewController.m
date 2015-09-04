@@ -266,7 +266,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 											  NSDictionary<FBGraphUser> *friend = friends[i];
 											  [names addObject: friend.name];
 										  }
-										  NSLog(@"NOT ENOUGH FRIENDS (%lu): %@", (unsigned long)names.count, names);
+										  NSLog(@"NOT ENOUGH FRIENDS (%lu TOTAL, %lu TO GO): %@", (unsigned long)names.count, 16 - names.count, names);
 #endif
 										  return;
 									  }
