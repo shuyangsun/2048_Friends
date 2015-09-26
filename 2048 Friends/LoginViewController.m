@@ -198,7 +198,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 		Tile *tile = [Tile tileWithValue:2048];
 		// Get a random friend from the list:
 		NSString *name = user.name;
-		NSString *fbUserID = user.id;
+		NSString *fbUserID = user.objectID;
 		NSURL *profilePictureURL = [LoginViewController profilePictureURLFromFBUserID:fbUserID];
 		// Get image:
 		NSData *imageData = [NSData dataWithContentsOfURL:profilePictureURL];
@@ -228,6 +228,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 		// if the session is closed, then we open it here, and establish a handler for state changes
 		[FBSession openActiveSessionWithReadPermissions:@[@"read_friendlists", @"user_about_me", @"user_friends"]
 										   allowLoginUI:YES
+									 fromViewController:nil // Default topmost view controller
 									  completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
 										  if (error) {
 											  UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -241,6 +242,21 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 											  [self executeFacebookFetchRequests];
 										  }
 									  }];
+//		[FBSession openActiveSessionWithReadPermissions:@[@"read_friendlists", @"user_about_me", @"user_friends"]
+//										   allowLoginUI:YES
+//									  completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+//										  if (error) {
+//											  UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+//																								  message:error.localizedDescription
+//																								 delegate:nil
+//																						cancelButtonTitle:@"OK"
+//																						otherButtonTitles:nil];
+//											  [alertView show];
+//										  } else if (session.isOpen) {
+//											  //run your user info request here
+//											  [self executeFacebookFetchRequests];
+//										  }
+//									  }];
 	} else {
 		[self executeFacebookFetchRequests];
 	}
@@ -288,7 +304,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 												  // Get a random friend from the list:
 												  NSDictionary<FBGraphUser> *friend = friends[ind++];
 												  NSString *name = friend.name;
-												  NSString *fbUserID = friend.id;
+												  NSString *fbUserID = friend.objectID;
 												  NSURL *profilePictureURL = [LoginViewController profilePictureURLFromFBUserID:fbUserID];
 												  // Get image:
 												  NSData *imageData = [NSData dataWithContentsOfURL:profilePictureURL];
@@ -296,7 +312,7 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 												  // Detect if there's a face in the picture.
 												  if (detectFacesAndDuplicates) {
 													  // If the user ID already exists, use another one
-													  if ([gViewController.scene.userIDs containsObject:friend.id]) {
+													  if ([gViewController.scene.userIDs containsObject:friend.objectID]) {
 														  i--;
 														  continue;
 													  }

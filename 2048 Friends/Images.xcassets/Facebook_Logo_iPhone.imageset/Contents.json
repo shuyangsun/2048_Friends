@@ -2,13 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "Facebook_Logo 2_iPhone.png"
+      "filename" : "Facebook_Logo 2_iPhone.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "Facebook_Logo_iPhone@2x.png"
+      "filename" : "Facebook_Logo_iPhone@2x.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

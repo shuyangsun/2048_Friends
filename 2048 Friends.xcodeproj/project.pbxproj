@@ -61,8 +61,8 @@
 		04A8EACB1910759000E6AC55 /* HistoryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A8EABB1910717000E6AC55 /* HistoryTest.m */; };
 		04A8EACC1910759000E6AC55 /* TileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A8EABC1910717000E6AC55 /* TileTest.m */; };
 		04A8EACD191075C200E6AC55 /* GameDataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04A8EAB11910504E00E6AC55 /* GameDataBase.xcdatamodeld */; };
-		04A8EAD1191076AA00E6AC55 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A8EAD0191076AA00E6AC55 /* FacebookSDK.framework */; };
 		04DA479E18F4DD4C00693AED /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DA479D18F4DD4C00693AED /* iAd.framework */; };
+		10D6E6381BB71F6A00774FF6 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10D6E6371BB71F6A00774FF6 /* FacebookSDK.framework */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,8 +161,8 @@
 		04A8EABA1910717000E6AC55 /* GameManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameManagerTest.m; path = "2048 FriendsTests/GameManagerTest.m"; sourceTree = SOURCE_ROOT; };
 		04A8EABB1910717000E6AC55 /* HistoryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HistoryTest.m; path = "2048 FriendsTests/HistoryTest.m"; sourceTree = SOURCE_ROOT; };
 		04A8EABC1910717000E6AC55 /* TileTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TileTest.m; path = "2048 FriendsTests/TileTest.m"; sourceTree = SOURCE_ROOT; };
-		04A8EAD0191076AA00E6AC55 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		04DA479D18F4DD4C00693AED /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		10D6E6371BB71F6A00774FF6 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,11 +171,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				040A3F3A190D5C8700BBF2ED /* ImageIO.framework in Frameworks */,
+				10D6E6381BB71F6A00774FF6 /* FacebookSDK.framework in Frameworks */,
 				045D202419035A5E0001701F /* SpriteKit.framework in Frameworks */,
 				04DA479E18F4DD4C00693AED /* iAd.framework in Frameworks */,
 				04983CCB18EE5FB90022FB63 /* CoreData.framework in Frameworks */,
 				0448478B18EA1BA100D35B0F /* CoreGraphics.framework in Frameworks */,
-				04A8EAD1191076AA00E6AC55 /* FacebookSDK.framework in Frameworks */,
 				0448478D18EA1BA100D35B0F /* UIKit.framework in Frameworks */,
 				0444F6E718EE3F7E005A0490 /* StoreKit.framework in Frameworks */,
 				0448478918EA1BA100D35B0F /* Foundation.framework in Frameworks */,
@@ -333,7 +333,7 @@
 		0448478718EA1BA100D35B0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				04A8EAD0191076AA00E6AC55 /* FacebookSDK.framework */,
+				10D6E6371BB71F6A00774FF6 /* FacebookSDK.framework */,
 				040A3F39190D5C8700BBF2ED /* ImageIO.framework */,
 				040A3F37190D5C4A00BBF2ED /* CoreImage.framework */,
 				045D202319035A5E0001701F /* SpriteKit.framework */,
