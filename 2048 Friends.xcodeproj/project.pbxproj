@@ -616,7 +616,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = TFFB;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Shuyang Sun";
 				TargetAttributes = {
 					0448478418EA1BA100D35B0F = {
@@ -785,6 +785,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -864,6 +865,7 @@
 				INFOPLIST_FILE = "2048 Friends/2048 Friends-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shuyangsun.2048Friends;
 				PRODUCT_NAME = "2048 Friends";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -890,6 +892,7 @@
 				INFOPLIST_FILE = "2048 Friends/2048 Friends-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shuyangsun.2048Friends;
 				PRODUCT_NAME = "2048 Friends";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -916,6 +919,7 @@
 				INFOPLIST_FILE = "2048 FriendsTests/2048 FriendsTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.shuyangsun.2048FB.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "2048 FriendsTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -937,6 +941,7 @@
 				INFOPLIST_FILE = "2048 FriendsTests/2048 FriendsTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.shuyangsun.2048FB.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "2048 FriendsTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

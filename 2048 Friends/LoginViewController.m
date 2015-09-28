@@ -276,13 +276,20 @@ const NSTimeInterval kViewControllerDuration_SpringVelocity = SCALED_ANIMATION_D
 								  NSArray* friends = [result objectForKey:@"data"];
 									  // Assign profile pictures to Tiles.
 									  if ([friends count] < 16) {
-#if DEBUG
 										  NSMutableArray *names = [NSMutableArray array];
 										  for (int i = 0; i < [friends count]; ++i) {
 											  NSDictionary<FBGraphUser> *friend = friends[i];
 											  [names addObject: friend.name];
 										  }
-										  NSLog(@"NOT ENOUGH FRIENDS (%lu TOTAL, %lu TO GO): %@", (unsigned long)names.count, 16 - names.count, names);
+
+										  UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Need More Friends"
+																						  message: [NSString stringWithFormat:@"Not enough friends (%lu total, %lu more to go).", (unsigned long)names.count, 16 - names.count]
+																						 delegate:nil
+																				cancelButtonTitle:@"Okay"
+																				otherButtonTitles:nil, nil];
+										  [alert show];
+#if DEBUG
+										  NSLog(@"NOT ENOUGH FRIENDS (%lu TOTAL, %lu MORE TO GO): %@", (unsigned long)names.count, 16 - names.count, names);
 #endif
 										  return;
 									  }
