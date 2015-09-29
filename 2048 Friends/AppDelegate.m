@@ -10,6 +10,8 @@
 #import <CoreData/CoreData.h>
 #import "AppDelegate.h"
 #import "Theme.h"
+#import "HistoriesTableViewController.h"
+#import "GameViewController.h"
 
 #import "GameManager+ModelLayer03.h"
 #import "History+ModelLayer01.h"
@@ -50,7 +52,54 @@ NSString *const kCurrentThemeIDKey = @"UserDefault_CurrentThemeUUIDKey";
 	[userDefaults synchronize];
 	[ubiquitousStore setObject:themeID forKey:kCurrentThemeIDKey];
 	[ubiquitousStore synchronize];
+
+	// Handle 3DTouch ShortcutItems
+	UIApplicationShortcutItem *shortcutItem = [launchOptions objectForKey:UIApplicationLaunchOptionsShortcutItemKey];
+	[self handleShortcutItem:shortcutItem];
     return YES;
+}
+
+-(void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
+	[self handleShortcutItem:shortcutItem];
+}
+
+// Handle 3DTouch shortcut items.
+-(void)handleShortcutItem: (UIApplicationShortcutItem *)shortcutItem {
+	NSString *itemType = [shortcutItem type];
+	if (itemType == nil) {
+		return;
+	} else if ([itemType isEqualToString:@"com.shuyangsun.2048Friends.playgame"]) {
+		GameViewController *gViewController = (GameViewController *)[[[UIApplication sharedApplication] keyWindow] rootViewController];
+		if (gViewController != nil) {
+			[[gViewController presentedViewController] dismissViewControllerAnimated:YES completion:nil];
+		}
+	} else if ([itemType isEqualToString:@"com.shuyangsun.2048Friends.login"]) {
+		GameViewController *gViewController = (GameViewController *)[[[UIApplication sharedApplication] keyWindow] rootViewController];
+		if (gViewController != nil) {
+			if ([gViewController presentedViewController] != nil) {
+				[[gViewController presentedViewController] dismissViewControllerAnimated:YES completion:^{
+					[gViewController performSegueWithIdentifier:@"GameViewControllerToMenuTableViewControllerSegue" sender:nil];
+					[[(UINavigationController *)[gViewController presentedViewController] topViewController] performSegueWithIdentifier:@"MenuToLoginSegue" sender:nil];
+				}];
+			} else {
+				[gViewController performSegueWithIdentifier:@"GameViewControllerToMenuTableViewControllerSegue" sender:nil];
+				[[(UINavigationController *)[gViewController presentedViewController] topViewController] performSegueWithIdentifier:@"MenuToLoginSegue" sender:nil];
+			}
+		}
+	} else if ([itemType isEqualToString:@"com.shuyangsun.2048Friends.history"]) {
+		GameViewController *gViewController = (GameViewController *)[[[UIApplication sharedApplication] keyWindow] rootViewController];
+		if (gViewController != nil) {
+			if ([gViewController presentedViewController] != nil) {
+				[[gViewController presentedViewController] dismissViewControllerAnimated:YES completion:^{
+					[gViewController performSegueWithIdentifier:@"GameViewControllerToMenuTableViewControllerSegue" sender:nil];
+					[[(UINavigationController *)[gViewController presentedViewController] topViewController] performSegueWithIdentifier:@"MenuToHistoriesSegue" sender:nil];
+				}];
+			} else {
+				[gViewController performSegueWithIdentifier:@"GameViewControllerToMenuTableViewControllerSegue" sender:nil];
+				[[(UINavigationController *)[gViewController presentedViewController] topViewController] performSegueWithIdentifier:@"MenuToHistoriesSegue" sender:nil];
+			}
+		}
+	}
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
