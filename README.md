@@ -1,18 +1,3 @@
 # 2048 Friends
-An iOS version of 2048 that allows you to use your Facebook friends' profile pictures to replace number tiles. It's easy to switch between normal mode and picture mode, and if you're playing the picture mode, you can even have a peak of underlaying numbers by holding your own profile picture. There are other features as well, like history and replay. Note that
-## Installation
-TODO: Describe the installation process
-## Usage
-TODO: Write usage instructions
-## Contributing
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
-## History
-TODO: Write history
-## Credits
-TODO: Write credits
-## License
-TODO: Write license
+An iOS version of 2048 that allows you to use your Facebook friends' profile pictures to replace number tiles. It's easy to switch between normal mode and picture mode, and if you're playing the picture mode, you can even have a peak of underlaying numbers by holding your own profile picture. There are other features as well, like history and replay.
+This app is not published on App Store due to Facebook API changes, which makes this game hard to play unless you have many friends already playing this game with Facebook signed in.
